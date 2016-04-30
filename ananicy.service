@@ -1,0 +1,10 @@
+[Unit]
+Description=Ananicy - is Another auto nice daemon
+After=local-fs.target
+
+[Service]
+ExecStart=/usr/lib/systemd/scripts/ananicy.sh start
+Restart=always
+
+[Install]
+WantedBy=local-fs.target
