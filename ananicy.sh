@@ -49,8 +49,8 @@ done
 ################################################################################
 # Nice handler for process name
 DIR_CACHE_NICE="$DIR_CACHE/NICE"
-mkdir -p "$DIR_CACHE_NICE"
 wrapper_renice(){
+    [ -d "$DIR_CACHE_NICE" ] || mkdir -p "$DIR_CACHE_NICE"
     export NAME="$1" NICE="$2"
     for pid in $( pgrep -w "$NAME" ); do
             LOCK="$DIR_CACHE_NICE/${NAME}.${pid}"
@@ -63,22 +63,64 @@ wrapper_renice(){
 }
 
 ################################################################################
+# IONice handler for process name
+DIR_CACHE_IONICE="$DIR_CACHE/IONICE"
+wrapper_ionice(){
+    [ -d "$DIR_CACHE_IONICE" ] || mkdir -p "$DIR_CACHE_IONICE"
+    export NAME="$1" IOCLASS="$2" IONICE="$3"
+    for pid in $( pgrep -w "$NAME" ); do
+            if [ "$IOCLASS" != "NULL" ]; then
+                LOCK="$DIR_CACHE_IONICE/${NAME}.${pid}.ioclass"
+                [ ! -f "$LOCK" ] || OLD_CLASS="$(cat $LOCK)"
+                if [ "$OLD_CLASS" != "$IOCLASS" ]; then
+                    if ionice -c "$IOCLASS" -p "$pid"; then
+                        echo "$IOCLASS" > "$LOCK"
+                        INFO "Process $NAME ioclass: $IOCLASS"
+                    fi
+                fi
+            fi
+            if [ ! -z "$IONICE" ]; then
+                LOCK="$DIR_CACHE_IONICE/${NAME}.${pid}.ionice"
+                [ ! -f "$LOCK" ] || OLD_IONICE="$(cat $LOCK)"
+                if [ "$OLD_IONICE" != "$IONICE" ]; then
+                    if ionice -n "$IONICE" -p "$pid"; then
+                        echo "$IONICE" > "$LOCK"
+                        INFO "Process $NAME ionice: $IONICE"
+                    fi
+                fi
+            fi
+    done
+}
+
+################################################################################
 # Main process
 if [ "$1" == "start" ]; then
     [ "$UID" == "0" ] || ERRO "Script must be runned as root!"
     INFO "Start main process"
     while true; do
         for cache_line in "${RULE_CACHE[@]}"; do
-            NAME="" NICE=""
+            NAME="" NICE="" IOCLASS="" IONICE=""
             for COLUMN in $cache_line; do
                 if   echo "$COLUMN" | grep -q 'NAME='; then
                     NAME="$(echo $COLUMN | cut -d'=' -f2)"
                 elif echo "$COLUMN" | grep -q 'NICE='; then
                     NICE="$(echo $COLUMN | cut -d'=' -f2)"
+                elif echo "$COLUMN" | grep -q 'IONICE='; then
+                    IONICE="$(echo $COLUMN | cut -d'=' -f2)"
+                elif echo "$COLUMN" | grep -q 'IOCLASS='; then
+                    IOCLASS="$(echo $COLUMN | cut -d'=' -f2)"
                 fi
-                [ ! -z "$NAME" ] && [ ! -z "$NICE" ] && \
-                    wrapper_renice "$NAME" "$NICE"
             done
+            if [ ! -z "$NAME" ]; then
+                if [ ! -z "$NICE" ]; then
+                    wrapper_renice "$NAME" "$NICE"
+                fi
+                if [ ! -z "$IOCLASS" ]; then
+                    wrapper_ionice "$NAME" "$IOCLASS" "$IONICE"
+                elif [ ! -z "$IONICE" ]; then
+                    wrapper_ionice "$NAME" "NULL" "$IONICE"
+                fi
+            fi
         done
         sleep 60
     done
