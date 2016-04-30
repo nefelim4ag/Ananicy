@@ -6,6 +6,7 @@ Config syntax, each process described as a line:
 ```
 NAME=cron NICE=-1
 NAME=xz   NICE=19 IOCLASS=idle IONICE=4
+NAME=pulseaudio IOCLASS=realtime
 ```
 
 All fields except NAME are optional
