@@ -21,6 +21,7 @@ DIR_CONFIGS=/etc/ananicy.d/
 # Return specified line of file, ignore comments
 read_line_slow(){
     FILE=$1 NUM=$2 LINE="$(head -n $NUM $FILE | tail -n 1)"
+    LINE="$(echo $LINE | tr -d '$()`')"
     echo "$LINE" | grep -q '#' && LINE="$(echo $LINE | cut -d'#' -f1)"
     echo "$LINE" | grep -q 'NAME=' || LINE=""
     echo "$LINE"
