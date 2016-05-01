@@ -15,7 +15,7 @@ DIR_CACHE=/run/ananicy/
 [ -d "$DIR_CACHE" ] || mkdir -p "$DIR_CACHE"
 
 DIR_CONFIGS=/etc/ananicy.d/
-[ -d "$DIR_CONFIGS" ] || ERRO "Config dir $DIR_CONFIGS not exist!"
+[ -d "$DIR_CONFIGS" ] || ERRO "Config dir $DIR_CONFIGS doesn't exist!"
 
 ################################################################################
 # Return specified line of file, ignore comments
@@ -44,7 +44,7 @@ for config in "${CONFIGS[@]}"; do
     done
 done
 
-[ "0" != "${#RULE_CACHE[@]}" ] || ERRO "No one rule enabled!"
+[ "0" != "${#RULE_CACHE[@]}" ] || ERRO "No rule is enabled!"
 
 ################################################################################
 # Nice handler for process name
