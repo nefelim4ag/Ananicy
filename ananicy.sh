@@ -1,7 +1,7 @@
 #!/bin/bash
 ################################################################################
 # Ananicy - is Another auto nice daemon, with community rules support
-# Configs plased under /etc/ananicy.d/
+# Configs are placed under /etc/ananicy.d/
 
 ################################################################################
 # Define some fuctions
