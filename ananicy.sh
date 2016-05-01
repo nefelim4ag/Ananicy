@@ -103,7 +103,7 @@ if [ "$1" == "start" ]; then
             for COLUMN in $cache_line; do
                 if   echo "$COLUMN" | grep -q 'NAME='; then
                     NAME="$(echo $COLUMN | cut -d'=' -f2)"
-                elif echo "$COLUMN" | grep -q 'NICE='; then
+                elif echo "$COLUMN" | grep -q -e '^NICE='; then
                     NICE="$(echo $COLUMN | cut -d'=' -f2)"
                 elif echo "$COLUMN" | grep -q 'IONICE='; then
                     IONICE="$(echo $COLUMN | cut -d'=' -f2)"
