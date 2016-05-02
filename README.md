@@ -4,7 +4,13 @@
 Ananicy (ANother Auto NICe daemon) - is a shell daemon created to manage processes' [IO](http://linux.die.net/man/1/ionice) and [CPU](http://linux.die.net/man/1/nice) priorities, with community rules support (anyone may add his own rule via github's [pull request](https://help.github.com/articles/using-pull-requests/) mechanism)
 
 ## Installation
+For install ananicy you must have a system with systemd
 
+You can install ananicy manualy by:
+```
+git clone https://github.com/Nefelim4ag/Ananicy.git /tmp/ananicy
+/tmp/ananicy/install.sh
+```
 ## Configuration
 Config files should be placed under /etc/ananicy.d/ directory.
 
