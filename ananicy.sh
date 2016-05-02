@@ -18,10 +18,20 @@ RUN_FREQ=15
 ################################################################################
 # Return specified line of file, ignore comments
 read_line_slow(){
-    FILE=$1 NUM=$2 LINE="$(head -n $NUM $FILE | tail -n 1)"
-    LINE="$(echo $LINE | tr -d '$()`')"
-    echo "$LINE" | grep -q '#' && LINE="$(echo $LINE | cut -d'#' -f1)"
-    echo "$LINE" | grep -q 'NAME=' || LINE=""
+    FILE=$1 NUM=$2 # Read line | remove unsafe symbols | remove comments
+    LINE="$(head -n $NUM $FILE | tail -n 1 | tr -d '$()`' | cut -d'#' -f1)"
+    # Check supported keys
+    case "$LINE" in
+        *NAME=*)
+            case "$LINE" in
+                *NICE=*)    : ;;
+                *IOCLASS=*) : ;;
+                *IONICE=*)  : ;;
+                *) LINE="" ;;
+            esac
+        ;;
+        *) LINE="";
+    esac
     echo "$LINE"
 }
 
@@ -33,6 +43,7 @@ INFO "Compile rule files"
 
 RULE_CACHE=()
 CONFIGS=( $(find -P $DIR_CONFIGS -type f) )
+
 [ "0" != "${#CONFIGS[@]}" ] || ERRO "Config dir: $DIR_CONFIGS are empty!"
 
 for config in "${CONFIGS[@]}"; do
@@ -46,12 +57,15 @@ done
 [ "0" != "${#RULE_CACHE[@]}" ] || ERRO "No rule is enabled!"
 
 show_cache(){
-    for cache_line in "${RULE_CACHE[@]}"; do
-        echo "$cache_line"
-    done
+    {
+        for cache_line in "${RULE_CACHE[@]}"; do
+            echo "$cache_line"
+        done
+    } | column -t
 }
 
 trap "{ INFO Dump compiled rules; show_cache; }" SIGUSR1
+
 ################################################################################
 # Nice handler for process name
 DIR_CACHE_NICE="$DIR_CACHE/NICE"
@@ -60,12 +74,12 @@ wrapper_renice(){
     [ -z $NICE ] && return
     [ -d "$DIR_CACHE_NICE" ] || mkdir -p "$DIR_CACHE_NICE"
     for pid in $( pgrep -w "$NAME" ); do
-            LOCK="$DIR_CACHE_NICE/${NAME}.${pid}"
-            [ ! -f "$LOCK" ] || OLD_NICE="$(cat $LOCK)"
-            if [ "$OLD_NICE" != "$NICE" ]; then
-                echo -en "$NAME\t"
-                renice -n $NICE -p $pid && echo $NICE > $LOCK
-            fi
+        LOCK="$DIR_CACHE_NICE/${NAME}.${pid}"
+        [ ! -f "$LOCK" ] || OLD_NICE="$(cat $LOCK)"
+        if [ "$OLD_NICE" != "$NICE" ]; then
+            echo -en "$NAME\t"
+            renice -n $NICE -p $pid && echo $NICE > $LOCK
+        fi
     done
 }
 
@@ -77,26 +91,26 @@ wrapper_ionice(){
     [ "$IOCLASS" == "NULL" ] && [ -z "$IONICE" ] && return
     [ -d "$DIR_CACHE_IONICE" ] || mkdir -p "$DIR_CACHE_IONICE"
     for pid in $( pgrep -w "$NAME" ); do
-            if [ "$IOCLASS" != "NULL" ]; then
-                LOCK="$DIR_CACHE_IONICE/${NAME}.${pid}.ioclass"
-                [ ! -f "$LOCK" ] || OLD_CLASS="$(cat $LOCK)"
-                if [ "$OLD_CLASS" != "$IOCLASS" ]; then
-                    if ionice -c "$IOCLASS" -p "$pid"; then
-                        echo "$IOCLASS" > "$LOCK"
-                        INFO "Process $NAME ioclass: $IOCLASS"
-                    fi
+        LOCK="$DIR_CACHE_IONICE/${NAME}.${pid}.ioclass"
+        if [ "$IOCLASS" != "NULL" ]; then
+            [ ! -f "$LOCK" ] || OLD_CLASS="$(cat $LOCK)"
+            if [ "$OLD_CLASS" != "$IOCLASS" ]; then
+                if ionice -c "$IOCLASS" -p "$pid"; then
+                    echo "$IOCLASS" > "$LOCK"
+                    INFO "Process $NAME ioclass: $IOCLASS"
                 fi
             fi
-            if [ ! -z "$IONICE" ]; then
-                LOCK="$DIR_CACHE_IONICE/${NAME}.${pid}.ionice"
-                [ ! -f "$LOCK" ] || OLD_IONICE="$(cat $LOCK)"
-                if [ "$OLD_IONICE" != "$IONICE" ]; then
-                    if ionice -n "$IONICE" -p "$pid"; then
-                        echo "$IONICE" > "$LOCK"
-                        INFO "Process $NAME ionice: $IONICE"
-                    fi
+        fi
+        LOCK="$DIR_CACHE_IONICE/${NAME}.${pid}.ionice"
+        if [ ! -z "$IONICE" ]; then
+            [ ! -f "$LOCK" ] || OLD_IONICE="$(cat $LOCK)"
+            if [ "$OLD_IONICE" != "$IONICE" ]; then
+                if ionice -n "$IONICE" -p "$pid"; then
+                    echo "$IONICE" > "$LOCK"
+                    INFO "Process $NAME ionice: $IONICE"
                 fi
             fi
+        fi
     done
 }
 
