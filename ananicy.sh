@@ -132,6 +132,18 @@ main_pid_get(){
     fi
 }
 
+check_schedulers(){
+    for disk in /sys/class/block/*/queue/scheduler; do
+        case "$(cat $disk)" in
+            *'[cfq]'*) : ;;
+            *)
+                disk=$(echo $disk | sed 's/\/sys\/class\/block\///g' | sed 's/\/queue\/scheduler//g')
+                WARN "Disk $disk not used cfq scheduler IOCLASS/IONICE will not work on it!"
+            ;;
+        esac
+    done
+}
+
 show_help(){
     echo "$0 start - start daemon"
     echo "$0 dump rules cache - daemon will dump rules cache to stdout"
@@ -161,6 +173,7 @@ main_process(){
 case $1 in
     start)
         pre_start_checks
+        check_schedulers
         INFO "Start main process"
         while true; do
             main_process
