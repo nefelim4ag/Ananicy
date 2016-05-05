@@ -8,8 +8,8 @@ For install ananicy you must have a system with systemd
 
 You can install ananicy manualy by:
 ```
-git clone https://github.com/Nefelim4ag/Ananicy.git /tmp/ananicy
-/tmp/ananicy/install.sh
+$ git clone https://github.com/Nefelim4ag/Ananicy.git /tmp/ananicy
+# /tmp/ananicy/install.sh
 ```
 * ![logo](http://www.monitorix.org/imgs/archlinux.png "arch logo") Arch: in the [AUR](https://aur.archlinux.org/packages/ananicy-git).
 
