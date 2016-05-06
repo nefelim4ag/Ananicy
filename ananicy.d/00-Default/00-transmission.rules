@@ -1,2 +1,3 @@
+# Torrent client: https://www.transmissionbt.com
 NAME=transmission-qt  NICE=19 IOCLASS=idle
 NAME=transmission-gtk NICE=19 IOCLASS=idle

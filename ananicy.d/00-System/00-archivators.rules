@@ -1,0 +1,6 @@
+NAME=bzip2  NICE=19 IOCLASS=idle
+NAME=gzip   NICE=19 IOCLASS=idle
+NAME=lz4    NICE=19 IOCLASS=idle
+NAME=lzma   NICE=19 IOCLASS=idle
+NAME=lzop   NICE=19 IOCLASS=idle
+NAME=xz     NICE=19 IOCLASS=idle
