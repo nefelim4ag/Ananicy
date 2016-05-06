@@ -18,7 +18,7 @@ INFO "Check $DIR_CONFIGS dir"
 ################################################################################
 # Load all rule file names
 INFO "Search rules"
-CONFIGS=( $(find -P $DIR_CONFIGS -type f) )
+CONFIGS=( $(find -P $DIR_CONFIGS -name "*.rules" -type f) )
 [ "0" != "${#CONFIGS[@]}" ] || ERRO "Config dir: $DIR_CONFIGS are empty!"
 
 ################################################################################

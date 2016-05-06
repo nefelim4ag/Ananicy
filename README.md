@@ -14,9 +14,11 @@ $ git clone https://github.com/Nefelim4ag/Ananicy.git /tmp/ananicy
 * ![logo](http://www.monitorix.org/imgs/archlinux.png "arch logo") Arch: in the [AUR](https://aur.archlinux.org/packages/ananicy-git).
 
 ## Configuration
-Config files should be placed under /etc/ananicy.d/ directory.
+Rules files should be placed under /etc/ananicy.d/ directory.
 
-In config each process is described on a separate line, general syntax is described below
+File extension for rules: .rules
+
+In rule each process is described on a separate line, general syntax is described below
 
 ```
 NAME=<process_name> NICE=cpu_nice IOCLASS=io_class IONICE=io_nice_value
