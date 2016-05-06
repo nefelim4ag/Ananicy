@@ -83,7 +83,7 @@ show_cache(){
         for cache_line in "${RULE_CACHE[@]}"; do
             echo "$cache_line"
         done
-    } | column -t
+    } | sort | column -t
 }
 
 trap "{ show_cache; }" SIGUSR1
