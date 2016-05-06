@@ -11,6 +11,7 @@ ERRO(){ echo -n "ERRO: "; echo -n "$@" ; echo " Abort!"; exit 1;}
 
 ################################################################################
 # Global vars
+RULE_CACHE=()
 DIR_CACHE=/run/ananicy/
 DIR_CONFIGS=/etc/ananicy.d/
 RUN_FREQ=15
@@ -20,41 +21,69 @@ RUN_FREQ=15
 read_line_slow(){
     FILE=$1 NUM=$2 # Read line | remove unsafe symbols | remove comments
     LINE="$(head -n $NUM $FILE | tail -n 1 | tr -d '$()`' | cut -d'#' -f1)"
+    CHECK=$3
     # Check supported keys
-    case "$LINE" in
-        *NAME=*)
-            case "$LINE" in
-                *NICE=*)    : ;;
-                *IOCLASS=*) : ;;
-                *IONICE=*)  : ;;
-                *) LINE="" ;;
-            esac
-        ;;
-        *) LINE="";
-    esac
+    if $CHECK; then
+        case "$LINE" in
+            *NAME=*)
+                case "$LINE" in
+                    *NICE=*)    : ;;
+                    *IOCLASS=*) : ;;
+                    *IONICE=*)  : ;;
+                    *) LINE="" ;;
+                esac
+            ;;
+            *) LINE="";
+        esac
+    fi
     echo "$LINE"
 }
 
 linecount(){ FILE="$1"; cat "$FILE" | wc -l; }
 
 ################################################################################
-# Rule compilation
+# Load all rule file names
+INFO "Search rules"
+CONFIGS=( $(find -P $DIR_CONFIGS -type f) )
+[ "0" != "${#CONFIGS[@]}" ] || ERRO "Config dir: $DIR_CONFIGS are empty!"
+
+################################################################################
+# Dedup rules
+DIR_TMP=$(mktemp -d)
+for config in "${CONFIGS[@]}"; do
+    LINE_COUNT=$(linecount "$config")
+    for line_number in $(seq 1 $LINE_COUNT); do
+        LINE="$(read_line_slow $config $line_number false)"
+        if [ ! -z "$LINE" ]; then
+            NAME=""
+            for COLUMN in $LINE; do
+                case "$COLUMN" in
+                    NAME=*) NAME="$(echo $COLUMN | cut -d'=' -f2)" ;;
+                esac
+            done
+            echo "$LINE" > "$DIR_TMP/$NAME.rule"
+        fi
+    done
+done
+
+################################################################################
+# Compile rules
 INFO "Compile rule files"
 
-RULE_CACHE=()
-CONFIGS=( $(find -P $DIR_CONFIGS -type f) )
-
-[ "0" != "${#CONFIGS[@]}" ] || ERRO "Config dir: $DIR_CONFIGS are empty!"
+CONFIGS=( $(find -P $DIR_TMP -type f) )
 
 for config in "${CONFIGS[@]}"; do
     LINE_COUNT=$(linecount "$config")
     for line_number in $(seq 1 $LINE_COUNT); do
-        LINE="$(read_line_slow $config $line_number)"
+        LINE="$(read_line_slow $config $line_number true)"
         [ -z "$LINE" ] || RULE_CACHE=( "${RULE_CACHE[@]}" "$LINE" )
     done
 done
 
 [ "0" != "${#RULE_CACHE[@]}" ] || ERRO "No rule is enabled!"
+
+################################################################################
+# Show cached information
 
 show_cache(){
     {
