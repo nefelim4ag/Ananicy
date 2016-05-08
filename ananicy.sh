@@ -88,56 +88,40 @@ show_cache(){
 
 trap "{ show_cache; }" SIGUSR1
 ################################################################################
-# Cache dir for save nice and ionice state of processes
-DIR_CACHE=/run/ananicy/
-
-################################################################################
 # Nice handler for process name
+declare -A renice_cache
 wrapper_renice(){
     export NAME="$1" NICE="$2"
     [ -z $NICE ] && return
-
-    DIR_CACHE_NICE="$DIR_CACHE/NICE"
-    [ -d "$DIR_CACHE_NICE" ] || mkdir -p "$DIR_CACHE_NICE"
-
     for pid in $( pgrep -w "$NAME" ); do
-        LOCK="$DIR_CACHE_NICE/${NAME}.${pid}"
-        [ ! -f "$LOCK" ] || OLD_NICE="$(cat $LOCK)"
-        if [ "$OLD_NICE" != "$NICE" ]; then
-            INFO "Process $NAME cpu nice: $NICE"
-            renice -n $NICE -p $pid &> /dev/null && echo $NICE > $LOCK
+        if [ "${renice_cache[${NAME}_${pid}]}" != "$NICE" ]; then
+            renice -n $NICE -p $pid &> /dev/null && \
+                INFO "Process $NAME cpu nice: $NICE" && \
+                    renice_cache[${NAME}_${pid}]="$NICE"
         fi
     done
 }
 
 ################################################################################
 # IONice handler for process name
+declare -A ionice_cache
 wrapper_ionice(){
     export NAME="$1" IOCLASS="$2" IONICE="$3"
     [ "$IOCLASS" == "NULL" ] && [ -z "$IONICE" ] && return
 
-    DIR_CACHE_IONICE="$DIR_CACHE/IONICE"
-    [ -d "$DIR_CACHE_IONICE" ] || mkdir -p "$DIR_CACHE_IONICE"
-
     for pid in $( pgrep -w "$NAME" ); do
-        LOCK="$DIR_CACHE_IONICE/${NAME}.${pid}.ioclass"
         if [ "$IOCLASS" != "NULL" ]; then
-            [ ! -f "$LOCK" ] || OLD_CLASS="$(cat $LOCK)"
-            if [ "$OLD_CLASS" != "$IOCLASS" ]; then
-                if ionice -c "$IOCLASS" -p "$pid"; then
-                    echo "$IOCLASS" > "$LOCK"
-                    INFO "Process $NAME ioclass: $IOCLASS"
-                fi
+            if [ "${ionice_cache[${NAME}_${pid}_ioclass]}" != "$IOCLASS" ]; then
+                ionice -c "$IOCLASS" -p "$pid" && \
+                    ionice_cache[${NAME}_${pid}_ioclass]="$IOCLASS" && \
+                        INFO "Process $NAME ioclass: $IOCLASS"
             fi
         fi
-        LOCK="$DIR_CACHE_IONICE/${NAME}.${pid}.ionice"
         if [ ! -z "$IONICE" ]; then
-            [ ! -f "$LOCK" ] || OLD_IONICE="$(cat $LOCK)"
-            if [ "$OLD_IONICE" != "$IONICE" ]; then
-                if ionice -n "$IONICE" -p "$pid"; then
-                    echo "$IONICE" > "$LOCK"
-                    INFO "Process $NAME ionice: $IONICE"
-                fi
+            if [ "${ionice_cache[${NAME}_${pid}_ionice]}" != "$IONICE" ]; then
+                ionice -n "$IONICE" -p "$pid" && \
+                    ionice_cache[${NAME}_${pid}_ionice]="$IONICE" && \
+                        INFO "Process $NAME ionice: $IONICE"
             fi
         fi
     done
