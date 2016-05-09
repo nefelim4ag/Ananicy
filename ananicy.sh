@@ -130,11 +130,9 @@ wrapper_ionice(){
 check_root_rights(){ [ "$UID" == "0" ] || ERRO "Script must be runned as root!"; }
 
 main_pid_get(){
-    if systemctl -q is-active ananicy; then
-        echo "$(systemctl status ananicy | grep PID | awk '{print $3}')"
-    else
-        ERRO "Ananicy services has stopped!"
-    fi
+    PIDS=( $(pgrep ananicy | grep -v $$) )
+    [ ! -z "${PIDS[0]}" ] || ERRO "Can't find running Ananicy"
+    echo "${PIDS[@]}"
 }
 
 check_schedulers(){
@@ -192,8 +190,10 @@ case $1 in
                 case "$3" in
                     cache)
                         check_root_rights
-                        PID_MAIN="$(main_pid_get)"
-                        kill -s SIGUSR1 $PID_MAIN
+                        for pid in $(main_pid_get); do
+                            [ -d /proc/$pid ] && \
+                                kill -s SIGUSR1 $pid
+                        done
                     ;;
                     parsed) show_cache ;;
                     *) show_help ;;
