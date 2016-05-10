@@ -1,1 +1,2 @@
-NAME=make NICE=15 IOCLASS=best-effort IONICE=7
+# make - GNU make utility to maintain groups of programs
+NAME="make$" NICE=15 IOCLASS=best-effort IONICE=7
