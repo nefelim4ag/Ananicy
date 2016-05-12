@@ -19,6 +19,12 @@ $ git clone https://github.com/Nefelim4ag/Ananicy.git /tmp/ananicy
 # /tmp/ananicy/install.sh
 ```
 * ![logo](http://www.monitorix.org/imgs/archlinux.png "arch logo") Arch: in the [AUR](https://aur.archlinux.org/packages/ananicy-git).
+* Debian/Ubuntu: use [package.sh](https://raw.githubusercontent.com/Nefelim4ag/Ananicy/master/package.sh) in repo
+```
+$ git clone https://github.com/Nefelim4ag/Ananicy.git
+$ ./Ananicy/package.sh debian
+$ dpkg -i ./Ananicy/ananicy-*.deb
+```
 
 ## Configuration
 Rules files should be placed under /etc/ananicy.d/ directory.
