@@ -3,6 +3,16 @@
 ## Description
 Ananicy (ANother Auto NICe daemon) - is a shell daemon created to manage processes' [IO](http://linux.die.net/man/1/ionice) and [CPU](http://linux.die.net/man/1/nice) priorities, with community rules support (anyone may add his own rule via github's [pull request](https://help.github.com/articles/using-pull-requests/) mechanism)
 
+I think it's only for desktop usage
+
+I just wanted a tool for auto set programs nice in my system, i.e.:
+* Why i must have a lags, while i'm compiling kernel and playing a game?
+* Why dropbox client eat all my IO?
+* Why torrent/dc client make my book run slower?
+* ...
+
+For fix this problem - use ananicy.
+
 ## Versions
 ```
 X.x.x - Major version,
@@ -39,9 +49,15 @@ NAME=<process_name> NICE=cpu_nice IOCLASS=io_class IONICE=io_nice_value
 
 All fields except NAME are optional
 
+NAME used for pgrep -w, so you can test your rules
+
 Example configurations
 ```
 NAME=cron NICE=-1
 NAME=xz   NICE=19 IOCLASS=idle IONICE=4
 NAME=pulseaudio IOCLASS=realtime
 ```
+
+## Debugging
+You can use journalctl for check output:
+journalctl -f -u ananicy.service
