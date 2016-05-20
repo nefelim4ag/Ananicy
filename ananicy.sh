@@ -34,7 +34,7 @@ read_line(){
 declare -A RULE_CACHE_TMP
 
 for config in "${CONFIGS[@]}"; do
-    LINE_COUNT=$(cat "$config" | wc -l)
+    LINE_COUNT=$(wc -l < "$config")
     for line_number in $(seq 1 $LINE_COUNT); do
         LINE="$(read_line $config $line_number)"
         if [ ! -z "$LINE" ]; then
@@ -42,7 +42,7 @@ for config in "${CONFIGS[@]}"; do
             for COLUMN in $LINE; do
                 case "$COLUMN" in
                     NAME=*)
-                        NAME="$(echo $COLUMN | cut -d'=' -f2)"
+                        NAME="${COLUMN//NAME=/}"
                         [ -z "$NAME" ] && ERRO "$config:$line_number NAME are empty!"
                         ;;
                 esac
@@ -140,7 +140,8 @@ check_schedulers(){
         case "$(cat $disk)" in
             *'[cfq]'*) : ;;
             *)
-                disk=$(echo $disk | sed 's/\/sys\/class\/block\///g' | sed 's/\/queue\/scheduler//g')
+                disk="${disk//\/sys\/class\/block\//}"
+                disk="${disk//\/queue\/scheduler/}"
                 WARN "Disk $disk not used cfq scheduler IOCLASS/IONICE will not work on it!"
             ;;
         esac
@@ -158,10 +159,10 @@ main_process(){
         NAME="" NICE="" IOCLASS="NULL" IONICE=""
         for COLUMN in $cache_line; do
             case "$COLUMN" in
-                NAME=*)    NAME="$(echo $COLUMN | cut -d'=' -f2)"    ;;
-                NICE=*)    NICE="$(echo $COLUMN | cut -d'=' -f2)"    ;;
-                IONICE=*)  IONICE="$(echo $COLUMN | cut -d'=' -f2)"  ;;
-                IOCLASS=*) IOCLASS="$(echo $COLUMN | cut -d'=' -f2)" ;;
+                NAME=*)    NAME="${COLUMN//NAME=/}"         ;;
+                NICE=*)    NICE="${COLUMN//NICE=/}"         ;;
+                IONICE=*)  IONICE="${COLUMN//IONICE=/}"     ;;
+                IOCLASS=*) IOCLASS="${COLUMN//IOCLASS=/}"   ;;
             esac
         done
         if [ ! -z "$NAME" ]; then
