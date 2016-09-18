@@ -137,7 +137,8 @@ main_pid_get(){
 
 check_schedulers(){
     for disk in /sys/class/block/*/queue/scheduler; do
-        case "$(cat $disk)" in
+        read -r scheduler < $disk
+        case "$scheduler" in
             *'[cfq]'*) : ;;
             *)
                 disk="${disk//\/sys\/class\/block\//}"
