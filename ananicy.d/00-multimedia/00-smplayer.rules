@@ -1,0 +1,2 @@
+# Video player: http://smplayer.sourceforge.net/
+NAME=smplayer            NICE=-3     IOCLASS=realtime
