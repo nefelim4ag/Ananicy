@@ -1,0 +1,2 @@
+# Music player: https://www.clementine-player.org
+NAME=clementine            NICE=-3     IOCLASS=realtime
