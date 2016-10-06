@@ -1,0 +1,2 @@
+# Video player: https://wiki.gnome.org/action/show/Apps/Videos
+NAME=totem            NICE=-3     IOCLASS=realtime

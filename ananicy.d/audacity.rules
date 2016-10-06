@@ -1,0 +1,2 @@
+# Sound editor: http://www.audacityteam.org/
+NAME=audacity            NICE=-11     IOCLASS=realtime

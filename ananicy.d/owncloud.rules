@@ -1,2 +1,2 @@
 # OwnCloud desktop client: https://owncloud.org
-NAME=owncloud       NICE=19     IOCLASS=Idle
+NAME=owncloud       NICE=19     IOCLASS=idle

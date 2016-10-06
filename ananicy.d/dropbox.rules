@@ -1,0 +1,2 @@
+# Dropbox client: https://www.dropbox.com
+NAME=dropbox       NICE=19     IOCLASS=idle
