@@ -1,0 +1,2 @@
+# Music player: https://wiki.gnome.org/Apps/Rhythmbox
+NAME=rhythmbox            NICE=-3     IOCLASS=realtime
