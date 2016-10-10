@@ -3,6 +3,7 @@
 NAME=csgo_linux      NICE=-5       # http://store.steampowered.com/app/413850
 NAME=cure_linux      NICE=-5       # http://store.steampowered.com/app/355180
 NAME=dota2           NICE=-5       # http://store.steampowered.com/app/570
+NAME=hl2_linux       NICE=-5       # http://store.steampowered.com/app/440
 
 NAME=PA              NICE=-5       # http://store.steampowered.com/app/233250
 NAME=CoherentUI_Host NICE=-5       # PA UI
