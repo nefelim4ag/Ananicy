@@ -37,18 +37,17 @@ for config in "${CONFIGS[@]}"; do
     LINE_COUNT=$(wc -l < "$config")
     for line_number in $(seq 1 $LINE_COUNT); do
         LINE="$(read_line $config $line_number)"
-        if [ ! -z "$LINE" ]; then
-            NAME=""
-            for COLUMN in $LINE; do
-                case "$COLUMN" in
-                    NAME=*)
-                        NAME="${COLUMN//NAME=/}"
-                        [ -z "$NAME" ] && ERRO "$config:$line_number NAME are empty!"
-                        ;;
-                esac
-            done
-            RULE_CACHE_TMP["$NAME"]="$LINE"
-        fi
+        [ -z "$LINE" ] && continue
+        for COLUMN in $LINE; do
+            case "$COLUMN" in
+                NAME=*)
+                    NAME="${COLUMN//NAME=/}"
+                    [ -z "$NAME" ] && \
+                        ERRO "$config:$line_number NAME are empty!"
+                    RULE_CACHE_TMP["$NAME"]="$LINE"
+                ;;
+            esac
+        done
     done
 done
 
