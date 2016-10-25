@@ -87,17 +87,24 @@ show_cache(){
 }
 
 trap "{ show_cache; }" SIGUSR1
+
+nice_of_pid(){
+    read -r stat < /proc/$1/stat
+    # 19 column in stat is a nice
+    column_19(){ echo ${19}; }
+    column_19 $stat
+}
+
 ################################################################################
 # Nice handler for process name
-declare -A renice_cache
 wrapper_renice(){
     export NAME="$1" NICE="$2"
     [ -z $NICE ] && return
     for pid in $( pgrep -w "$NAME" ); do
-        if [ "${renice_cache[${NAME}_${pid}]}" != "$NICE" ]; then
+        CURRENT_NICE=$(nice_of_pid $pid)
+        if [ "${CURRENT_NICE}" != "$NICE" ]; then
             renice -n $NICE -p $pid &> /dev/null && \
-                INFO "Process $NAME cpu nice: $NICE" && \
-                    renice_cache[${NAME}_${pid}]="$NICE"
+                INFO "Process $NAME cpu nice: $NICE"
         fi
     done
 }
