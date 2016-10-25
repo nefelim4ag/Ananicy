@@ -24,9 +24,8 @@ CONFIGS=( $(find -P $DIR_CONFIGS -name "*.rules" -type f) )
 ################################################################################
 # Return specified line of file, ignore comments
 read_line(){
-    FILE="$1" NUM=$2 # Read line | remove unsafe symbols | remove comments
-    LINE="$(head -n $NUM $FILE | tail -n 1 | tr -d '$()`' | cut -d'#' -f1)"
-    echo "$LINE"
+    FILE="$1" NUM=$2  # Read line | remove comments | remove unsafe symbols
+    sed "${NUM}q;d" $FILE | cut -d'#' -f1 | tr -d '()`$'
 }
 
 ################################################################################
@@ -72,7 +71,7 @@ for LINE in "${RULE_CACHE_TMP[@]}"; do
 done
 unset RULE_CACHE_TMP
 
-[ "0" != "${#RULE_CACHE[@]}" ] || ERRO "No rule is enabled!"
+[ "0" == "${#RULE_CACHE[@]}" ] && ERRO "No rule is enabled!"
 
 ################################################################################
 # Show cached information
