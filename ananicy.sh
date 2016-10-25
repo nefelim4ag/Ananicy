@@ -136,21 +136,17 @@ check_root_rights(){ [ "$UID" == "0" ] || ERRO "Script must be runned as root!";
 
 main_pid_get(){
     PIDS=( $(pgrep ananicy | grep -v $$) )
-    [ ! -z "${PIDS[0]}" ] || ERRO "Can't find running Ananicy"
+    [ -z "${PIDS[0]}" ] && ERRO "Can't find running Ananicy"
     echo "${PIDS[@]}"
 }
 
 check_schedulers(){
-    for disk in /sys/class/block/*/queue/scheduler; do
-        read -r scheduler < $disk
-        case "$scheduler" in
-            *'[cfq]'*) : ;;
-            *)
-                disk="${disk//\/sys\/class\/block\//}"
-                disk="${disk//\/queue\/scheduler/}"
-                WARN "Disk $disk not used cfq scheduler IOCLASS/IONICE will not work on it!"
-            ;;
-        esac
+    for disk_path in /sys/class/block/*; do
+        disk_name=$(basename $disk_path)
+        scheduler_path="$disk_path/queue/scheduler"
+        [ ! -f $scheduler_path ] && continue
+        grep -q '\[cfq\]' $scheduler_path || \
+            WARN "Disk $disk_name not used cfq scheduler IOCLASS/IONICE will not work on it!"
     done
 }
 
