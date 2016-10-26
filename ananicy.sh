@@ -119,6 +119,8 @@ show_cache(){
 
 trap "{ show_cache; }" SIGUSR1
 
+################################################################################
+# Helper for wrapper_renice()
 nice_of_pid(){
     read -r stat < /proc/$1/stat
     # 19 column in stat is a nice
