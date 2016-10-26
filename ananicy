@@ -129,7 +129,8 @@ nice_of_pid(){
     # 19 column in stat is a nice
     # But in some cases (name of process have a spaces)
     # It's break so.. use long solution
-    stat=( $(sed 's/) . /:/g' /proc/$1/stat | cut -d':' -f2) )
+    [ -f /proc/$1/stat ] || return 1
+    stat=( $(sed 's/) . /:/g' /proc/$1/stat 2> /dev/null | cut -d':' -f2) )
     echo ${stat[15]}
 }
 
@@ -149,8 +150,8 @@ wrapper_renice(){
 
 ################################################################################
 # Helpers for wrapper_ionice
-ioclass_of_pid(){ ionice -p $1 | cut -d':' -f1; }
-ionice_of_pid(){ ionice -p $1 | cut -d':' -f2 | tr -d ' prio'; }
+ioclass_of_pid(){ ionice -p $1 2> /dev/null | cut -d':' -f1; }
+ionice_of_pid(){  ionice -p $1 2> /dev/null | cut -d':' -f2 | tr -d ' prio'; }
 
 ################################################################################
 # IONice handler for process name
@@ -162,11 +163,11 @@ wrapper_ionice(){
         C_IOCLASS=$(ioclass_of_pid $pid)
         C_IONICE=$(ionice_of_pid $pid)
         if [ "$IOCLASS" != "NULL" ] && [ "$C_IOCLASS" != "$IOCLASS" ]; then
-            ionice -c "$IOCLASS" -p "$pid" && \
+            ionice -c "$IOCLASS" -p "$pid" &> /dev/null && \
                 INFO "Process ${NAME}[$pid] ioclass: $C_IOCLASS -> $IOCLASS"
         fi
         if [ ! -z "$IONICE" ] && [ "$C_IONICE" != "$IONICE" ]; then
-            ionice -n "$IONICE" -p "$pid" && \
+            ionice -n "$IONICE"  -p "$pid" &> /dev/null && \
                 INFO "Process ${NAME}[$pid] ionice: $C_IONICE -> $IONICE"
         fi
     done
