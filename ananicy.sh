@@ -120,6 +120,17 @@ show_cache(){
 trap "{ show_cache; }" SIGUSR1
 
 ################################################################################
+# pgrep wrapper let's filter short lived processes, only return press which
+# have been seen for more then 3 sec
+pgrep_w(){
+    {
+        pgrep -w "$@"
+        sleep 3
+        pgrep -w "$@"
+    } | sort | uniq -d
+}
+
+################################################################################
 # Helper for wrapper_renice()
 nice_of_pid(){
     read -r stat < /proc/$1/stat
@@ -133,7 +144,7 @@ nice_of_pid(){
 wrapper_renice(){
     export NAME="$1" NICE="$2"
     [ -z $NICE ] && return
-    for pid in $( pgrep -w "$NAME" ); do
+    for pid in $( pgrep_w "$NAME" ); do
         C_NICE=$(nice_of_pid $pid)
         if [ "$C_NICE" != "$NICE" ]; then
             renice -n $NICE -p $pid &> /dev/null && \
@@ -153,7 +164,7 @@ wrapper_ionice(){
     export NAME="$1" IOCLASS="$2" IONICE="$3"
     [ "$IOCLASS" == "NULL" ] && [ -z "$IONICE" ] && return
 
-    for pid in $( pgrep -w "$NAME" ); do
+    for pid in $( pgrep_w "$NAME" ); do
         C_IOCLASS=$(ioclass_of_pid $pid)
         C_IONICE=$(ionice_of_pid $pid)
         if [ "$IOCLASS" != "NULL" ] && [ "$C_IOCLASS" != "$IOCLASS" ]; then
