@@ -120,15 +120,8 @@ show_cache(){
 trap "{ show_cache; }" SIGUSR1
 
 ################################################################################
-# pgrep wrapper let's filter short lived processes, only return press which
-# have been seen for more then 3 sec
-pgrep_w(){
-    {
-        pgrep -w "$@"
-        sleep 3
-        pgrep -w "$@"
-    } | sort | uniq -d
-}
+# pgrep wrapper for future use
+pgrep_w(){ pgrep -w "$@"; }
 
 ################################################################################
 # Helper for wrapper_renice()
@@ -214,12 +207,8 @@ main_process(){
                 IOCLASS=*) IOCLASS="${COLUMN//IOCLASS=/}"   ;;
             esac
         done
-        {
-            wrapper_renice "$NAME" "$NICE" &
-            sleep 1
-            wrapper_ionice "$NAME" "$IOCLASS" "$IONICE" &
-        } &
-        sleep 0.1
+        wrapper_renice "$NAME" "$NICE"
+        wrapper_ionice "$NAME" "$IOCLASS" "$IONICE"
     done
 }
 
