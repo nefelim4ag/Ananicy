@@ -203,9 +203,9 @@ show_help(){
 }
 
 main_process(){
-    for cache_line in "${RULE_CACHE[@]}"; do
+    for LINE in "${RULE_CACHE[@]}"; do
         NAME="" NICE="" IOCLASS="NULL" IONICE=""
-        for COLUMN in $cache_line; do
+        for COLUMN in $LINE; do
             case "$COLUMN" in
                 NAME=*)    NAME="${COLUMN//NAME=/}"         ;;
                 NICE=*)    NICE="${COLUMN//NICE=/}"         ;;
@@ -213,10 +213,12 @@ main_process(){
                 IOCLASS=*) IOCLASS="${COLUMN//IOCLASS=/}"   ;;
             esac
         done
-        if [ ! -z "$NAME" ]; then
-            wrapper_renice "$NAME" "$NICE"
-            wrapper_ionice "$NAME" "$IOCLASS" "$IONICE"
-        fi
+        {
+            wrapper_renice "$NAME" "$NICE" &
+            sleep 1
+            wrapper_ionice "$NAME" "$IOCLASS" "$IONICE" &
+        } &
+        sleep 0.1
     done
 }
 
