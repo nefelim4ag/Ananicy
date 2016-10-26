@@ -57,6 +57,20 @@ NAME=xz   NICE=19 IOCLASS=idle IONICE=4
 NAME=pulseaudio IOCLASS=realtime
 ```
 
+## Simple rules for writing rules
+CFQ IO Scheduller also use 'nice' for internal scheduling, so it's mean processes with same IO class and IO priority, but with different nicceness will take advantages of 'nice' also for IO.
+
+1. Try don't chage 'nice' of system wide process like initrd.
+2. Please try use full process name (or name with ^$ symbols like NAME=^full_name$)
+3. When writing rule - try use only 'nice', it must be enough in most cases.
+4. Don't try set to high priority! Niceness can fix some performance problems, but can't give you more.
+Example: pulseaudio uses 'nice' -11 by default, if you set other cpu hungry task, with 'nice' {-20..-12} you can catch a sound glitches.
+5. For CPU hungry backround task like compiling, just use NICE=19.
+
+About IO priority:
+1. It's usefull use IOCLASS=idle for IO hungry background tasks like: file indexers, Cloud Clients, Backups and etc.
+2. It's not cool set realtime to all tasks. The  RT  scheduling  class is given first access to the disk, regardless of what else is going on in the system.  Thus the RT class needs to be used with some care, as it can starve other processes. So try use ioclass first.
+
 ## Debugging
 Get ananicy output with journalctl:
 journalctl -f -u ananicy.service
