@@ -133,10 +133,11 @@ pgrep_w(){
 ################################################################################
 # Helper for wrapper_renice()
 nice_of_pid(){
-    read -r stat < /proc/$1/stat
     # 19 column in stat is a nice
-    column_19(){ echo ${19}; }
-    column_19 $stat
+    # But in some cases (name of process have a spaces)
+    # It's break so.. use long solution
+    stat=( $(sed 's/) . /:/g' /proc/$1/stat | cut -d':' -f2) )
+    echo ${stat[15]}
 }
 
 ################################################################################
