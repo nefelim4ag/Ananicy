@@ -134,10 +134,10 @@ wrapper_renice(){
     export NAME="$1" NICE="$2"
     [ -z $NICE ] && return
     for pid in $( pgrep -w "$NAME" ); do
-        CURRENT_NICE=$(nice_of_pid $pid)
-        if [ "$CURRENT_NICE" != "$NICE" ]; then
+        C_NICE=$(nice_of_pid $pid)
+        if [ "$C_NICE" != "$NICE" ]; then
             renice -n $NICE -p $pid &> /dev/null && \
-                INFO "Process $NAME cpu nice: $NICE"
+                INFO "Process $NAME cpu nice: $C_NICE -> $NICE"
         fi
     done
 }
@@ -158,14 +158,14 @@ wrapper_ionice(){
             C_IOCLASS=$(ioclass_of_pid $pid)
             if [ "$C_IOCLASS" != "$IOCLASS" ]; then
                 ionice -c "$IOCLASS" -p "$pid" && \
-                    INFO "Process $NAME ioclass: $IOCLASS"
+                    INFO "Process $NAME ioclass: $C_IOCLASS -> $IOCLASS"
             fi
         fi
         if [ ! -z "$IONICE" ]; then
             C_IONICE=$(ionice_of_pid $pid)
             if [ "$C_IONICE" != "$IONICE" ]; then
                 ionice -n "$IONICE" -p "$pid" && \
-                        INFO "Process $NAME ionice: $IONICE"
+                        INFO "Process $NAME ionice: $C_IONICE -> $IONICE"
             fi
         fi
     done
