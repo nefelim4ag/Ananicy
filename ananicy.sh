@@ -221,9 +221,8 @@ case $1 in
         check_schedulers
         INFO "Start main process"
         RUN_FREQ=15
-        while true; do
-            main_process
-            sleep $RUN_FREQ
+        while sleep $RUN_FREQ; do
+            main_process;
         done
     ;;
     dump)
