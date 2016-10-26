@@ -1,3 +1,2 @@
 # Skype: https://www.skype.com
-NAME="^skype$"          NICE=-3
-NAME="^skypeforlinux$"  NICE=-3
+NAME=skype          NICE=-3
