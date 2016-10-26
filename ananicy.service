@@ -3,8 +3,12 @@ Description=Ananicy - ANother Auto NICe daemon
 After=local-fs.target
 
 [Service]
+Nice=19
+OOMScoreAdjust=-1000
 ExecStart=/usr/bin/ananicy start
 Restart=always
+ProtectSystem=true
+ProtectHome=true
 
 [Install]
 WantedBy=local-fs.target
