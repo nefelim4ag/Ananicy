@@ -31,7 +31,7 @@ read_line(){
 ################################################################################
 # Dedup rules
 declare -A RULE_CACHE_TMP
-
+INFO "Read rules to buffer"
 for config in "${CONFIGS[@]}"; do
     LINE_COUNT=$(wc -l < "$config")
     for line_number in $(seq 1 $LINE_COUNT); do
@@ -53,25 +53,58 @@ done
 unset CONFIGS
 ################################################################################
 # Compile rules
-INFO "Compile rule files"
+INFO "Compile rules to cache"
 RULE_CACHE=()
 for LINE in "${RULE_CACHE_TMP[@]}"; do
+    # Check if line do something
     case "$LINE" in
-        *NAME=*)
-            case "$LINE" in
-                *NICE=*)    : ;;
-                *IOCLASS=*) : ;;
-                *IONICE=*)  : ;;
-                *) LINE="" ;;
-            esac
-        ;;
-        *) LINE="";
+        *NICE=*)    : ;;
+        *IOCLASS=*) : ;;
+        *IONICE=*)  : ;;
+        *) continue ;;
     esac
-    [ -z "$LINE" ] || RULE_CACHE=( "${RULE_CACHE[@]}" "$LINE" )
+
+    # Check if data in line are valid
+    IOCLASS="" IONICE=""
+    for COLUMN in $LINE; do
+        case "$COLUMN" in
+            NICE=*)
+                NICE="${COLUMN//NICE=/}"
+                if [[ "$NICE" -gt 20 ]] || [[ -19 -gt "$NICE" ]]; then
+                    WARN "Nice must be in range -19..20 (line ignored): $LINE"
+                    unset LINE
+                fi
+            ;;
+            IONICE=*)
+                IONICE="${COLUMN//IONICE=/}"
+                [[ $IONICE =~ [0-7] ]] || {
+                    WARN "IOnice/IOprio allowed only in range 0-7 (line ignored): $LINE"
+                    unset LINE
+                }
+            ;;
+            IOCLASS=*)
+                IOCLASS="${COLUMN//IOCLASS=/}"
+                [[ $IOCLASS =~ (idle|realtime|best-effort) ]] || {
+                    WARN "IOclass (case sensitive) support only (idle|realtime|best-effort) (line ignored): $LINE"
+                    unset LINE
+                }
+            ;;
+        esac
+    done
+
+    if [ "$IOCLASS" == "idle" ] && [ ! -z $IONICE ]; then
+        WARN "IOnice can't use IOclass idle + ionice/ioprio (line ignored): $LINE"
+        continue
+    fi
+
+    RULE_CACHE=( "${RULE_CACHE[@]}" "$LINE" )
 done
 unset RULE_CACHE_TMP
 
 [ "0" == "${#RULE_CACHE[@]}" ] && ERRO "No rule is enabled!"
+
+INFO "Initialization completed"
+echo "---"
 
 ################################################################################
 # Show cached information
