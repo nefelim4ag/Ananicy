@@ -135,7 +135,7 @@ wrapper_renice(){
     [ -z $NICE ] && return
     for pid in $( pgrep -w "$NAME" ); do
         CURRENT_NICE=$(nice_of_pid $pid)
-        if [ "${CURRENT_NICE}" != "$NICE" ]; then
+        if [ "$CURRENT_NICE" != "$NICE" ]; then
             renice -n $NICE -p $pid &> /dev/null && \
                 INFO "Process $NAME cpu nice: $NICE"
         fi
