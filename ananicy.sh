@@ -143,24 +143,28 @@ wrapper_renice(){
 }
 
 ################################################################################
+# Helpers for wrapper_ionice
+ioclass_of_pid(){ ionice -p $1 | cut -d':' -f1; }
+ionice_of_pid(){ ionice -p $1 | cut -d':' -f2 | tr -d ' prio'; }
+
+################################################################################
 # IONice handler for process name
-declare -A ionice_cache
 wrapper_ionice(){
     export NAME="$1" IOCLASS="$2" IONICE="$3"
     [ "$IOCLASS" == "NULL" ] && [ -z "$IONICE" ] && return
 
     for pid in $( pgrep -w "$NAME" ); do
         if [ "$IOCLASS" != "NULL" ]; then
-            if [ "${ionice_cache[${NAME}_${pid}_ioclass]}" != "$IOCLASS" ]; then
+            C_IOCLASS=$(ioclass_of_pid $pid)
+            if [ "$C_IOCLASS" != "$IOCLASS" ]; then
                 ionice -c "$IOCLASS" -p "$pid" && \
-                    ionice_cache[${NAME}_${pid}_ioclass]="$IOCLASS" && \
-                        INFO "Process $NAME ioclass: $IOCLASS"
+                    INFO "Process $NAME ioclass: $IOCLASS"
             fi
         fi
         if [ ! -z "$IONICE" ]; then
-            if [ "${ionice_cache[${NAME}_${pid}_ionice]}" != "$IONICE" ]; then
+            C_IONICE=$(ionice_of_pid $pid)
+            if [ "$C_IONICE" != "$IONICE" ]; then
                 ionice -n "$IONICE" -p "$pid" && \
-                    ionice_cache[${NAME}_${pid}_ionice]="$IONICE" && \
                         INFO "Process $NAME ionice: $IONICE"
             fi
         fi
