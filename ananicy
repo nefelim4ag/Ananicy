@@ -70,8 +70,8 @@ for LINE in "${RULE_CACHE_TMP[@]}"; do
         case "$COLUMN" in
             NICE=*)
                 NICE="${COLUMN//NICE=/}"
-                if [[ "$NICE" -gt 20 ]] || [[ -19 -gt "$NICE" ]]; then
-                    WARN "Nice must be in range -19..20 (line ignored): $LINE"
+                if [[ "$NICE" -gt 19 ]] || [[ -20 -gt "$NICE" ]]; then
+                    WARN "Nice must be in range -20..19 (line ignored): $LINE"
                     unset LINE
                 fi
             ;;
