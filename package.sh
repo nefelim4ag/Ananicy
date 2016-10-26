@@ -21,16 +21,16 @@ debian_package(){
     echo "Essential: no"            >> $DEB_NAME/DEBIAN/control
     echo "Installed-Size: 16"       >> $DEB_NAME/DEBIAN/control
     echo "Maintainer: nefelim4ag@gmail.com" >> $DEB_NAME/DEBIAN/control
-    echo "Description: Script for creating hybrid swap space from zram swaps, swap files and swap partitions." >> $DEB_NAME/DEBIAN/control
+    echo "Description: Ananicy (ANother Auto NICe daemon) — is a shell daemon created to manage processes' IO and CPU priorities, with community-driven set of rules for popular applications (anyone may add his own rule via github's pull request mechanism)." >> $DEB_NAME/DEBIAN/control
     dpkg-deb --build $DEB_NAME
 }
 
 archlinux_package(){
-    INFO "Use yaourt -S ananicy"
+    INFO "Use yaourt -S ananicy-git"
 }
 
 case $1 in
     debian) debian_package ;;
-    archlinux) ;;
+    archlinux) archlinux_package ;;
     *) echo "$0 <debian|archlinux>" ;;
 esac
