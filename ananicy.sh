@@ -137,7 +137,7 @@ wrapper_renice(){
         C_NICE=$(nice_of_pid $pid)
         if [ "$C_NICE" != "$NICE" ]; then
             renice -n $NICE -p $pid &> /dev/null && \
-                INFO "Process $NAME cpu nice: $C_NICE -> $NICE"
+                INFO "Process ${NAME}[$pid] cpu nice: $C_NICE -> $NICE"
         fi
     done
 }
@@ -158,14 +158,14 @@ wrapper_ionice(){
             C_IOCLASS=$(ioclass_of_pid $pid)
             if [ "$C_IOCLASS" != "$IOCLASS" ]; then
                 ionice -c "$IOCLASS" -p "$pid" && \
-                    INFO "Process $NAME ioclass: $C_IOCLASS -> $IOCLASS"
+                    INFO "Process ${NAME}[$pid] ioclass: $C_IOCLASS -> $IOCLASS"
             fi
         fi
         if [ ! -z "$IONICE" ]; then
             C_IONICE=$(ionice_of_pid $pid)
             if [ "$C_IONICE" != "$IONICE" ]; then
                 ionice -n "$IONICE" -p "$pid" && \
-                        INFO "Process $NAME ionice: $C_IONICE -> $IONICE"
+                        INFO "Process ${NAME}[$pid] ionice: $C_IONICE -> $IONICE"
             fi
         fi
     done
