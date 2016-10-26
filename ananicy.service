@@ -1,9 +1,9 @@
 [Unit]
-Description=Ananicy - is Another auto nice daemon
+Description=Ananicy - ANother Auto NICe daemon
 After=local-fs.target
 
 [Service]
-ExecStart=/usr/lib/systemd/scripts/ananicy.sh start
+ExecStart=/usr/bin/ananicy start
 Restart=always
 
 [Install]

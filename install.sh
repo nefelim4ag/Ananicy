@@ -23,5 +23,5 @@ fi
 
 $SUDO mkdir -p $PREFIX/etc/ananicy.d/
 $SUDO rsync -a       ./ananicy.d/      $PREFIX/etc/ananicy.d/
-$SUDO install -Dm755 ./ananicy.sh      $PREFIX/usr/lib/systemd/scripts/ananicy.sh
+$SUDO install -Dm755 ./ananicy         $PREFIX/usr/bin/ananicy
 $SUDO install -Dm644 ./ananicy.service $PREFIX/usr/lib/systemd/system/ananicy.service
