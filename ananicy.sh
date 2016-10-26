@@ -154,19 +154,15 @@ wrapper_ionice(){
     [ "$IOCLASS" == "NULL" ] && [ -z "$IONICE" ] && return
 
     for pid in $( pgrep -w "$NAME" ); do
-        if [ "$IOCLASS" != "NULL" ]; then
-            C_IOCLASS=$(ioclass_of_pid $pid)
-            if [ "$C_IOCLASS" != "$IOCLASS" ]; then
-                ionice -c "$IOCLASS" -p "$pid" && \
-                    INFO "Process ${NAME}[$pid] ioclass: $C_IOCLASS -> $IOCLASS"
-            fi
+        C_IOCLASS=$(ioclass_of_pid $pid)
+        C_IONICE=$(ionice_of_pid $pid)
+        if [ "$IOCLASS" != "NULL" ] && [ "$C_IOCLASS" != "$IOCLASS" ]; then
+            ionice -c "$IOCLASS" -p "$pid" && \
+                INFO "Process ${NAME}[$pid] ioclass: $C_IOCLASS -> $IOCLASS"
         fi
-        if [ ! -z "$IONICE" ]; then
-            C_IONICE=$(ionice_of_pid $pid)
-            if [ "$C_IONICE" != "$IONICE" ]; then
-                ionice -n "$IONICE" -p "$pid" && \
-                        INFO "Process ${NAME}[$pid] ionice: $C_IONICE -> $IONICE"
-            fi
+        if [ ! -z "$IONICE" ] && [ "$C_IONICE" != "$IONICE" ]; then
+            ionice -n "$IONICE" -p "$pid" && \
+                INFO "Process ${NAME}[$pid] ionice: $C_IONICE -> $IONICE"
         fi
     done
 }
