@@ -3,10 +3,14 @@ Description=Ananicy - ANother Auto NICe daemon
 After=local-fs.target
 
 [Service]
-Nice=19
-OOMScoreAdjust=-1000
 ExecStart=/usr/bin/ananicy start
+Nice=19
+OOMScoreAdjust=-999
 Restart=always
+CPUAccounting=true
+CPUQuota=1%
+MemoryHigh=16M
+MemoryMax=64M
 ProtectSystem=true
 ProtectHome=true
 
