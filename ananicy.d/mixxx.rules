@@ -1,2 +1,2 @@
 # A digital DJ interface: http://www.mixxx.org/
-NAME=mixxx            NICE=-11     IOCLASS=realtime
+NAME=mixxx            NICE=-10     IOCLASS=realtime
