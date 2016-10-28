@@ -1,3 +1,3 @@
 # Digital Audio Workstation: https://www.bitwig.com/en/bitwig-studio.html
-NAME=bitwig-studio            NICE=-11     IOCLASS=realtime
-NAME=BitwigStudioEngine       NICE=-11     IOCLASS=realtime
+NAME=bitwig-studio            NICE=-10     IOCLASS=realtime
+NAME=BitwigStudioEngine       NICE=-10     IOCLASS=realtime
