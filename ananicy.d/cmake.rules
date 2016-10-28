@@ -1,2 +1,2 @@
 # family of tools designed to build, test and package software: https://cmake.org/
-NAME=cmake NICE=15 IOCLASS=best-effort IONICE=7
+NAME=cmake NICE=19 IOCLASS=best-effort IONICE=7
