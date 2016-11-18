@@ -120,10 +120,6 @@ show_cache(){
 trap "{ show_cache; }" SIGUSR1
 
 ################################################################################
-# pgrep wrapper for future use
-pgrep_w(){ pgrep -w "$@"; }
-
-################################################################################
 # Helper for wrapper_renice()
 nice_of_pid(){
     # 19 column in stat is a nice
@@ -139,12 +135,12 @@ nice_of_pid(){
 wrapper_renice(){
     export NAME="$1" NICE="$2"
     [ -z $NICE ] && return
-    for pid in $( pgrep_w "$NAME" ); do
+    for pid in $( pgrep -w "$NAME" ); do
         C_NICE=$(nice_of_pid $pid)
-        if [ "$C_NICE" != "$NICE" ]; then
-            renice -n $NICE -p $pid &> /dev/null && \
-                INFO "Process ${NAME}[$pid] cpu nice: $C_NICE -> $NICE"
-        fi
+        [ -z "$C_NICE" ] && continue
+        [ "$C_NICE" == "$NICE" ] && continue
+        renice -n $NICE -p $pid &> /dev/null || continue
+        INFO "Process ${NAME}[$pid] cpu nice: $C_NICE -> $NICE"
     done
 }
 
@@ -154,22 +150,28 @@ ioclass_of_pid(){ ionice -p $1 2> /dev/null | cut -d':' -f1; }
 ionice_of_pid(){  ionice -p $1 2> /dev/null | cut -d':' -f2 | tr -d ' prio'; }
 
 ################################################################################
-# IONice handler for process name
+# IONice handlers for process name
 wrapper_ionice(){
-    export NAME="$1" IOCLASS="$2" IONICE="$3"
-    [ "$IOCLASS" == "NULL" ] && [ -z "$IONICE" ] && return
-
-    for pid in $( pgrep_w "$NAME" ); do
-        C_IOCLASS=$(ioclass_of_pid $pid)
+    NAME="$1" IONICE="$2"
+    [ -z "$IONICE" ] && return
+    for pid in $( pgrep -w "$NAME" ); do
         C_IONICE=$(ionice_of_pid $pid)
-        if [ "$IOCLASS" != "NULL" ] && [ "$C_IOCLASS" != "$IOCLASS" ]; then
-            ionice -c "$IOCLASS" -p "$pid" &> /dev/null && \
-                INFO "Process ${NAME}[$pid] ioclass: $C_IOCLASS -> $IOCLASS"
-        fi
-        if [ ! -z "$IONICE" ] && [ "$C_IONICE" != "$IONICE" ]; then
-            ionice -n "$IONICE"  -p "$pid" &> /dev/null && \
-                INFO "Process ${NAME}[$pid] ionice: $C_IONICE -> $IONICE"
-        fi
+        [ -z "$C_IONICE" ] && continue
+        [ "$C_IONICE" == "$IONICE" ] && continue
+        ionice -n "$IONICE" -p "$pid" &> /dev/null || continue
+        INFO "Process ${NAME}[$pid] ionice: $C_IONICE -> $IONICE"
+    done
+}
+
+wrapper_ionice_class(){
+    NAME="$1" IOCLASS="$2"
+    [ -z "$IOCLASS" ] && return
+    for pid in $( pgrep -w "$NAME" ); do
+        C_IOCLASS=$(ioclass_of_pid $pid)
+        [ -z "$C_IOCLASS" ] && continue
+        [[ "$C_IOCLASS" =~ $IOCLASS ]] && continue
+        ionice -c "$IOCLASS" -p "$pid" &> /dev/null || continue
+        INFO "Process ${NAME}[$pid] ioclass: $C_IOCLASS -> $IOCLASS"
     done
 }
 
@@ -199,7 +201,7 @@ show_help(){
 
 main_process(){
     for LINE in "${RULE_CACHE[@]}"; do
-        NAME="" NICE="" IOCLASS="NULL" IONICE=""
+        NAME="" NICE="" IOCLASS="" IONICE=""
         for COLUMN in $LINE; do
             case "$COLUMN" in
                 NAME=*)    NAME="${COLUMN//NAME=/}"         ;;
@@ -208,8 +210,9 @@ main_process(){
                 IOCLASS=*) IOCLASS="${COLUMN//IOCLASS=/}"   ;;
             esac
         done
-        wrapper_renice "$NAME" "$NICE"
-        wrapper_ionice "$NAME" "$IOCLASS" "$IONICE"
+        [ ! -z "$NICE" ]    && wrapper_renice "$NAME" "$NICE"
+        [ ! -z "$IOCLASS" ] && wrapper_ionice_class "$NAME" "$IOCLASS"
+        [ ! -z "$IONICE" ]  && wrapper_ionice "$NAME" "$IONICE"
     done
 }
 
