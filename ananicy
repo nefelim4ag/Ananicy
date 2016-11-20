@@ -54,11 +54,12 @@ for LINE in "${RULE_CACHE_TMP[@]}"; do
         *NICE=*)    : ;;
         *IOCLASS=*) : ;;
         *IONICE=*)  : ;;
+        *SCHED=*)   : ;;
         *) continue ;;
     esac
 
     # Check if data in line are valid
-    IOCLASS="" IONICE=""
+    unset NICE IONICE IOCLASS SCHED
     for COLUMN in $LINE; do
         case "$COLUMN" in
             NICE=*)
@@ -79,6 +80,13 @@ for LINE in "${RULE_CACHE_TMP[@]}"; do
                 IOCLASS="${COLUMN//IOCLASS=/}"
                 [[ $IOCLASS =~ (idle|realtime|best-effort) ]] || {
                     WARN "IOclass (case sensitive) support only (idle|realtime|best-effort) (line ignored): $LINE"
+                    unset LINE
+                }
+            ;;
+            SCHED=*)
+                SCHED="${COLUMN//SCHED=/}"
+                [[ $SCHED =~ (batch|deadline|fifo|idle|other|rr) ]] || {
+                    WARN "Sched (case sensitive) support only (batch|deadline|fifo|idle|other|rr) (line ignored): $LINE"
                     unset LINE
                 }
             ;;
@@ -168,6 +176,26 @@ wrapper_ionice_class(){
     done
 }
 
+
+chrt_policy_of_pid(){ chrt -p $1 2> /dev/null | grep policy | cut -d ':' -f2 | tr -d ' '; }
+################################################################################
+# chrt handler for process name
+wrapper_chrt_policy(){
+    NAME="$1" SCHED="$2"
+    [ -z "$SCHED" ] && return
+    for pid in $( pgrep -w "$NAME" ); do
+        C_SCHED=$(chrt_policy_of_pid $pid)
+        C_SCHED="${C_SCHED//SCHED_/}"
+        C_SCHED="${C_SCHED,,}"
+        [ -z "$C_SCHED" ] && continue
+        [[ "$SCHED" =~ $C_SCHED ]] && continue
+        L_PRIO=0
+        [[ "$SCHED" =~ (rr|fifo) ]] && L_PRIO=1
+        chrt -a --$SCHED -p $L_PRIO $pid &> /dev/null || continue
+        INFO "Process ${NAME}[$pid] sched: $C_SCHED -> $SCHED"
+    done
+}
+
 check_root_rights(){ [ "$UID" == "0" ] || ERRO "Script must be runned as root!"; }
 
 main_pid_get(){
@@ -194,18 +222,20 @@ show_help(){
 
 main_process(){
     for LINE in "${RULE_CACHE[@]}"; do
-        NAME="" NICE="" IOCLASS="" IONICE=""
+        NAME="" NICE="" IOCLASS="" IONICE="" SCHED=""
         for COLUMN in $LINE; do
             case "$COLUMN" in
                 NAME=*)    NAME="${COLUMN//NAME=/}"         ;;
                 NICE=*)    NICE="${COLUMN//NICE=/}"         ;;
                 IONICE=*)  IONICE="${COLUMN//IONICE=/}"     ;;
                 IOCLASS=*) IOCLASS="${COLUMN//IOCLASS=/}"   ;;
+                SCHED=*)   SCHED="${COLUMN//SCHED=/}"
             esac
         done
         [ ! -z "$NICE" ]    && wrapper_renice "$NAME" "$NICE"
         [ ! -z "$IOCLASS" ] && wrapper_ionice_class "$NAME" "$IOCLASS"
         [ ! -z "$IONICE" ]  && wrapper_ionice "$NAME" "$IONICE"
+        [ ! -z "$SCHED" ]   && wrapper_chrt_policy "$NAME" "$SCHED"
     done
 }
 

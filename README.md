@@ -43,7 +43,7 @@ Rules files should be placed under /etc/ananicy.d/ directory and have *.rules ex
 Inside .rules file every process is described on a separate line, general syntax is described below:
 
 ```
-NAME=<process_name> NICE=cpu_nice IOCLASS=io_class IONICE=io_nice_value
+NAME=<process_name> NICE=cpu_nice SCHED=cpu_sched IOCLASS=io_class IONICE=io_nice_value
 ```
 
 All fields except NAME are optional.
