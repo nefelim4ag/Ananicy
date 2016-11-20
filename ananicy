@@ -22,20 +22,13 @@ CONFIGS=( $(find -P $DIR_CONFIGS -name "*.rules" -type f) )
 [ "0" != "${#CONFIGS[@]}" ] || ERRO "Config dir: $DIR_CONFIGS are empty!"
 
 ################################################################################
-# Return specified line of file, ignore comments
-read_line(){
-    FILE="$1" NUM=$2  # Read line | remove comments | remove unsafe symbols
-    sed "${NUM}q;d" $FILE | cut -d'#' -f1 | tr -d '()`$'
-}
-
-################################################################################
 # Dedup rules
 declare -A RULE_CACHE_TMP
 INFO "Read rules to buffer"
 for config in "${CONFIGS[@]}"; do
-    LINE_COUNT=$(wc -l < "$config")
-    for line_number in $(seq 1 $LINE_COUNT); do
-        LINE="$(read_line $config $line_number)"
+    while read -r LINE; do
+        #                    remove comments | remove unsafe symbols
+        LINE="$(echo "$LINE" | cut -d'#' -f1 | tr -d '()`$' )"
         [ -z "$LINE" ] && continue
         for COLUMN in $LINE; do
             case "$COLUMN" in
@@ -47,7 +40,7 @@ for config in "${CONFIGS[@]}"; do
                 ;;
             esac
         done
-    done
+    done < "$config"
 done
 
 unset CONFIGS
