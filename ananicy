@@ -134,15 +134,11 @@ nice_of_pid(){
 ################################################################################
 # Nice handler for process name
 wrapper_renice(){
-    export NAME="$1" NICE="$2"
-    [ -z $NICE ] && return
-    for pid in $( pgrep -w "$NAME" ); do
-        C_NICE=$(nice_of_pid $pid)
-        [ -z "$C_NICE" ] && continue
-        [ "$C_NICE" == "$NICE" ] && continue
-        renice -n $NICE -p $pid &> /dev/null || continue
-        INFO "Process ${NAME}[$pid] cpu nice: $C_NICE -> $NICE"
-    done
+    NAME="$1" PID="$2" NICE="$3"; [ -z $NICE ] && return
+    C_NICE=$(nice_of_pid $PID);   [ -z "$C_NICE" ] && return
+    [ "$C_NICE" == "$NICE" ] && return
+    renice -n $NICE -p $PID &> /dev/null || return
+    INFO "Process ${NAME}[$PID] cpu nice: $C_NICE -> $NICE"
 }
 
 ################################################################################
@@ -153,47 +149,34 @@ ionice_of_pid(){  ionice -p $1 2> /dev/null | cut -d':' -f2 | tr -d ' prio'; }
 ################################################################################
 # IONice handlers for process name
 wrapper_ionice(){
-    NAME="$1" IONICE="$2"
-    [ -z "$IONICE" ] && return
-    for pid in $( pgrep -w "$NAME" ); do
-        C_IONICE=$(ionice_of_pid $pid)
-        [ -z "$C_IONICE" ] && continue
-        [ "$C_IONICE" == "$IONICE" ] && continue
-        ionice -n "$IONICE" -p "$pid" &> /dev/null || continue
-        INFO "Process ${NAME}[$pid] ionice: $C_IONICE -> $IONICE"
-    done
+    NAME="$1" PID="$2" IONICE="$3"; [ -z "$IONICE" ] && return
+    C_IONICE=$(ionice_of_pid $PID); [ -z "$C_IONICE" ] && return
+    [ "$C_IONICE" == "$IONICE" ] && return
+    ionice -n "$IONICE" -p "$PID" &> /dev/null || return
+    INFO "Process ${NAME}[$PID] ionice: $C_IONICE -> $IONICE"
 }
 
 wrapper_ionice_class(){
-    NAME="$1" IOCLASS="$2"
-    [ -z "$IOCLASS" ] && return
-    for pid in $( pgrep -w "$NAME" ); do
-        C_IOCLASS=$(ioclass_of_pid $pid)
-        [ -z "$C_IOCLASS" ] && continue
-        [[ "$C_IOCLASS" =~ $IOCLASS ]] && continue
-        ionice -c "$IOCLASS" -p "$pid" &> /dev/null || continue
-        INFO "Process ${NAME}[$pid] ioclass: $C_IOCLASS -> $IOCLASS"
-    done
+    NAME="$1" PID="$2" IOCLASS="$3";  [ -z "$IOCLASS" ] && return
+    C_IOCLASS=$(ioclass_of_pid $PID); [ -z "$C_IOCLASS" ] && return
+    [[ "$C_IOCLASS" =~ $IOCLASS ]] && return
+    ionice -c "$IOCLASS" -p "$PID" &> /dev/null || return
+    INFO "Process ${NAME}[$PID] ioclass: $C_IOCLASS -> $IOCLASS"
 }
-
 
 chrt_policy_of_pid(){ chrt -p $1 2> /dev/null | grep policy | cut -d ':' -f2 | tr -d ' '; }
 ################################################################################
 # chrt handler for process name
 wrapper_chrt_policy(){
-    NAME="$1" SCHED="$2"
-    [ -z "$SCHED" ] && return
-    for pid in $( pgrep -w "$NAME" ); do
-        C_SCHED=$(chrt_policy_of_pid $pid)
-        C_SCHED="${C_SCHED//SCHED_/}"
-        C_SCHED="${C_SCHED,,}"
-        [ -z "$C_SCHED" ] && continue
-        [[ "$SCHED" =~ $C_SCHED ]] && continue
-        L_PRIO=0
-        [[ "$SCHED" =~ (rr|fifo) ]] && L_PRIO=1
-        chrt -a --$SCHED -p $L_PRIO $pid &> /dev/null || continue
-        INFO "Process ${NAME}[$pid] sched: $C_SCHED -> $SCHED"
-    done
+    NAME="$1" PID="$2" SCHED="$3" L_PRIO=0; [ -z "$SCHED" ] && return
+    C_SCHED=$(chrt_policy_of_pid $PID)
+    C_SCHED="${C_SCHED//SCHED_/}"   # Remove 'SCHED_' prefix
+    C_SCHED="${C_SCHED,,}"          # Upper case to lower case
+    [ -z "$C_SCHED" ] && return
+    [[ "$SCHED" =~ $C_SCHED ]] && return
+    [[ "$SCHED" =~ (rr|fifo) ]] && L_PRIO=1
+    chrt -a --$SCHED -p $L_PRIO $PID &> /dev/null || return
+    INFO "Process ${NAME}[$PID] sched: $C_SCHED -> $SCHED"
 }
 
 check_root_rights(){ [ "$UID" == "0" ] || ERRO "Script must be runned as root!"; }
@@ -232,10 +215,15 @@ main_process(){
                 SCHED=*)   SCHED="${COLUMN//SCHED=/}"
             esac
         done
-        [ ! -z "$NICE" ]    && wrapper_renice "$NAME" "$NICE"
-        [ ! -z "$IOCLASS" ] && wrapper_ionice_class "$NAME" "$IOCLASS"
-        [ ! -z "$IONICE" ]  && wrapper_ionice "$NAME" "$IONICE"
-        [ ! -z "$SCHED" ]   && wrapper_chrt_policy "$NAME" "$SCHED"
+        for PID in $( pgrep -w "$NAME" ); do
+            [ -z "$PID" ] && continue
+            [ ! -d "/proc/$PID" ] && continue
+            [ ! -z "$NICE" ]    && wrapper_renice       "$NAME" "$PID" "$NICE" &
+            [ ! -z "$IOCLASS" ] && wrapper_ionice_class "$NAME" "$PID" "$IOCLASS" &
+            [ ! -z "$IONICE" ]  && wrapper_ionice       "$NAME" "$PID" "$IONICE" &
+            [ ! -z "$SCHED" ]   && wrapper_chrt_policy  "$NAME" "$PID" "$SCHED" &
+            wait
+        done
     done
 }
 
