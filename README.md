@@ -35,9 +35,13 @@ $ git clone https://github.com/Nefelim4ag/Ananicy.git /tmp/ananicy
 ```
 $ git clone https://github.com/Nefelim4ag/Ananicy.git
 $ ./Ananicy/package.sh debian
-$ dpkg -i ./Ananicy/ananicy-*.deb
+$ sudo dpkg -i ./Ananicy/ananicy-*.deb
 ```
 
+Enable
+```
+$ sudo systemctl enable ananicy
+```
 ## Configuration
 Rules files should be placed under /etc/ananicy.d/ directory and have *.rules extension.
 Inside .rules file every process is described on a separate line, general syntax is described below:
