@@ -85,8 +85,8 @@ for LINE in "${RULE_CACHE_TMP[@]}"; do
             ;;
             SCHED=*)
                 SCHED="${COLUMN//SCHED=/}"
-                [[ $SCHED =~ (batch|deadline|fifo|idle|other|rr) ]] || {
-                    WARN "Sched (case sensitive) support only (batch|deadline|fifo|idle|other|rr) (line ignored): $LINE"
+                [[ $SCHED =~ (batch|deadline|fifo|idle|other|rr|iso) ]] || {
+                    WARN "Sched (case sensitive) support only (batch|deadline|fifo|idle|other|rr|iso) (line ignored): $LINE"
                     unset LINE
                 }
             ;;
@@ -165,6 +165,9 @@ wrapper_ionice_class(){
 }
 
 chrt_policy_of_pid(){ chrt -p $1 2> /dev/null | grep policy | cut -d ':' -f2 | tr -d ' '; }
+
+schedtool_policy_of_pid(){ schedtool $1 2> /dev/null | grep POLICY | cut -d ':' -f3 | cut -d ' ' -f2 | tr -d ' '; }
+
 ################################################################################
 # chrt handler for process name
 wrapper_chrt_policy(){
@@ -176,6 +179,27 @@ wrapper_chrt_policy(){
     [[ "$SCHED" =~ $C_SCHED ]] && return
     [[ "$SCHED" =~ (rr|fifo) ]] && L_PRIO=1
     chrt -a --$SCHED -p $L_PRIO $PID &> /dev/null || return
+    INFO "Process ${NAME}[$PID] sched: $C_SCHED -> $SCHED"
+}
+
+wrapper_schedtool_policy(){
+    NAME="$1" PID="$2" SCHED="$3" L_PRIO=0; [ -z "$SCHED" ] && return
+    C_SCHED=$(schedtool_policy_of_pid $PID)
+    C_SCHED="${C_SCHED//SCHED_/}"   # Remove 'SCHED_' prefix
+    C_SCHED="${C_SCHED,,}"          # Upper case to lower case
+    [ -z "$C_SCHED" ] && return
+    [[ "$SCHED" =~ $C_SCHED ]] && return
+    [[ "$SCHED" =~ other ]] && [[ "$C_SCHED" =~ normal ]] && return
+    [[ "$SCHED" =~ idle ]] && [[ "$C_SCHED" =~ idleprio ]] && return
+    [[ "$SCHED" =~ (rr|fifo) ]] && L_PRIO=1
+    [[ "$SCHED" =~ (other|normal) ]] && SCHEDARGUMENT="-N"
+    [[ "$SCHED" =~ fifo ]] && SCHEDARGUMENT="-F"
+    [[ "$SCHED" =~ rr ]] && SCHEDARGUMENT="-R"
+    [[ "$SCHED" =~ batch ]] && SCHEDARGUMENT="-B"
+    [[ "$SCHED" =~ iso ]] && SCHEDARGUMENT="-I"
+    [[ "$SCHED" =~ idle ]] && SCHEDARGUMENT="-D"
+
+    schedtool $SCHEDARGUMENT -p $L_PRIO $PID &> /dev/null || return
     INFO "Process ${NAME}[$PID] sched: $C_SCHED -> $SCHED"
 }
 
@@ -192,7 +216,7 @@ check_schedulers(){
         disk_name=$(basename $disk_path)
         scheduler_path="$disk_path/queue/scheduler"
         [ ! -f $scheduler_path ] && continue
-        grep -q '\[cfq\]' $scheduler_path || \
+        grep -q '\[cfq\]\|\[bfq\]' $scheduler_path || \
             WARN "Disk $disk_name not used cfq scheduler IOCLASS/IONICE will not work on it!"
     done
 }
@@ -221,7 +245,8 @@ main_process(){
             [ ! -z "$NICE" ]    && wrapper_renice       "$NAME" "$PID" "$NICE" &
             [ ! -z "$IOCLASS" ] && wrapper_ionice_class "$NAME" "$PID" "$IOCLASS" &
             [ ! -z "$IONICE" ]  && wrapper_ionice       "$NAME" "$PID" "$IONICE" &
-            [ ! -z "$SCHED" ]   && wrapper_chrt_policy  "$NAME" "$PID" "$SCHED" &
+            [ ! -z "$SCHED" ]   && wrapper_schedtool_policy  "$NAME" "$PID" "$SCHED" &
+            #[ ! -z "$SCHED" ]   && wrapper_chrt_policy  "$NAME" "$PID" "$SCHED" &
             wait
         done
     done
