@@ -41,6 +41,7 @@ $ sudo dpkg -i ./Ananicy/ananicy-*.deb
 Enable
 ```
 $ sudo systemctl enable ananicy
+$ sudo systemctl start ananicy
 ```
 ## Configuration
 Rules files should be placed under /etc/ananicy.d/ directory and have *.rules extension.
