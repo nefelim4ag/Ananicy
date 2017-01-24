@@ -73,6 +73,7 @@ Example: pulseaudio uses 'nice' -11 by default, if you set other cpu hungry task
 5. For CPU hungry backround task like compiling, just use NICE=19.
 
 About IO priority:
+
 1. It's usefull use IOCLASS=idle for IO hungry background tasks like: file indexers, Cloud Clients, Backups and etc.
 2. It's not cool set realtime to all tasks. The  RT  scheduling  class is given first access to the disk, regardless of what else is going on in the system.  Thus the RT class needs to be used with some care, as it can starve other processes. So try use ioclass first.
 
