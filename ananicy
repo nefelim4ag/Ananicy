@@ -221,6 +221,13 @@ check_schedulers(){
     done
 }
 
+check_bins(){
+    bin_exist(){ command -v "$1" &> /dev/null || ERRO "Missing ${1}!"; }
+    for bin in find pgrep renice ionice schedtool; do
+        bin_exist $bin
+    done
+}
+
 show_help(){
     echo "$0 start - start daemon"
     echo "$0 dump rules cache - daemon will dump rules cache to stdout"
@@ -258,6 +265,7 @@ case $1 in
     start)
         check_root_rights
         check_schedulers
+        check_bins
         INFO "Start main process"
         RUN_FREQ=15
         while sleep $RUN_FREQ; do
