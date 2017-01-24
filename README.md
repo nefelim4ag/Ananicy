@@ -82,3 +82,13 @@ Get ananicy output with journalctl:
 ```
 $ journalctl -efu ananicy.service
 ```
+
+### Missing `schedtool`
+If you see this error in the output
+```
+Jan 24 09:44:18 tony-dev ananicy[13783]: ERRO: Missing schedtool! Abort!
+```
+Fix it in Ubuntu with
+```
+sudo apt install schedtool
+```
