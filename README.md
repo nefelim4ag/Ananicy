@@ -79,4 +79,6 @@ About IO priority:
 
 ## Debugging
 Get ananicy output with journalctl:
-journalctl -f -u ananicy.service
+```
+$ journalctl -efu ananicy.service
+```
