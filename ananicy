@@ -22,6 +22,36 @@ CONFIGS=( $(find -P $DIR_CONFIGS -name "*.rules" -type f) )
 [ "0" != "${#CONFIGS[@]}" ] || ERRO "Config dir: $DIR_CONFIGS are empty!"
 
 ################################################################################
+# Load all types of programms
+INFO "Search types"
+TYPE_FILES=( $(find -P $DIR_CONFIGS -name "*.types" -type f) )
+
+################################################################################
+# Dedup/Save Types
+declare -A TYPES_CACHE
+INFO "Read types to buffer"
+for config in "${TYPE_FILES[@]}"; do
+    line_number=1
+    while read -r LINE; do
+        #                    remove comments | remove unsafe symbols
+        LINE="$(echo "$LINE" | cut -d'#' -f1 | tr -d '()`$' )"
+        [ -z "$LINE" ] && continue
+        for COLUMN in $LINE; do
+            case "$COLUMN" in
+                TYPE=*)
+                    TYPE="${COLUMN//TYPE=/}"
+                    [ -z "$TYPE" ] && \
+                        ERRO "$config:$line_number TYPE are empty!"
+                    LINE="${LINE//TYPE=$TYPE/}"
+                    TYPES_CACHE["$TYPE"]="$LINE"
+                ;;
+            esac
+        done
+        line_number=$(($line_number+1))
+    done < "$config"
+done
+
+################################################################################
 # Dedup rules
 declare -A RULE_CACHE_TMP
 INFO "Read rules to buffer"
@@ -31,6 +61,7 @@ for config in "${CONFIGS[@]}"; do
         #                    remove comments | remove unsafe symbols
         LINE="$(echo "$LINE" | cut -d'#' -f1 | tr -d '()`$' )"
         [ -z "$LINE" ] && continue
+        NAME="" TYPE=""
         for COLUMN in $LINE; do
             case "$COLUMN" in
                 NAME=*)
@@ -38,6 +69,13 @@ for config in "${CONFIGS[@]}"; do
                     [ -z "$NAME" ] && \
                         ERRO "$config:$line_number NAME are empty!"
                     RULE_CACHE_TMP["$NAME"]="$LINE"
+                ;;
+            esac
+            case "$COLUMN" in
+                *TYPE=*)
+                    TYPE="${COLUMN//TYPE=/}"
+                    # Inject TYPE data if available
+                    RULE_CACHE_TMP["$NAME"]="$LINE ${TYPES_CACHE[$TYPE]}"
                 ;;
             esac
         done
@@ -57,6 +95,7 @@ for LINE in "${RULE_CACHE_TMP[@]}"; do
         *IOCLASS=*) : ;;
         *IONICE=*)  : ;;
         *SCHED=*)   : ;;
+        *TYPE=*)    : ;;
         *) continue ;;
     esac
 
