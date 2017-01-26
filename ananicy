@@ -31,8 +31,9 @@ TYPE_FILES=( $(find -P $DIR_CONFIGS -name "*.types" -type f) )
 declare -A TYPES_CACHE
 INFO "Read types to buffer"
 for config in "${TYPE_FILES[@]}"; do
-    line_number=1
+    line_number=0
     while read -r LINE; do
+        line_number=$(($line_number+1))
         #                    remove comments | remove unsafe symbols
         LINE="$(echo "$LINE" | cut -d'#' -f1 | tr -d '()`$' )"
         [ -z "$LINE" ] && continue
@@ -42,12 +43,10 @@ for config in "${TYPE_FILES[@]}"; do
                     TYPE="${COLUMN//TYPE=/}"
                     [ -z "$TYPE" ] && \
                         ERRO "$config:$line_number TYPE are empty!"
-                    LINE="${LINE//TYPE=$TYPE/}"
                     TYPES_CACHE["$TYPE"]="$LINE"
                 ;;
             esac
         done
-        line_number=$(($line_number+1))
     done < "$config"
 done
 
@@ -56,8 +55,9 @@ done
 declare -A RULE_CACHE_TMP
 INFO "Read rules to buffer"
 for config in "${CONFIGS[@]}"; do
-    line_number=1
+    line_number=0
     while read -r LINE; do
+        line_number=$(($line_number+1))
         #                    remove comments | remove unsafe symbols
         LINE="$(echo "$LINE" | cut -d'#' -f1 | tr -d '()`$' )"
         [ -z "$LINE" ] && continue
@@ -75,11 +75,11 @@ for config in "${CONFIGS[@]}"; do
                 *TYPE=*)
                     TYPE="${COLUMN//TYPE=/}"
                     # Inject TYPE data if available
+                    LINE="${LINE//TYPE=$TYPE/}"
                     RULE_CACHE_TMP["$NAME"]="$LINE ${TYPES_CACHE[$TYPE]}"
                 ;;
             esac
         done
-        line_number=$(($line_number+1))
     done < "$config"
 done
 
@@ -150,8 +150,8 @@ echo "---"
 
 ################################################################################
 # Show cached information
-show_cache(){
-    INFO "Dump compiled rules"
+show_cached_rules(){
+    INFO "Print compiled rules"
     {
         for cache_line in "${RULE_CACHE[@]}"; do
             echo "$cache_line"
@@ -159,7 +159,16 @@ show_cache(){
     } | sort | column -t
 }
 
-trap "{ show_cache; }" SIGUSR1
+trap "{ show_cached_rules; }" SIGUSR1
+
+show_cached_types(){
+    INFO "Print compiled types"
+    {
+        for cache_line in "${TYPES_CACHE[@]}"; do
+            echo "$cache_line"
+        done
+    } | sort | column -t
+}
 
 ################################################################################
 # Helper for wrapper_renice()
@@ -173,7 +182,7 @@ nice_of_pid(){
 }
 
 ################################################################################
-# Nice handler for process name
+# Nice handler for pid
 wrapper_renice(){
     NAME="$1" PID="$2" NICE="$3"; [ -z $NICE ] && return
     C_NICE=$(nice_of_pid $PID);   [ -z "$C_NICE" ] && return
@@ -188,7 +197,7 @@ ioclass_of_pid(){ ionice -p $1 2> /dev/null | cut -d':' -f1; }
 ionice_of_pid(){  ionice -p $1 2> /dev/null | cut -d':' -f2 | tr -d ' prio'; }
 
 ################################################################################
-# IONice handlers for process name
+# IONice handlers for pid
 wrapper_ionice(){
     NAME="$1" PID="$2" IONICE="$3"; [ -z "$IONICE" ] && return
     C_IONICE=$(ionice_of_pid $PID); [ -z "$C_IONICE" ] && return
@@ -205,24 +214,10 @@ wrapper_ionice_class(){
     INFO "Process ${NAME}[$PID] ioclass: $C_IOCLASS -> $IOCLASS"
 }
 
-chrt_policy_of_pid(){ chrt -p $1 2> /dev/null | grep policy | cut -d ':' -f2 | tr -d ' '; }
-
 schedtool_policy_of_pid(){ schedtool $1 2> /dev/null | grep POLICY | cut -d ':' -f3 | cut -d ' ' -f2 | tr -d ' '; }
 
 ################################################################################
-# chrt handler for process name
-wrapper_chrt_policy(){
-    NAME="$1" PID="$2" SCHED="$3" L_PRIO=0; [ -z "$SCHED" ] && return
-    C_SCHED=$(chrt_policy_of_pid $PID)
-    C_SCHED="${C_SCHED//SCHED_/}"   # Remove 'SCHED_' prefix
-    C_SCHED="${C_SCHED,,}"          # Upper case to lower case
-    [ -z "$C_SCHED" ] && return
-    [[ "$SCHED" =~ $C_SCHED ]] && return
-    [[ "$SCHED" =~ (rr|fifo) ]] && L_PRIO=1
-    chrt -a --$SCHED -p $L_PRIO $PID &> /dev/null || return
-    INFO "Process ${NAME}[$PID] sched: $C_SCHED -> $SCHED"
-}
-
+# schedtool handler for pid
 wrapper_schedtool_policy(){
     NAME="$1" PID="$2" SCHED="$3" L_PRIO=0; [ -z "$SCHED" ] && return
     C_SCHED=$(schedtool_policy_of_pid $PID)
@@ -258,7 +253,7 @@ check_schedulers(){
         scheduler_path="$disk_path/queue/scheduler"
         [ ! -f $scheduler_path ] && continue
         grep -q '\[cfq\]\|\[bfq\]' $scheduler_path || \
-            WARN "Disk $disk_name not used cfq scheduler IOCLASS/IONICE will not work on it!"
+            WARN "Disk $disk_name not used cfq/bfq scheduler IOCLASS/IONICE will not work on it!"
     done
 }
 
@@ -270,9 +265,12 @@ check_bins(){
 }
 
 show_help(){
-    echo "$0 start - start daemon"
-    echo "$0 dump rules cache - daemon will dump rules cache to stdout"
-    echo "$0 dump rules parsed - generate and dump rules cache to stdout"
+    echo "Usage: ananicy [options]"
+    echo "  start               Run script."
+    echo "  dump rules cache    Currently running daemon will"
+    echo "                      print cached rules to stdout."
+    echo "  dump rules parsed   Generate and print rules cache to stdout."
+    echo "  dump types parsed   Generate and print types cache to stdout."
 }
 
 main_process(){
@@ -294,7 +292,6 @@ main_process(){
             [ ! -z "$IOCLASS" ] && wrapper_ionice_class "$NAME" "$PID" "$IOCLASS" &
             [ ! -z "$IONICE" ]  && wrapper_ionice       "$NAME" "$PID" "$IONICE" &
             [ ! -z "$SCHED" ]   && wrapper_schedtool_policy  "$NAME" "$PID" "$SCHED" &
-            #[ ! -z "$SCHED" ]   && wrapper_chrt_policy  "$NAME" "$PID" "$SCHED" &
             wait
         done
     done
@@ -312,6 +309,7 @@ case $1 in
         while sleep $RUN_FREQ; do
             main_process;
         done
+        exit 0
     ;;
     dump)
         case "$2" in
@@ -323,13 +321,18 @@ case $1 in
                             [ -d /proc/$pid ] && \
                                 kill -s SIGUSR1 $pid
                         done
+                        exit 0
                     ;;
-                    parsed) show_cache ;;
-                    *) show_help ;;
+                    parsed) kill -s SIGUSR1 $$; exit 0;;
                 esac
             ;;
-            *) show_help ;;
+            types)
+                case "$3" in
+                    parsed) show_cached_types; exit 0;;
+                esac
+            ;;
         esac
     ;;
-    *) show_help ;;
 esac
+
+show_help
