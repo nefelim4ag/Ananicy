@@ -1,2 +1,2 @@
 # Tox client: https://github.com/qTox/qTox
-NAME=qtox          NICE=-3
+NAME=qtox TYPE=CHAT

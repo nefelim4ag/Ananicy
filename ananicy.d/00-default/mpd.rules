@@ -1,2 +1,2 @@
 # Music player: https://www.musicpd.org/
-NAME=mpd            NICE=-3     IOCLASS=realtime
+NAME=mpd TYPE=PLAYER_AUDIO

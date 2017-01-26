@@ -1,2 +1,2 @@
 # Tools for deduping file systems: https://github.com/markfasheh/duperemove
-NAME=duperemove   NICE=19 IOCLASS=idle
+NAME=duperemove TYPE=BG_CPUIO

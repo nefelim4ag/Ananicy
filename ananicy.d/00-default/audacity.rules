@@ -1,2 +1,2 @@
 # Sound editor: http://www.audacityteam.org/
-NAME=audacity            NICE=-10     IOCLASS=realtime
+NAME=audacity TYPE=LowLatency_RT

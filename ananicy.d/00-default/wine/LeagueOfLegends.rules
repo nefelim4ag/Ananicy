@@ -2,4 +2,4 @@
 # NAME=LoLLauncher.exe	NICE=0
 # NAME=LolClient.exe	NICE=0
 # NAME=LoLPatcher.exe	NICE=0
-NAME="League of Legen"  NICE=-3
+NAME="League of Legen"  TYPE=GAME

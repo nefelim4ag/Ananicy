@@ -1,2 +1,2 @@
 # make - GNU make utility to maintain groups of programs
-NAME=make NICE=19 SCHED=idle IOCLASS=best-effort IONICE=7
+NAME=make TYPE=HEAVY_CPU

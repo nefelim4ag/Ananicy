@@ -1,2 +1,2 @@
 # https://github.com/Zygo/bees
-NAME=bees NICE=19 IOCLASS=idle
+NAME=bees TYPE=BG_CPUIO

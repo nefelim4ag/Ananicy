@@ -1,4 +1,4 @@
 # Torrent client: https://www.transmissionbt.com
-NAME=transmission-daemon NICE=19 IOCLASS=idle
-NAME=transmission-qt     NICE=19 IOCLASS=idle
-NAME=transmission-gtk    NICE=19 IOCLASS=idle
+NAME=transmission-daemon TYPE=BG_CPUIO
+NAME=transmission-qt     TYPE=BG_CPUIO
+NAME=transmission-gtk    TYPE=BG_CPUIO

@@ -1,2 +1,2 @@
 # Download manager: https://www.kde.org/applications/internet/kget/
-NAME=kget NICE=19 IOCLASS=idle
+NAME=kget TYPE=BG_CPUIO

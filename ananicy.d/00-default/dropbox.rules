@@ -1,2 +1,2 @@
 # Dropbox client: https://www.dropbox.com
-NAME=dropbox       NICE=19     IOCLASS=idle
+NAME=dropbox TYPE=BG_CPUIO

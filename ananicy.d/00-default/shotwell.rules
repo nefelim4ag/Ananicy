@@ -1,2 +1,2 @@
 # A photo manager for GNOME 3: https://wiki.gnome.org/Apps/Shotwell
-NAME=shotwell            NICE=-3
+NAME=shotwell TYPE=IMAGE_VIEW

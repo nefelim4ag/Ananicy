@@ -1,3 +1,3 @@
 # FDUPES is a program for identifying or deleting duplicate files residing within specified directories.
 # https://github.com/adrianlopezroche/fdupes
-NAME=fdupes   NICE=19 IOCLASS=idle
+NAME=fdupes TYPE=BG_CPUIO

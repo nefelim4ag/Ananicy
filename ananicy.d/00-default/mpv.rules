@@ -1,2 +1,2 @@
 # Video player: https://mpv.io/
-NAME=mpv            NICE=-3     IOCLASS=realtime
+NAME=mpv TYPE=PLAYER_VIDEO

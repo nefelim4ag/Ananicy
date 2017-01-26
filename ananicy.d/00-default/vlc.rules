@@ -1,2 +1,2 @@
 # Video player: http://www.videolan.org/vlc/index.html
-NAME=vlc            NICE=-3     IOCLASS=realtime
+NAME=vlc TYPE=PLAYER_VIDEO

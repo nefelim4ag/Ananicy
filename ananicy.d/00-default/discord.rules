@@ -1,2 +1,2 @@
 # Discord: https://discordapp.com/
-NAME=discord          NICE=-3
+NAME=discord TYPE=LowLatency_RT

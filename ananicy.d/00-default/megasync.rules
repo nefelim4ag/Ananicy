@@ -1,2 +1,2 @@
 # Official MEGA.nz client: https://github.com/meganz/MEGAsync
-NAME=megasync       NICE=19     IOCLASS=idle
+NAME=megasync TYPE=BG_CPUIO

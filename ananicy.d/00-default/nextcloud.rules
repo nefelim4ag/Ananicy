@@ -1,2 +1,2 @@
 # Nextcloud desktop client: https://nextcloud.com/
-NAME=nextcloud       NICE=19     IOCLASS=idle
+NAME=nextcloud TYPE=BG_CPUIO 

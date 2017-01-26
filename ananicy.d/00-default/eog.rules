@@ -1,2 +1,2 @@
 # GNOME image viewer: https://wiki.gnome.org/Apps/EyeOfGnome/
-NAME=eog            NICE=-3
+NAME=eog TYPE=IMAGE_VIEW

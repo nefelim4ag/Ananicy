@@ -1,2 +1,2 @@
 # A document viewer: https://wiki.gnome.org/Apps/Evince
-NAME=evince            NICE=-3
+NAME=evince TYPE=DOC_VIEW
