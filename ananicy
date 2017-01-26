@@ -158,22 +158,14 @@ echo "---"
 # Show cached information
 show_cached_rules(){
     INFO "Print compiled rules"
-    {
-        for cache_line in "${RULE_CACHE[@]}"; do
-            echo "$cache_line"
-        done
-    } | sort | column -t
+    echo "${RULE_CACHE[@]}" | sed 's#NAME=#\nNAME=#g' | sort | column -t
 }
 
 trap "{ show_cached_rules; }" SIGUSR1
 
 show_cached_types(){
     INFO "Print compiled types"
-    {
-        for cache_line in "${TYPES_CACHE[@]}"; do
-            echo "$cache_line"
-        done
-    } | sort | column -t
+    echo "${TYPES_CACHE[@]}" | sed 's#TYPE=#\nTYPE=#g' | sort | column -t
 }
 
 ################################################################################
