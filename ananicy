@@ -26,16 +26,18 @@ CONFIGS=( $(find -P $DIR_CONFIGS -name "*.rules" -type f) )
 INFO "Search types"
 TYPE_FILES=( $(find -P $DIR_CONFIGS -name "*.types" -type f) )
 
+TMP="$(mktemp -t .ananicy_XXX)"
+
 ################################################################################
 # Dedup/Save Types
 declare -A TYPES_CACHE
 INFO "Read types to buffer"
 for config in "${TYPE_FILES[@]}"; do
     line_number=0
+    # remove comments       | remove unsafe symbols
+    cut -d'#' -f1 "$config" | tr -d '()`$' > "$TMP"
     while read -r LINE; do
         line_number=$(($line_number+1))
-        #                    remove comments | remove unsafe symbols
-        LINE="$(echo "$LINE" | cut -d'#' -f1 | tr -d '()`$' )"
         [ -z "$LINE" ] && continue
         for COLUMN in $LINE; do
             case "$COLUMN" in
@@ -47,7 +49,7 @@ for config in "${TYPE_FILES[@]}"; do
                 ;;
             esac
         done
-    done < "$config"
+    done < "$TMP"
 done
 
 ################################################################################
@@ -56,10 +58,10 @@ declare -A RULE_CACHE_TMP
 INFO "Read rules to buffer"
 for config in "${CONFIGS[@]}"; do
     line_number=0
+    # remove comments       | remove unsafe symbols
+    cut -d'#' -f1 "$config" | tr -d '()`$' > "$TMP"
     while read -r LINE; do
         line_number=$(($line_number+1))
-        #                    remove comments | remove unsafe symbols
-        LINE="$(echo "$LINE" | cut -d'#' -f1 | tr -d '()`$' )"
         [ -z "$LINE" ] && continue
         NAME="" TYPE=""
         for COLUMN in $LINE; do
@@ -80,10 +82,14 @@ for config in "${CONFIGS[@]}"; do
                 ;;
             esac
         done
-    done < "$config"
+    done < "$TMP"
 done
 
 unset CONFIGS
+
+[ -f "$TMP" ] && rm "$TMP"
+
+
 ################################################################################
 # Compile rules
 INFO "Compile rules to cache"
