@@ -4,6 +4,7 @@ default:  help
 
 install: ## Install ananicy
 install:
+	mkdir -p							$(PREFIX)/etc/ananicy.d/
 	rsync -a		./ananicy.d/		$(PREFIX)/etc/ananicy.d/
 	install -Dm755	./ananicy			$(PREFIX)/usr/bin/ananicy
 	install -Dm644	./ananicy.service	$(PREFIX)/usr/lib/systemd/system/ananicy.service
