@@ -62,6 +62,8 @@ NAME=xz   NICE=19 IOCLASS=idle IONICE=4
 NAME=pulseaudio IOCLASS=realtime
 ```
 
+Ananicy load all rules in ram while starting, so to apply rules, you must restart service.
+
 ## Simple rules for writing rules
 CFQ IO Scheduller also use 'nice' for internal scheduling, so it's mean processes with same IO class and IO priority, but with different nicceness will take advantages of 'nice' also for IO.
 
@@ -92,3 +94,5 @@ Fix it in Ubuntu with
 ```
 sudo apt install schedtool
 ```
+
+###
