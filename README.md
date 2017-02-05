@@ -100,4 +100,6 @@ Fix it in Ubuntu with
 sudo apt install schedtool
 ```
 
-###
+### Submitting new rules
+
+Please use pull request, thanks
