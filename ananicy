@@ -303,7 +303,7 @@ case $1 in
         check_schedulers
         check_bins
         INFO "Start main process"
-        RUN_FREQ=15
+        RUN_FREQ=${RUN_FREQ:-15}
         while sleep $RUN_FREQ; do
             main_process;
         done
