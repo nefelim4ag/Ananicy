@@ -35,7 +35,7 @@ INFO "Read types to buffer"
 for config in "${TYPE_FILES[@]}"; do
     line_number=0
     # remove comments       | remove unsafe symbols
-    cut -d'#' -f1 "$config" | tr -d '()`$' > "$TMP"
+    cut -d'#' -f1 "$config" | tr -d '`$)(' > "$TMP"
     while read -r LINE; do
         line_number=$(($line_number+1))
         [ -z "$LINE" ] && continue
@@ -59,7 +59,7 @@ INFO "Read rules to buffer"
 for config in "${CONFIGS[@]}"; do
     line_number=0
     # remove comments       | remove unsafe symbols
-    cut -d'#' -f1 "$config" | tr -d '()`$' > "$TMP"
+    cut -d'#' -f1 "$config" | tr -d '`$)(' > "$TMP"
     while read -r LINE; do
         line_number=$(($line_number+1))
         [ -z "$LINE" ] && continue
@@ -248,6 +248,8 @@ main_pid_get(){
 check_schedulers(){
     for disk_path in /sys/class/block/*; do
         disk_name=$(basename $disk_path)
+        [[ "$disk_name" =~ 'loop' ]] && continue
+        [[ "$disk_name" =~ 'ram'  ]] && continue
         scheduler_path="$disk_path/queue/scheduler"
         [ ! -f $scheduler_path ] && continue
         grep -q '\[cfq\]\|\[bfq\]' $scheduler_path || \
