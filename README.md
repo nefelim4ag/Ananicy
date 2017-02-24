@@ -28,7 +28,8 @@ To use ananicy you must have systemd installed.
 You can install ananicy manualy by:
 ```
 $ git clone https://github.com/Nefelim4ag/Ananicy.git /tmp/ananicy
-# /tmp/ananicy/install.sh
+$ cd /tmp/ananicy
+$ sudo make install
 ```
 * ![logo](http://www.monitorix.org/imgs/archlinux.png "arch logo") Arch: [AUR/ananicy-git](https://aur.archlinux.org/packages/ananicy-git).
 * Debian/Ubuntu: use [package.sh](https://raw.githubusercontent.com/Nefelim4ag/Ananicy/master/package.sh) in repo
