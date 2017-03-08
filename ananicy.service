@@ -13,6 +13,7 @@ MemoryHigh=16M
 MemoryMax=64M
 ProtectSystem=true
 ProtectHome=true
+PrivateTmp=yes
 
 [Install]
 WantedBy=local-fs.target
