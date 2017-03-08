@@ -102,11 +102,12 @@ for LINE in "${RULE_CACHE_TMP[@]}"; do
         *IONICE=*)  : ;;
         *SCHED=*)   : ;;
         *TYPE=*)    : ;;
+        *OOM_SCORE_ADJ=*) : ;;
         *) continue ;;
     esac
 
     # Check if data in line are valid
-    unset NICE IONICE IOCLASS SCHED
+    unset NICE IONICE IOCLASS SCHED OOM_SCORE_ADJ
     for COLUMN in $LINE; do
         case "$COLUMN" in
             NICE=*)
@@ -136,6 +137,13 @@ for LINE in "${RULE_CACHE_TMP[@]}"; do
                     WARN "Sched (case sensitive) support only (batch|deadline|fifo|idle|other|rr|iso) (line ignored): $LINE"
                     unset LINE
                 }
+            ;;
+            OOM_SCORE_ADJ=*)
+                OOM_SCORE_ADJ="${COLUMN//OOM_SCORE_ADJ=/}"
+                if [[ "$OOM_SCORE_ADJ" -gt 1000 ]] || [[ -1000 -gt "$OOM_SCORE_ADJ" ]]; then
+                    WARN "OOM_SCORE_ADJ must be in range -1000..1000 (line ignored): $LINE"
+                    unset LINE
+                fi
             ;;
         esac
     done
@@ -212,6 +220,16 @@ wrapper_ionice_class(){
     INFO "Process ${NAME}[$PID] ioclass: $C_IOCLASS -> $IOCLASS"
 }
 
+## Helper for get OOM_SCORE_ADJ of process
+oom_score_adj_of_pid(){ cat /proc/$1/oom_score_adj; }
+wrapper_oom_score_adj(){
+    NAME="$1" PID="$2" OOM_SCORE_ADJ="$3";  [ -z "$OOM_SCORE_ADJ" ] && return
+    C_OOM_SCORE_ADJ="$(oom_score_adj_of_pid $PID)"; [ -z "$C_OOM_SCORE_ADJ" ] && return
+    [[ "$C_OOM_SCORE_ADJ" == "$OOM_SCORE_ADJ" ]] && return
+    echo $OOM_SCORE_ADJ > /proc/$PID/oom_score_adj || return
+    INFO "Process ${NAME}[$PID] ioclass: $C_OOM_SCORE_ADJ -> $OOM_SCORE_ADJ"
+}
+
 schedtool_policy_of_pid(){ schedtool $1 2> /dev/null | grep POLICY | cut -d ':' -f3 | cut -d ' ' -f2 | tr -d ' '; }
 
 ################################################################################
@@ -275,16 +293,18 @@ show_help(){
 
 main_process(){
     for LINE in "${RULE_CACHE[@]}"; do
-        NAME="" NICE="" IOCLASS="" IONICE="" SCHED=""
+        NAME="" NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
         for COLUMN in $LINE; do
             case "$COLUMN" in
                 NAME=*)    NAME="${COLUMN//NAME=/}"         ;;
                 NICE=*)    NICE="${COLUMN//NICE=/}"         ;;
                 IONICE=*)  IONICE="${COLUMN//IONICE=/}"     ;;
                 IOCLASS=*) IOCLASS="${COLUMN//IOCLASS=/}"   ;;
-                SCHED=*)   SCHED="${COLUMN//SCHED=/}"
+                SCHED=*)   SCHED="${COLUMN//SCHED=/}"       ;;
+                OOM_SCORE_ADJ=*) OOM_SCORE_ADJ="${COLUMN//OOM_SCORE_ADJ=/}" ;;
             esac
         done
+        NAME="${NAME//\"/}"
         for PID in $( pgrep -w "$NAME" ); do
             [ -z "$PID" ] && continue
             [ ! -d "/proc/$PID" ] && continue
@@ -292,6 +312,7 @@ main_process(){
             [ ! -z "$IOCLASS" ] && wrapper_ionice_class "$NAME" "$PID" "$IOCLASS" &
             [ ! -z "$IONICE" ]  && wrapper_ionice       "$NAME" "$PID" "$IONICE" &
             [ ! -z "$SCHED" ]   && wrapper_schedtool_policy  "$NAME" "$PID" "$SCHED" &
+            [ ! -z "$OOM_SCORE_ADJ" ] && wrapper_oom_score_adj "$NAME" "$PID" "$OOM_SCORE_ADJ" &
             wait
         done
     done
