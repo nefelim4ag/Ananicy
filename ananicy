@@ -249,25 +249,6 @@ show_help(){
     echo "  dump types    Generate and print types cache to stdout"
 }
 
-main_process(){
-    file="$1"
-    [ ! -f "$file" ] && return
-    unset NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
-    source "$file"
-    NAME="${NAME//\"/}"
-    export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
-    for PID in $( pgrep -w "$NAME" ); do
-        [ -z "$PID" ] && return
-        [ ! -d "/proc/$PID"     ] && return
-        [ ! -z "$NICE"          ] && renice_w
-        [ ! -z "$IOCLASS"       ] && ionice_class_w
-        [ ! -z "$IONICE"        ] && ionice_w
-        [ ! -z "$SCHED"         ] && schedtool_policy_w
-        [ ! -z "$OOM_SCORE_ADJ" ] && oom_score_adj_w
-        wait
-    done
-}
-
 ## Main process
 case $1 in
     start)
@@ -278,8 +259,21 @@ case $1 in
         RUN_FREQ=${RUN_FREQ:-15}
         while sleep $RUN_FREQ; do
             [ ! -d "$WORK_DIR" ] && break
-            for file in RULE_CACHE/*; do
-                main_process "$file"
+            for FILE in RULE_CACHE/*; do
+                [ ! -f "$FILE" ] && continue
+                unset  NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
+                export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
+                source "$FILE"
+                NAME="${NAME//\"/}"
+                for PID in $( pgrep -w "$NAME" ); do
+                    [ -z "$PID" ] && return
+                    [ ! -d "/proc/$PID"     ] && return
+                    [ ! -z "$NICE"          ] && renice_w
+                    [ ! -z "$IOCLASS"       ] && ionice_class_w
+                    [ ! -z "$IONICE"        ] && ionice_w
+                    [ ! -z "$SCHED"         ] && schedtool_policy_w
+                    [ ! -z "$OOM_SCORE_ADJ" ] && oom_score_adj_w
+                done
             done
         done
     ;;
