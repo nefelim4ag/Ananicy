@@ -291,11 +291,12 @@ check_bins(){
 
 show_help(){
     echo "Usage: ananicy [options]"
-    echo "  start               Run script."
+    echo "  start               Run script"
+    echo "  stop                Stop script"
     echo "  dump rules cache    Currently running daemon will"
-    echo "                      print cached rules to stdout."
-    echo "  dump rules parsed   Generate and print rules cache to stdout."
-    echo "  dump types parsed   Generate and print types cache to stdout."
+    echo "                      print cached rules to stdout"
+    echo "  dump rules parsed   Generate and print rules cache to stdout"
+    echo "  dump types parsed   Generate and print types cache to stdout"
 }
 
 main_process(){
@@ -325,7 +326,7 @@ case $1 in
         check_bins
         INFO "Start main process"
         RUN_FREQ=${RUN_FREQ:-15}
-        while sleep $RUN_FREQ; do
+        while sleep $RUN_FREQ && [ -d "$WORK_DIR" ]; do
             main_process;
         done
         exit 0
@@ -333,6 +334,7 @@ case $1 in
     stop)
         check_root_rights
         rm -rf "$WORK_DIR"
+        exit 0
     ;;
     dump)
         case "$2" in
