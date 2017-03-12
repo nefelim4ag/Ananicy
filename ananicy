@@ -139,14 +139,14 @@ echo "---"
 
 ################################################################################
 # Show cached information
-show_cached_rules(){
+show_rules(){
     INFO "Print compiled rules"
-    sed 's#NAME=#\nNAME=#g' RULE_CACHE/* | sort | column -t
+    sort RULE_CACHE/* | column -t
 }
 
-show_cached_types(){
+show_types(){
     INFO "Print compiled types"
-    sed 's#TYPE=#\nTYPE=#g' TYPES_CACHE/* | sort | column -t
+    sort TYPES_CACHE/* | column -t
 }
 
 ################################################################################
@@ -251,10 +251,10 @@ check_bins(){
 
 show_help(){
     echo "Usage: ananicy [options]"
-    echo "  start               Run script"
-    echo "  stop                Stop script"
-    echo "  dump rules parsed   Generate and print rules cache to stdout"
-    echo "  dump types parsed   Generate and print types cache to stdout"
+    echo "  start         Run script"
+    echo "  stop          Stop script"
+    echo "  dump rules    Generate and print rules cache to stdout"
+    echo "  dump types    Generate and print types cache to stdout"
 }
 
 main_process(){
@@ -296,8 +296,8 @@ case $1 in
     ;;
     dump)
         case "$2" in
-            rules) show_cached_rules;;
-            types) show_cached_types;;
+            rules) show_rules;;
+            types) show_types;;
         esac
     ;;
     *) show_help ;;
