@@ -43,7 +43,7 @@ done
 
 rm_w "$TMP"
 
-mkdir -p "RULE_CACHE_TMP"
+mkdir -p "RULES_CACHE_TMP"
 
 TMP="$(mktemp)"
 
@@ -63,20 +63,20 @@ while read -r config; do
         [ -z "$NAME" ] && \
             ERRO "$config:$line_number NAME are empty!"
         if [ -z "$TYPE" ]; then
-            echo "$LINE" > "RULE_CACHE_TMP/$NAME"
+            echo "$LINE" > "RULES_CACHE_TMP/$NAME"
         else
-            echo "$LINE $(cat TYPES_CACHE/$TYPE)" > "RULE_CACHE_TMP/$NAME"
+            echo "$LINE $(cat TYPES_CACHE/$TYPE)" > "RULES_CACHE_TMP/$NAME"
         fi
     done
 done
-[ "3" == "$(ls -al RULE_CACHE_TMP/ | wc -l)" ] && ERRO "Config dir: $DIR_CONFIGS are empty!"
+[ "3" == "$(ls -al RULES_CACHE_TMP/ | wc -l)" ] && ERRO "Config dir: $DIR_CONFIGS are empty!"
 
 rm_w "$TMP"
 
 ## Compile rules
 INFO "Compile rules to cache"
-mkdir -p "RULE_CACHE"
-for file in RULE_CACHE_TMP/*; do
+mkdir -p "RULES_CACHE"
+for file in RULES_CACHE_TMP/*; do
     unset NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
     DO_SOMETHING=0
     source "$file"
@@ -127,28 +127,26 @@ for file in RULE_CACHE_TMP/*; do
         DO_SOMETHING=1
     }
 
-    [ "$DO_SOMETHING" != "0" ] && mv "$file" "RULE_CACHE/$NAME"
+    [ "$DO_SOMETHING" != "0" ] && mv "$file" "RULES_CACHE/$NAME"
 done
 
-rm -rf RULE_CACHE_TMP
+rm -rf RULES_CACHE_TMP
 
-[ "3" == "$(ls -al RULE_CACHE/ | wc -l)" ] && ERRO "No rule is enabled!"
+[ "3" == "$(ls -al RULES_CACHE/ | wc -l)" ] && ERRO "No rule is enabled!"
 
 INFO "Initialization completed"
 echo "---"
 
-################################################################################
-# Show cached information
+## Show cached information
 show_rules(){
     INFO "Print compiled rules"
-    sort RULE_CACHE/* | column -t
+    sort RULES_CACHE/* | column -t
 }
 
 show_types(){
     INFO "Print compiled types"
     sort TYPES_CACHE/* | column -t
 }
-
 ## Helper for renice_w()
 nice_of_pid(){
     # 19 column in stat is a nice
@@ -259,7 +257,7 @@ case $1 in
         RUN_FREQ=${RUN_FREQ:-15}
         while sleep $RUN_FREQ; do
             [ ! -d "$WORK_DIR" ] && break
-            for FILE in RULE_CACHE/*; do
+            for FILE in RULES_CACHE/*; do
                 [ ! -f "$FILE" ] && continue
                 unset  NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
                 export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
