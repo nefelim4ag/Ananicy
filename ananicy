@@ -15,6 +15,8 @@ DIR_CONFIGS=/etc/ananicy.d/
 INFO "Check $DIR_CONFIGS dir"
 [ -d "$DIR_CONFIGS" ] || ERRO "Config dir $DIR_CONFIGS doesn't exist!"
 
+TMP="$(mktemp)"
+
 WORK_DIR=/run/ananicy/
 mkdir -p "$WORK_DIR"
 cd "$WORK_DIR" || exit 1
@@ -22,67 +24,54 @@ cd "$WORK_DIR" || exit 1
 mkdir -p "TYPES_CACHE"
 
 ## Dedup/Save Types
-INFO "Read types to buffer"
-## Load all types of programms
-INFO "Search types"
+INFO "Read types"
 find -P $DIR_CONFIGS -name "*.types" -type f | \
 while read -r config; do
     line_number=0
     # remove comments       | remove unsafe symbols
+    INFO "Parse $config"
     cut -d'#' -f1 "$config" | tr -d '`$)(' | \
     while read -r LINE; do
         line_number=$(($line_number+1))
         [ -z "$LINE" ] && continue
-        for COLUMN in $LINE; do
-            case "$COLUMN" in
-                TYPE=*)
-                    TYPE="${COLUMN//TYPE=/}"
-                    [ -z "$TYPE" ] && \
-                        ERRO "$config:$line_number TYPE are empty!"
-                    echo "$LINE" > "TYPES_CACHE/$TYPE"
-                ;;
-            esac
-        done
+        echo "$LINE" > "$TMP"
+        source "$TMP"
+        [ -z "$TYPE" ] && ERRO "$config:$line_number TYPE are empty!"
+        echo "$LINE" > "TYPES_CACHE/$TYPE"
     done
 done
 
+rm_w "$TMP"
+
 mkdir -p "RULE_CACHE_TMP"
 
-## Load all rule file names
-INFO "Search rules"
+TMP="$(mktemp)"
 
 ## Dedup rules
-INFO "Read rules to buffer"
+INFO "Read rules"
 find -P $DIR_CONFIGS -name "*.rules" -type f | \
 while read -r config; do
     line_number=0
+    INFO "Parse $config"
     # remove comments       | remove unsafe symbols
     cut -d'#' -f1 "$config" | tr -d '`$)(' | \
     while read -r LINE; do
         line_number=$(($line_number+1))
         [ -z "$LINE" ] && continue
-        NAME="" TYPE=""
-        for COLUMN in $LINE; do
-            case "$COLUMN" in
-                NAME=*)
-                    NAME="${COLUMN//NAME=/}"
-                    [ -z "$NAME" ] && \
-                        ERRO "$config:$line_number NAME are empty!"
-                    echo "$LINE" > "RULE_CACHE_TMP/$NAME"
-                ;;
-            esac
-            case "$COLUMN" in
-                *TYPE=*)
-                    TYPE="${COLUMN//TYPE=/}"
-                    # Inject TYPE data if available
-                    LINE="${LINE//TYPE=$TYPE/}"
-                    echo "$LINE $(cat TYPES_CACHE/$TYPE)" > "RULE_CACHE_TMP/$NAME"
-                ;;
-            esac
-        done
+        echo "$LINE" > "$TMP"
+        source "$TMP"
+        [ -z "$NAME" ] && \
+            ERRO "$config:$line_number NAME are empty!"
+        if [ -z "$TYPE" ]; then
+            echo "$LINE" > "RULE_CACHE_TMP/$NAME"
+        else
+            echo "$LINE $(cat TYPES_CACHE/$TYPE)" > "RULE_CACHE_TMP/$NAME"
+        fi
     done
 done
 [ "3" == "$(ls -al RULE_CACHE_TMP/ | wc -l)" ] && ERRO "Config dir: $DIR_CONFIGS are empty!"
+
+rm_w "$TMP"
 
 unset CONFIGS TYPES_CACHE
 
