@@ -7,7 +7,7 @@
 # Define some fuctions
 INFO(){ echo -n "INFO: "; echo "$@" ;}
 WARN(){ echo -n "WARN: "; echo "$@" ;}
-ERRO(){ echo -n "ERRO: "; echo -n "$@" ; echo " Abort!"; exit 1;}
+ERRO(){ echo -n "ERRO: "; echo "$@" ; exit 1;}
 rm_w(){ [ -f "$1" ] && rm "$1"; }
 ################################################################################
 # Check DIR_CONFIGS
@@ -15,30 +15,21 @@ DIR_CONFIGS=/etc/ananicy.d/
 INFO "Check $DIR_CONFIGS dir"
 [ -d "$DIR_CONFIGS" ] || ERRO "Config dir $DIR_CONFIGS doesn't exist!"
 
-################################################################################
-# Load all rule file names
-INFO "Search rules"
-CONFIGS=( $(find -P $DIR_CONFIGS -name "*.rules" -type f) )
-[ "0" != "${#CONFIGS[@]}" ] || ERRO "Config dir: $DIR_CONFIGS are empty!"
-
-################################################################################
-# Load all types of programms
-INFO "Search types"
-TYPE_FILES=( $(find -P $DIR_CONFIGS -name "*.types" -type f) )
-
-TMP="$(mktemp -t .ananicy_XXX)"
-
 WORK_DIR=/run/ananicy/
 mkdir -p "$WORK_DIR"
-cd "$WORK_DIR" || exit 1s
+cd "$WORK_DIR" || exit 1
+
+mkdir -p "TYPES_CACHE"
 
 ## Dedup/Save Types
-declare -A TYPES_CACHE
 INFO "Read types to buffer"
-for config in "${TYPE_FILES[@]}"; do
+## Load all types of programms
+INFO "Search types"
+find -P $DIR_CONFIGS -name "*.types" -type f | \
+while read -r config; do
     line_number=0
     # remove comments       | remove unsafe symbols
-    cut -d'#' -f1 "$config" | tr -d '`$)(' > "$TMP"
+    cut -d'#' -f1 "$config" | tr -d '`$)(' | \
     while read -r LINE; do
         line_number=$(($line_number+1))
         [ -z "$LINE" ] && continue
@@ -48,20 +39,22 @@ for config in "${TYPE_FILES[@]}"; do
                     TYPE="${COLUMN//TYPE=/}"
                     [ -z "$TYPE" ] && \
                         ERRO "$config:$line_number TYPE are empty!"
-                    TYPES_CACHE["$TYPE"]="$LINE"
+                    echo "$LINE" > "TYPES_CACHE/$TYPE"
                 ;;
             esac
         done
-    done < "$TMP"
+    done
 done
-
-unset TYPE_FILES
 
 mkdir -p "RULE_CACHE_TMP"
 
+## Load all rule file names
+INFO "Search rules"
+
 ## Dedup rules
 INFO "Read rules to buffer"
-for config in "${CONFIGS[@]}"; do
+find -P $DIR_CONFIGS -name "*.rules" -type f | \
+while read -r config; do
     line_number=0
     # remove comments       | remove unsafe symbols
     cut -d'#' -f1 "$config" | tr -d '`$)(' | \
@@ -83,16 +76,15 @@ for config in "${CONFIGS[@]}"; do
                     TYPE="${COLUMN//TYPE=/}"
                     # Inject TYPE data if available
                     LINE="${LINE//TYPE=$TYPE/}"
-                    echo "$LINE ${TYPES_CACHE[$TYPE]}" > "RULE_CACHE_TMP/$NAME"
+                    echo "$LINE $(cat TYPES_CACHE/$TYPE)" > "RULE_CACHE_TMP/$NAME"
                 ;;
             esac
         done
     done
 done
+[ "3" == "$(ls -al RULE_CACHE_TMP/ | wc -l)" ] && ERRO "Config dir: $DIR_CONFIGS are empty!"
 
-unset CONFIGS
-
-rm_w "$TMP"
+unset CONFIGS TYPES_CACHE
 
 
 ## Compile rules
@@ -180,7 +172,7 @@ trap "{ show_cached_rules; }" SIGUSR1
 
 show_cached_types(){
     INFO "Print compiled types"
-    echo "${TYPES_CACHE[@]}" | sed 's#TYPE=#\nTYPE=#g' | sort | column -t
+    sed 's#TYPE=#\nTYPE=#g' TYPES_CACHE/* | sort | column -t
 }
 
 ################################################################################
