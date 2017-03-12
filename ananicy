@@ -73,73 +73,66 @@ done
 
 rm_w "$TMP"
 
-unset CONFIGS TYPES_CACHE
-
-
 ## Compile rules
 INFO "Compile rules to cache"
 mkdir -p "RULE_CACHE"
 for file in RULE_CACHE_TMP/*; do
-    read -r LINE < "$file"
-    # Check if line do something
-    case "$LINE" in
-        *NICE=*)    : ;;
-        *IOCLASS=*) : ;;
-        *IONICE=*)  : ;;
-        *SCHED=*)   : ;;
-        *TYPE=*)    : ;;
-        *OOM_SCORE_ADJ=*) : ;;
-        *) continue ;;
-    esac
+    unset NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
+    DO_SOMETHING=0
+    source "$file"
+    # Check if rule do something
+    [ ! -z "$NICE" ] && {
+        if [[ "$NICE" -gt 19 ]] || [[ -20 -gt "$NICE" ]]; then
+            WARN "Nice must be in range -20..19 (line ignored): $LINE"
+            continue
+        fi
+        DO_SOMETHING=1
+    }
 
-    # Check if data in line are valid
-    unset NICE IONICE IOCLASS SCHED OOM_SCORE_ADJ
-    for COLUMN in $LINE; do
-        case "$COLUMN" in
-            NICE=*)
-                NICE="${COLUMN//NICE=/}"
-                if [[ "$NICE" -gt 19 ]] || [[ -20 -gt "$NICE" ]]; then
-                    WARN "Nice must be in range -20..19 (line ignored): $LINE"
-                    unset LINE
-                fi
-            ;;
-            IONICE=*)
-                IONICE="${COLUMN//IONICE=/}"
-                [[ $IONICE =~ [0-7] ]] || {
-                    WARN "IOnice/IOprio allowed only in range 0-7 (line ignored): $LINE"
-                    unset LINE
-                }
-            ;;
-            IOCLASS=*)
-                IOCLASS="${COLUMN//IOCLASS=/}"
-                [[ $IOCLASS =~ (idle|realtime|best-effort) ]] || {
-                    WARN "IOclass (case sensitive) support only (idle|realtime|best-effort) (line ignored): $LINE"
-                    unset LINE
-                }
-            ;;
-            SCHED=*)
-                SCHED="${COLUMN//SCHED=/}"
-                [[ $SCHED =~ (batch|deadline|fifo|idle|other|rr|iso) ]] || {
-                    WARN "Sched (case sensitive) support only (batch|deadline|fifo|idle|other|rr|iso) (line ignored): $LINE"
-                    unset LINE
-                }
-            ;;
-            OOM_SCORE_ADJ=*)
-                OOM_SCORE_ADJ="${COLUMN//OOM_SCORE_ADJ=/}"
-                if [[ "$OOM_SCORE_ADJ" -gt 1000 ]] || [[ -1000 -gt "$OOM_SCORE_ADJ" ]]; then
-                    WARN "OOM_SCORE_ADJ must be in range -1000..1000 (line ignored): $LINE"
-                    unset LINE
-                fi
-            ;;
-        esac
-    done
+
+    [ ! -z "$IONICE" ] && \
+    {
+        [[ $IONICE =~ [0-7] ]] || {
+            WARN "IOnice/IOprio allowed only in range 0-7 (line ignored): $LINE"
+            continue
+        }
+        DO_SOMETHING=1
+    }
+
+    [ ! -z "$IOCLASS" ] && \
+    {
+        [[ $IOCLASS =~ (idle|realtime|best-effort) ]] || {
+            WARN "IOclass (case sensitive) support only (idle|realtime|best-effort) (line ignored): $LINE"
+            continue
+        }
+        DO_SOMETHING=1
+    }
+
+    [ ! -z "$SCHED" ] && \
+    {
+        [[ $SCHED =~ (batch|deadline|fifo|idle|other|rr|iso) ]] || {
+            WARN "Sched (case sensitive) support only (batch|deadline|fifo|idle|other|rr|iso) (line ignored): $LINE"
+            continue
+        }
+        DO_SOMETHING=1
+    }
+
+    [ ! -z "$OOM_SCORE_ADJ" ] && \
+    {
+        if [[ "$OOM_SCORE_ADJ" -gt 1000 ]] || [[ -1000 -gt "$OOM_SCORE_ADJ" ]]; then
+            WARN "OOM_SCORE_ADJ must be in range -1000..1000 (line ignored): $LINE"
+            continue
+        fi
+        DO_SOMETHING=1
+    }
+
+    [ "$DO_SOMETHING" == "0" ] && continue
 
     if [ "$IOCLASS" == "idle" ] && [ ! -z $IONICE ]; then
         WARN "IOnice can't use IOclass idle + ionice/ioprio (line ignored): $LINE"
         continue
     fi
 
-    source "$file"
     echo "$LINE" > "RULE_CACHE/$NAME"
 done
 
@@ -156,8 +149,6 @@ show_cached_rules(){
     INFO "Print compiled rules"
     sed 's#NAME=#\nNAME=#g' RULE_CACHE/* | sort | column -t
 }
-
-trap "{ show_cached_rules; }" SIGUSR1
 
 show_cached_types(){
     INFO "Print compiled types"
@@ -245,12 +236,6 @@ wrapper_schedtool_policy(){
 
 check_root_rights(){ [ "$UID" == "0" ] || ERRO "Script must be runned as root!"; }
 
-main_pid_get(){
-    PIDS=( $(pgrep ananicy | grep -v $$) )
-    [ -z "${PIDS[0]}" ] && ERRO "Can't find running Ananicy"
-    echo "${PIDS[@]}"
-}
-
 check_schedulers(){
     for disk_path in /sys/class/block/*; do
         disk_name=$(basename $disk_path)
@@ -274,15 +259,14 @@ show_help(){
     echo "Usage: ananicy [options]"
     echo "  start               Run script"
     echo "  stop                Stop script"
-    echo "  dump rules cache    Currently running daemon will"
-    echo "                      print cached rules to stdout"
     echo "  dump rules parsed   Generate and print rules cache to stdout"
     echo "  dump types parsed   Generate and print types cache to stdout"
 }
 
 main_process(){
     for file in RULE_CACHE/*; do
-        NAME="" NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
+        unset NAME NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
+        [ ! -f "$file" ] && continue
         source "$file"
         NAME="${NAME//\"/}"
         for PID in $( pgrep -w "$NAME" ); do
@@ -307,38 +291,20 @@ case $1 in
         check_bins
         INFO "Start main process"
         RUN_FREQ=${RUN_FREQ:-15}
-        while sleep $RUN_FREQ && [ -d "$WORK_DIR" ]; do
+        while sleep $RUN_FREQ; do
+            [ ! -d "$WORK_DIR" ] && break
             main_process;
         done
-        exit 0
     ;;
     stop)
         check_root_rights
         rm -rf "$WORK_DIR"
-        exit 0
     ;;
     dump)
         case "$2" in
-            rules)
-                case "$3" in
-                    cache)
-                        check_root_rights
-                        for pid in $(main_pid_get); do
-                            [ -d /proc/$pid ] && \
-                                kill -s SIGUSR1 $pid
-                        done
-                        exit 0
-                    ;;
-                    parsed) kill -s SIGUSR1 $$; exit 0;;
-                esac
-            ;;
-            types)
-                case "$3" in
-                    parsed) show_cached_types; exit 0;;
-                esac
-            ;;
+            rules) show_cached_rules;;
+            types) show_cached_types;;
         esac
     ;;
+    *) show_help ;;
 esac
-
-show_help
