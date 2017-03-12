@@ -8,7 +8,7 @@
 INFO(){ echo -n "INFO: "; echo "$@" ;}
 WARN(){ echo -n "WARN: "; echo "$@" ;}
 ERRO(){ echo -n "ERRO: "; echo -n "$@" ; echo " Abort!"; exit 1;}
-
+rm_w(){ [ -f "$1" ] && rm "$1"; }
 ################################################################################
 # Check DIR_CONFIGS
 DIR_CONFIGS=/etc/ananicy.d/
@@ -28,8 +28,11 @@ TYPE_FILES=( $(find -P $DIR_CONFIGS -name "*.types" -type f) )
 
 TMP="$(mktemp -t .ananicy_XXX)"
 
-################################################################################
-# Dedup/Save Types
+WORK_DIR=/run/ananicy/
+mkdir -p "$WORK_DIR"
+cd "$WORK_DIR" || exit 1s
+
+## Dedup/Save Types
 declare -A TYPES_CACHE
 INFO "Read types to buffer"
 for config in "${TYPE_FILES[@]}"; do
@@ -52,14 +55,16 @@ for config in "${TYPE_FILES[@]}"; do
     done < "$TMP"
 done
 
-################################################################################
-# Dedup rules
-declare -A RULE_CACHE_TMP
+unset TYPE_FILES
+
+mkdir -p "RULE_CACHE_TMP"
+
+## Dedup rules
 INFO "Read rules to buffer"
 for config in "${CONFIGS[@]}"; do
     line_number=0
     # remove comments       | remove unsafe symbols
-    cut -d'#' -f1 "$config" | tr -d '`$)(' > "$TMP"
+    cut -d'#' -f1 "$config" | tr -d '`$)(' | \
     while read -r LINE; do
         line_number=$(($line_number+1))
         [ -z "$LINE" ] && continue
@@ -70,7 +75,7 @@ for config in "${CONFIGS[@]}"; do
                     NAME="${COLUMN//NAME=/}"
                     [ -z "$NAME" ] && \
                         ERRO "$config:$line_number NAME are empty!"
-                    RULE_CACHE_TMP["$NAME"]="$LINE"
+                    echo "$LINE" > "RULE_CACHE_TMP/$NAME"
                 ;;
             esac
             case "$COLUMN" in
@@ -78,23 +83,23 @@ for config in "${CONFIGS[@]}"; do
                     TYPE="${COLUMN//TYPE=/}"
                     # Inject TYPE data if available
                     LINE="${LINE//TYPE=$TYPE/}"
-                    RULE_CACHE_TMP["$NAME"]="$LINE ${TYPES_CACHE[$TYPE]}"
+                    echo "$LINE ${TYPES_CACHE[$TYPE]}" > "RULE_CACHE_TMP/$NAME"
                 ;;
             esac
         done
-    done < "$TMP"
+    done
 done
 
 unset CONFIGS
 
-[ -f "$TMP" ] && rm "$TMP"
+rm_w "$TMP"
 
 
-################################################################################
-# Compile rules
+## Compile rules
 INFO "Compile rules to cache"
-RULE_CACHE=()
-for LINE in "${RULE_CACHE_TMP[@]}"; do
+mkdir -p "RULE_CACHE"
+for file in RULE_CACHE_TMP/*; do
+    read -r LINE < "$file"
     # Check if line do something
     case "$LINE" in
         *NICE=*)    : ;;
@@ -153,11 +158,13 @@ for LINE in "${RULE_CACHE_TMP[@]}"; do
         continue
     fi
 
-    RULE_CACHE=( "${RULE_CACHE[@]}" "$LINE" )
+    source "$file"
+    echo "$LINE" > "RULE_CACHE/$NAME"
 done
-unset RULE_CACHE_TMP
 
-[ "0" == "${#RULE_CACHE[@]}" ] && ERRO "No rule is enabled!"
+rm -rf RULE_CACHE_TMP
+
+[ "3" == "$(ls -al RULE_CACHE/ | wc -l)" ] && ERRO "No rule is enabled!"
 
 INFO "Initialization completed"
 echo "---"
@@ -166,7 +173,7 @@ echo "---"
 # Show cached information
 show_cached_rules(){
     INFO "Print compiled rules"
-    echo "${RULE_CACHE[@]}" | sed 's#NAME=#\nNAME=#g' | sort | column -t
+    sed 's#NAME=#\nNAME=#g' RULE_CACHE/* | sort | column -t
 }
 
 trap "{ show_cached_rules; }" SIGUSR1
@@ -292,18 +299,9 @@ show_help(){
 }
 
 main_process(){
-    for LINE in "${RULE_CACHE[@]}"; do
+    for file in RULE_CACHE/*; do
         NAME="" NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
-        for COLUMN in $LINE; do
-            case "$COLUMN" in
-                NAME=*)    NAME="${COLUMN//NAME=/}"         ;;
-                NICE=*)    NICE="${COLUMN//NICE=/}"         ;;
-                IONICE=*)  IONICE="${COLUMN//IONICE=/}"     ;;
-                IOCLASS=*) IOCLASS="${COLUMN//IOCLASS=/}"   ;;
-                SCHED=*)   SCHED="${COLUMN//SCHED=/}"       ;;
-                OOM_SCORE_ADJ=*) OOM_SCORE_ADJ="${COLUMN//OOM_SCORE_ADJ=/}" ;;
-            esac
-        done
+        source "$file"
         NAME="${NAME//\"/}"
         for PID in $( pgrep -w "$NAME" ); do
             [ -z "$PID" ] && continue
@@ -331,6 +329,10 @@ case $1 in
             main_process;
         done
         exit 0
+    ;;
+    stop)
+        check_root_rights
+        rm -rf "$WORK_DIR"
     ;;
     dump)
         case "$2" in
