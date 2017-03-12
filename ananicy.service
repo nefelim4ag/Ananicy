@@ -4,7 +4,7 @@ After=local-fs.target
 
 [Service]
 ExecStart=/usr/bin/ananicy start
-ExecStop=/usr/bin/ananicy  start
+ExecStop=/usr/bin/ananicy  stop
 Nice=19
 OOMScoreAdjust=-999
 Restart=always
