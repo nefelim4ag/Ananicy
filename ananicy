@@ -83,57 +83,51 @@ for file in RULE_CACHE_TMP/*; do
     # Check if rule do something
     [ ! -z "$NICE" ] && {
         if [[ "$NICE" -gt 19 ]] || [[ -20 -gt "$NICE" ]]; then
-            WARN "Nice must be in range -20..19 (line ignored): $LINE"
+            WARN "Nice must be in range -20..19, rule ignored: $(cat "$file")"
             continue
         fi
         DO_SOMETHING=1
     }
 
 
-    [ ! -z "$IONICE" ] && \
-    {
+    [ ! -z "$IONICE" ] && {
         [[ $IONICE =~ [0-7] ]] || {
-            WARN "IOnice/IOprio allowed only in range 0-7 (line ignored): $LINE"
+            WARN "IOnice/IOprio allowed only in range 0-7, rule ignored: $(cat "$file")"
             continue
         }
         DO_SOMETHING=1
     }
 
-    [ ! -z "$IOCLASS" ] && \
-    {
+    [ ! -z "$IOCLASS" ] && {
         [[ $IOCLASS =~ (idle|realtime|best-effort) ]] || {
-            WARN "IOclass (case sensitive) support only (idle|realtime|best-effort) (line ignored): $LINE"
+            WARN "IOclass (case sensitive) support only (idle|realtime|best-effort), rule ignored: $(cat "$file")"
             continue
         }
         DO_SOMETHING=1
     }
-
-    [ ! -z "$SCHED" ] && \
-    {
-        [[ $SCHED =~ (batch|deadline|fifo|idle|other|rr|iso) ]] || {
-            WARN "Sched (case sensitive) support only (batch|deadline|fifo|idle|other|rr|iso) (line ignored): $LINE"
-            continue
-        }
-        DO_SOMETHING=1
-    }
-
-    [ ! -z "$OOM_SCORE_ADJ" ] && \
-    {
-        if [[ "$OOM_SCORE_ADJ" -gt 1000 ]] || [[ -1000 -gt "$OOM_SCORE_ADJ" ]]; then
-            WARN "OOM_SCORE_ADJ must be in range -1000..1000 (line ignored): $LINE"
-            continue
-        fi
-        DO_SOMETHING=1
-    }
-
-    [ "$DO_SOMETHING" == "0" ] && continue
 
     if [ "$IOCLASS" == "idle" ] && [ ! -z $IONICE ]; then
-        WARN "IOnice can't use IOclass idle + ionice/ioprio (line ignored): $LINE"
+        WARN "IOnice can't use IOclass idle + ionice/ioprio, rule ignored: $(cat "$file")"
         continue
     fi
 
-    echo "$LINE" > "RULE_CACHE/$NAME"
+    [ ! -z "$SCHED" ] && {
+        [[ $SCHED =~ (batch|deadline|fifo|idle|other|rr|iso) ]] || {
+            WARN "Sched (case sensitive) support only (batch|deadline|fifo|idle|other|rr|iso), rule ignored: $(cat "$file")"
+            continue
+        }
+        DO_SOMETHING=1
+    }
+
+    [ ! -z "$OOM_SCORE_ADJ" ] && {
+        if [[ "$OOM_SCORE_ADJ" -gt 1000 ]] || [[ -1000 -gt "$OOM_SCORE_ADJ" ]]; then
+            WARN "OOM_SCORE_ADJ must be in range -1000..1000, rule ignored: $(cat "$file")"
+            continue
+        fi
+        DO_SOMETHING=1
+    }
+
+    [ "$DO_SOMETHING" != "0" ] && mv "$file" "RULE_CACHE/$NAME"
 done
 
 rm -rf RULE_CACHE_TMP
