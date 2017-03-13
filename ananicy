@@ -3,14 +3,13 @@
 # Ananicy - is Another auto nice daemon, with community rules support
 # Configs are placed under /etc/ananicy.d/
 
-################################################################################
-# Define some fuctions
+## Define some fuctions
 INFO(){ echo -n "INFO: "; echo "$@" ;}
 WARN(){ echo -n "WARN: "; echo "$@" ;}
 ERRO(){ echo -n "ERRO: "; echo "$@" ; exit 1;}
 rm_w(){ [ -f "$1" ] && rm "$1"; }
-################################################################################
-# Check DIR_CONFIGS
+
+## Check DIR_CONFIGS
 DIR_CONFIGS=/etc/ananicy.d/
 INFO "Check $DIR_CONFIGS dir"
 [ -d "$DIR_CONFIGS" ] || ERRO "Config dir $DIR_CONFIGS doesn't exist!"
@@ -76,14 +75,14 @@ rm_w "$TMP"
 ## Compile rules
 INFO "Compile rules to cache"
 mkdir -p "RULES_CACHE"
-for file in RULES_CACHE_TMP/*; do
+for FILE in RULES_CACHE_TMP/*; do
     unset NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
     DO_SOMETHING=0
-    source "$file"
+    source "$FILE"
     # Check if rule do something
     [ ! -z "$NICE" ] && {
         if [[ "$NICE" -gt 19 ]] || [[ -20 -gt "$NICE" ]]; then
-            WARN "Nice must be in range -20..19, rule ignored: $(cat "$file")"
+            WARN "Nice must be in range -20..19, rule ignored: $(cat "$FILE")"
             continue
         fi
         DO_SOMETHING=1
@@ -92,7 +91,7 @@ for file in RULES_CACHE_TMP/*; do
 
     [ ! -z "$IONICE" ] && {
         [[ $IONICE =~ [0-7] ]] || {
-            WARN "IOnice/IOprio allowed only in range 0-7, rule ignored: $(cat "$file")"
+            WARN "IOnice/IOprio allowed only in range 0-7, rule ignored: $(cat "$FILE")"
             continue
         }
         DO_SOMETHING=1
@@ -100,20 +99,20 @@ for file in RULES_CACHE_TMP/*; do
 
     [ ! -z "$IOCLASS" ] && {
         [[ $IOCLASS =~ (idle|realtime|best-effort) ]] || {
-            WARN "IOclass (case sensitive) support only (idle|realtime|best-effort), rule ignored: $(cat "$file")"
+            WARN "IOclass (case sensitive) support only (idle|realtime|best-effort), rule ignored: $(cat "$FILE")"
             continue
         }
         DO_SOMETHING=1
     }
 
     if [ "$IOCLASS" == "idle" ] && [ ! -z $IONICE ]; then
-        WARN "IOnice can't use IOclass idle + ionice/ioprio, rule ignored: $(cat "$file")"
+        WARN "IOnice can't use IOclass idle + ionice/ioprio, rule ignored: $(cat "$FILE")"
         continue
     fi
 
     [ ! -z "$SCHED" ] && {
         [[ $SCHED =~ (batch|deadline|fifo|idle|other|rr|iso) ]] || {
-            WARN "Sched (case sensitive) support only (batch|deadline|fifo|idle|other|rr|iso), rule ignored: $(cat "$file")"
+            WARN "Sched (case sensitive) support only (batch|deadline|fifo|idle|other|rr|iso), rule ignored: $(cat "$FILE")"
             continue
         }
         DO_SOMETHING=1
@@ -121,13 +120,13 @@ for file in RULES_CACHE_TMP/*; do
 
     [ ! -z "$OOM_SCORE_ADJ" ] && {
         if [[ "$OOM_SCORE_ADJ" -gt 1000 ]] || [[ -1000 -gt "$OOM_SCORE_ADJ" ]]; then
-            WARN "OOM_SCORE_ADJ must be in range -1000..1000, rule ignored: $(cat "$file")"
+            WARN "OOM_SCORE_ADJ must be in range -1000..1000, rule ignored: $(cat "$FILE")"
             continue
         fi
         DO_SOMETHING=1
     }
 
-    [ "$DO_SOMETHING" != "0" ] && mv "$file" "RULES_CACHE/$NAME"
+    [ "$DO_SOMETHING" != "0" ] && mv "$FILE" "RULES_CACHE/$NAME"
 done
 
 rm -rf RULES_CACHE_TMP
