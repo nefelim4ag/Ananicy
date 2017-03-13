@@ -262,7 +262,7 @@ case $1 in
                 export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
                 source "$FILE"
                 NAME="${NAME//\"/}"
-                for PID in $( pgrep -w "$NAME" ); do
+                for PID in $( pgrep -f -w "$NAME" ); do
                     [ -z "$PID" ] && return
                     [ ! -d "/proc/$PID"     ] && return
                     [ ! -z "$NICE"          ] && renice_w

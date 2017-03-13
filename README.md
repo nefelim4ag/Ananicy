@@ -54,7 +54,7 @@ NAME=<process_name> NICE=cpu_nice SCHED=cpu_sched IOCLASS=io_class IONICE=io_nic
 
 All fields except NAME are optional.
 
-NAME used for pgrep -w, so you can test your rules manually.
+NAME used for pgrep -f -w, so you can test your rules manually.
 
 Example configurations:
 ```
