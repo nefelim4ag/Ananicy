@@ -7,13 +7,13 @@ install:
 	mkdir -p							$(PREFIX)/etc/ananicy.d/
 	rsync -a		./ananicy.d/		$(PREFIX)/etc/ananicy.d/
 	install -Dm755	./ananicy			$(PREFIX)/usr/bin/ananicy
-	install -Dm644	./ananicy.service	$(PREFIX)/usr/lib/systemd/system/ananicy.service
+	install -Dm644	./ananicy.service	$(PREFIX)/lib/systemd/system/ananicy.service
 
 uninstall: ## Delete ananicy
 uninstall:
 	rm -rfv	$(PREFIX)/etc/ananicy.d/
 	rm -v	$(PREFIX)/usr/bin/ananicy
-	rm -v	$(PREFIX)/usr/lib/systemd/system/ananicy.service
+	rm -v	$(PREFIX)/lib/systemd/system/ananicy.service
 
 deb: ## Create debian package
 deb:
