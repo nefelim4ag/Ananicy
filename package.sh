@@ -11,7 +11,7 @@ debian_package(){
     [ -z "$VERSION" ] && ERRO "Can't get git tag, VERSION are empty!"
     DEB_NAME=ananicy-${VERSION}_any
     mkdir -p $DEB_NAME
-    make PREFIX=$DEB_NAME/
+    make install PREFIX=$DEB_NAME/
     mkdir -p $DEB_NAME/DEBIAN/
     {
         echo "Package: ananicy"
