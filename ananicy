@@ -264,7 +264,7 @@ case $1 in
                 NAME="${NAME//\"/}"
                 for PID in $( pgrep -f -w "$NAME" ); do
                     [ -z "$PID" ] && return
-                    [ ! -d "/proc/$PID"     ] && return
+                    [ ! -d "/proc/$PID"     ] && continue
                     [ ! -z "$NICE"          ] && renice_w
                     [ ! -z "$IOCLASS"       ] && ionice_class_w
                     [ ! -z "$IONICE"        ] && ionice_w
