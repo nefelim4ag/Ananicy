@@ -15,6 +15,7 @@ MemoryMax=64M
 ProtectSystem=true
 ProtectHome=true
 PrivateTmp=yes
+TimeoutSec=5
 
 [Install]
 WantedBy=local-fs.target
