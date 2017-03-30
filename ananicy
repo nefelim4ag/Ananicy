@@ -20,6 +20,9 @@ WORK_DIR=/run/ananicy/
 mkdir -p "$WORK_DIR"
 cd "$WORK_DIR" || exit 1
 
+force_exit(){ [ -d "$WORK_DIR" ] && rm -rf "$WORK_DIR"; }
+trap force_exit SIGINT SIGTERM EXIT
+
 mkdir -p "TYPES_CACHE"
 
 ## Dedup/Save Types
@@ -273,10 +276,6 @@ case $1 in
                 done
             done
         done
-    ;;
-    stop)
-        check_root_rights
-        rm -rf "$WORK_DIR"
     ;;
     dump)
         case "$2" in

@@ -4,7 +4,6 @@ After=local-fs.target
 
 [Service]
 ExecStart=/usr/bin/ananicy start
-ExecStop=/usr/bin/ananicy  stop
 Nice=19
 OOMScoreAdjust=-999
 Restart=always
@@ -15,7 +14,7 @@ MemoryMax=64M
 ProtectSystem=true
 ProtectHome=true
 PrivateTmp=yes
-TimeoutSec=5
+TimeoutSec=10
 
 [Install]
 WantedBy=local-fs.target
