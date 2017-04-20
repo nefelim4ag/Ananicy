@@ -4,9 +4,20 @@
 # Configs are placed under /etc/ananicy.d/
 
 ## Define some fuctions
-INFO(){ echo -n "INFO: "; echo "$@" ;}
-WARN(){ echo -n "WARN: "; echo "$@" ;}
-ERRO(){ echo -n "ERRO: "; echo "$@" ; exit 1;}
+YN(){
+    case "$1" in
+        Yes|Y|1|true) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+INFO_ENABLED=true
+WARN_ENABLED=true
+ERRO_ENABLED=true
+
+INFO(){ YN $INFO_ENABLED || return; echo -n "INFO: "; echo "$@" ;}
+WARN(){ YN $WARN_ENABLED || return; echo -n "WARN: "; echo "$@" ;}
+ERRO(){ YN $ERRO_ENABLED || exit 1; echo -n "ERRO: "; echo "$@" ; exit 1;}
 rm_w(){ [ -f "$1" ] && rm "$1"; }
 
 ## Check DIR_CONFIGS
@@ -165,6 +176,7 @@ renice_w(){
     [ -z "$C_NICE" ] && return
     [ "$C_NICE" == "$NICE" ] && return
     renice -n $NICE -p $PID &> /dev/null || return
+    INFO_ENABLED="$INFO_MSG_NICE_ENABLED"
     INFO "Process ${NAME}[$PID] cpu nice: $C_NICE -> $NICE"
 }
 
@@ -178,6 +190,7 @@ ionice_w(){
     [ -z "$C_IONICE" ] && return
     [ "$C_IONICE" == "$IONICE" ] && return
     ionice -n "$IONICE" -p "$PID" &> /dev/null || return
+    INFO_ENABLED="$INFO_MSG_IONICE_ENABLED"
     INFO "Process ${NAME}[$PID] ionice: $C_IONICE -> $IONICE"
 }
 
@@ -186,6 +199,7 @@ ionice_class_w(){
     [ -z "$C_IOCLASS" ] && return
     [[ "$C_IOCLASS" =~ $IOCLASS ]] && return
     ionice -c "$IOCLASS" -p "$PID" &> /dev/null || return
+    INFO_ENABLED="$INFO_MSG_IOCLASS_ENABLED"
     INFO "Process ${NAME}[$PID] ioclass: $C_IOCLASS -> $IOCLASS"
 }
 
@@ -194,6 +208,7 @@ oom_score_adj_w(){
     [ -z "$C_OOM_SCORE_ADJ" ] && return
     [[ "$C_OOM_SCORE_ADJ" == "$OOM_SCORE_ADJ" ]] && return
     echo $OOM_SCORE_ADJ > /proc/$PID/oom_score_adj || return
+    INFO_ENABLED="$INFO_MSG_OOM_SCORE_ADJ_ENABLED"
     INFO "Process ${NAME}[$PID] ioclass: $C_OOM_SCORE_ADJ -> $OOM_SCORE_ADJ"
 }
 
@@ -218,6 +233,7 @@ schedtool_policy_w(){
     [[ "$SCHED" =~ idle ]] && SCHEDARGUMENT="-D"
 
     schedtool $SCHEDARGUMENT -p $L_PRIO $PID &> /dev/null || return
+    INFO_ENABLED="$INFO_MSG_SCHED_ENABLED"
     INFO "Process ${NAME}[$PID] sched: $C_SCHED -> $SCHED"
 }
 
@@ -248,6 +264,16 @@ show_help(){
     echo "  dump rules    Generate and print rules cache to stdout"
     echo "  dump types    Generate and print types cache to stdout"
 }
+
+## Load general config
+INFO_MSG_NICE_ENABLED=true
+INFO_MSG_IOCLASS_ENABLED=true
+INFO_MSG_IONICE_ENABLED=true
+INFO_MSG_SCHED_ENABLED=true
+INFO_MSG_OOM_SCORE_ADJ_ENABLED=true
+
+CONF="/etc/ananicy.d/ananicy.conf"
+[ -f "$CONF" ] && source "$CONF"
 
 ## Main process
 case $1 in
