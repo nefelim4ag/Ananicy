@@ -282,8 +282,8 @@ case $1 in
         check_schedulers
         check_bins
         INFO "Start main process"
-        RUN_FREQ=${RUN_FREQ:-15}
-        while sleep $RUN_FREQ; do
+        CHECK_FREQ=${CHECK_FREQ:-15}
+        while sleep $CHECK_FREQ; do
             [ ! -d "$WORK_DIR" ] && break
             for FILE in RULES_CACHE/*; do
                 [ ! -f "$FILE" ] && continue
@@ -303,6 +303,7 @@ case $1 in
             done
         done
     ;;
+    stop) force_exit ;;
     dump)
         case "$2" in
             rules) show_rules;;
