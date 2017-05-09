@@ -283,24 +283,26 @@ case $1 in
         check_bins
         INFO "Start main process"
         CHECK_FREQ=${CHECK_FREQ:-0.2s}
-        for RULE in RULES_CACHE/*; do
-            [ ! -d "$WORK_DIR" ] && break
-            [ ! -f "$RULE" ] && continue
-            unset  NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
-            export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
-            source "$RULE"
-            NAME="${NAME//\"/}"
-            for PID in $( pgrep -f -w "$NAME" ); do
-                [ -z "$PID" ] && return
-                [ ! -d "/proc/$PID"     ] && continue
-                [ ! -z "$NICE"          ] && renice_w
-                [ ! -z "$IOCLASS"       ] && ionice_class_w
-                [ ! -z "$IONICE"        ] && ionice_w
-                [ ! -z "$SCHED"         ] && schedtool_policy_w
-                [ ! -z "$OOM_SCORE_ADJ" ] && oom_score_adj_w
+        while [ -d "$WORK_DIR" ]; do
+            for RULE in RULES_CACHE/*; do
+                [ ! -d "$WORK_DIR" ] && break
+                [ ! -f "$RULE" ] && continue
+                unset  NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
+                export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
+                source "$RULE"
+                NAME="${NAME//\"/}"
+                for PID in $( pgrep -f -w "$NAME" ); do
+                    [ -z "$PID" ] && return
+                    [ ! -d "/proc/$PID"     ] && continue
+                    [ ! -z "$NICE"          ] && renice_w
+                    [ ! -z "$IOCLASS"       ] && ionice_class_w
+                    [ ! -z "$IONICE"        ] && ionice_w
+                    [ ! -z "$SCHED"         ] && schedtool_policy_w
+                    [ ! -z "$OOM_SCORE_ADJ" ] && oom_score_adj_w
+                done
+                # Pause before processing next rule
+                sleep $CHECK_FREQ
             done
-            # Pause before processing next rule
-            sleep $CHECK_FREQ
         done
     ;;
     stop) force_exit ;;
