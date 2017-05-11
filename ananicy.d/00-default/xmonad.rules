@@ -1,4 +1,4 @@
 # http://xmonad.org
 # http://projects.haskell.org/xmobar/
 NAME=xmobar                 TYPE=LowLatency_RT
-NAME=xmonad-x86_64-linux    NICE=-5
+NAME=xmonad-x86_64-linux    TYPE=LowLatency_RT
