@@ -288,6 +288,7 @@ case $1 in
         load_rules
         compile_rules
         INFO "Initialization completed"
+        systemd-notify --ready
         INFO "Start main process"
         CHECK_FREQ=${CHECK_FREQ:-0.2s}
         while [ -d "$WORK_DIR" ]; do
