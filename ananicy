@@ -261,6 +261,7 @@ show_help(){
     echo "Usage: ananicy [options]"
     echo "  start         Run script"
     echo "  stop          Stop script"
+    echo "  reload        Recompile rule cache"
     echo "  dump rules    Generate and print rules cache to stdout"
     echo "  dump types    Generate and print types cache to stdout"
 }
@@ -312,6 +313,16 @@ case $1 in
         done
     ;;
     stop) force_exit ;;
+    reload)
+        check_root_rights
+        check_schedulers
+        check_bins
+        check_config_dir
+        load_types
+        load_rules
+        compile_rules
+        force_exit(){ :; }
+    ;;
     dump)
         case "$2" in
             rules) show_rules;;
