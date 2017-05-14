@@ -15,150 +15,157 @@ INFO_ENABLED=true
 WARN_ENABLED=true
 ERRO_ENABLED=true
 
+TMP="$(mktemp -u)"
+
 INFO(){ YN $INFO_ENABLED || return; echo -n "INFO: "; echo "$@" ;}
 WARN(){ YN $WARN_ENABLED || return; echo -n "WARN: "; echo "$@" ;}
 ERRO(){ YN $ERRO_ENABLED || exit 1; echo -n "ERRO: "; echo "$@" ; exit 1;}
-rm_w(){ [ -f "$1" ] && rm "$1"; }
 
-## Check DIR_CONFIGS
-DIR_CONFIGS=/etc/ananicy.d/
-INFO "Check $DIR_CONFIGS dir"
-[ -d "$DIR_CONFIGS" ] || ERRO "Config dir $DIR_CONFIGS doesn't exist!"
+check_config_dir(){
+    ## Check DIR_CONFIGS
+    DIR_CONFIGS=/etc/ananicy.d/
+    INFO "Check $DIR_CONFIGS dir"
+    [ -d "$DIR_CONFIGS" ] || ERRO "Config dir $DIR_CONFIGS doesn't exist!"
 
-TMP="$(mktemp)"
-
-WORK_DIR=/run/ananicy/
-mkdir -p "$WORK_DIR"
-cd "$WORK_DIR" || exit 1
+    WORK_DIR=/run/ananicy/
+    mkdir -p "$WORK_DIR"
+    cd "$WORK_DIR" || exit 1
+}
 
 force_exit(){ [ -d "$WORK_DIR" ] && rm -rf "$WORK_DIR"; }
 trap force_exit SIGINT SIGTERM EXIT
 
-mkdir -p "TYPES_CACHE"
-
 ## Dedup/Save Types
-INFO "Read types"
-find -P $DIR_CONFIGS -name "*.types" -type f | \
-while read -r config; do
-    line_number=0
-    # remove comments       | remove unsafe symbols
-    INFO "Parse $config"
-    cut -d'#' -f1 "$config" | tr -d '`$)(' | \
-    while read -r LINE; do
-        line_number=$(($line_number+1))
-        [ -z "$LINE" ] && continue
-        echo "$LINE" > "$TMP"
-        source "$TMP"
-        [ -z "$TYPE" ] && ERRO "$config:$line_number TYPE are empty!"
-        echo "$LINE" > "TYPES_CACHE/$TYPE"
+load_types(){
+    mkdir -p "TYPES_CACHE"
+
+    INFO "Read types"
+    find -P $DIR_CONFIGS -name "*.types" -type f | \
+    while read -r config; do
+        line_number=0
+        INFO_ENABLED=$INFO_MSG_PARSE_ENABLED
+        INFO "Parse $config"
+        # remove comments       | remove unsafe symbols
+        cut -d'#' -f1 "$config" | tr -d '`$)(' | \
+        while read -r LINE; do
+            line_number=$(($line_number+1))
+            [ -z "$LINE" ] && continue
+            echo "$LINE" > "$TMP"
+            source "$TMP"
+            [ -z "$TYPE" ] && ERRO "$config:$line_number TYPE are empty!"
+            echo "$LINE" > "TYPES_CACHE/${TYPE}.type"
+        done
     done
-done
+}
 
-rm_w "$TMP"
+load_rules(){
+    mkdir -p "RULES_CACHE_TMP"
 
-mkdir -p "RULES_CACHE_TMP"
-
-TMP="$(mktemp)"
-
-## Dedup rules
-INFO "Read rules"
-find -P $DIR_CONFIGS -name "*.rules" -type f | \
-while read -r config; do
-    line_number=0
-    INFO "Parse $config"
-    # remove comments       | remove unsafe symbols
-    cut -d'#' -f1 "$config" | tr -d '`$)(' | \
-    while read -r LINE; do
-        line_number=$(($line_number+1))
-        [ -z "$LINE" ] && continue
-        echo "$LINE" > "$TMP"
-        source "$TMP"
-        [ -z "$NAME" ] && \
-            ERRO "$config:$line_number NAME are empty!"
-        if [ -z "$TYPE" ]; then
-            echo "$LINE" > "RULES_CACHE_TMP/$NAME"
-        else
-            echo "$LINE $(cat TYPES_CACHE/$TYPE)" > "RULES_CACHE_TMP/$NAME"
-        fi
+    ## Dedup rules
+    INFO "Read rules"
+    find -P $DIR_CONFIGS -name "*.rules" -type f | \
+    while read -r config; do
+        line_number=0
+        INFO_ENABLED=$INFO_MSG_PARSE_ENABLED
+        INFO "Parse $config"
+        # remove comments       | remove unsafe symbols
+        cut -d'#' -f1 "$config" | tr -d '`$)(' | \
+        while read -r LINE; do
+            line_number=$(($line_number+1))
+            [ -z "$LINE" ] && continue
+            echo "$LINE" > "$TMP"
+            source "$TMP"
+            [ -z "$NAME" ] && \
+                ERRO "$config:$line_number NAME are empty!"
+            if [ -z "$TYPE" ]; then
+                echo "$LINE" > "RULES_CACHE_TMP/${NAME}.rule"
+            else
+                echo "$LINE $(cat TYPES_CACHE/${TYPE}.type)" > "RULES_CACHE_TMP/${NAME}.rule"
+            fi
+        done
     done
-done
-[ "3" == "$(ls -al RULES_CACHE_TMP/ | wc -l)" ] && ERRO "Config dir: $DIR_CONFIGS are empty!"
 
-rm_w "$TMP"
+    INFO "Cleanup types cache"
+    rm -rf TYPES_CACHE
 
-## Compile rules
-INFO "Compile rules to cache"
-mkdir -p "RULES_CACHE"
-for FILE in RULES_CACHE_TMP/*; do
-    unset NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
-    DO_SOMETHING=0
-    source "$FILE"
-    # Check if rule do something
-    [ ! -z "$NICE" ] && {
-        if [[ "$NICE" -gt 19 ]] || [[ -20 -gt "$NICE" ]]; then
-            WARN "Nice must be in range -20..19, rule ignored: $(cat "$FILE")"
+    [ "1" == "$(ls -l RULES_CACHE_TMP/ | wc -l)" ] && ERRO "Config dir: $DIR_CONFIGS are empty!"
+}
+
+compile_rules(){
+    ## Compile rules
+    INFO "Compile rules to cache"
+    mkdir -p "RULES_CACHE"
+    for FILE in RULES_CACHE_TMP/*.rule; do
+        unset NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
+        DO_SOMETHING=0
+        source "$FILE"
+        # Check if rule do something
+        [ ! -z "$NICE" ] && {
+            if [[ "$NICE" -gt 19 ]] || [[ -20 -gt "$NICE" ]]; then
+                WARN "Nice must be in range -20..19, rule ignored: $(cat "$FILE")"
+                continue
+            fi
+            DO_SOMETHING=1
+        }
+
+
+        [ ! -z "$IONICE" ] && {
+            [[ $IONICE =~ [0-7] ]] || {
+                WARN "IOnice/IOprio allowed only in range 0-7, rule ignored: $(cat "$FILE")"
+                continue
+            }
+            DO_SOMETHING=1
+        }
+
+        [ ! -z "$IOCLASS" ] && {
+            [[ $IOCLASS =~ (idle|realtime|best-effort) ]] || {
+                WARN "IOclass (case sensitive) support only (idle|realtime|best-effort), rule ignored: $(cat "$FILE")"
+                continue
+            }
+            DO_SOMETHING=1
+        }
+
+        if [ "$IOCLASS" == "idle" ] && [ ! -z $IONICE ]; then
+            WARN "IOnice can't use IOclass idle + ionice/ioprio, rule ignored: $(cat "$FILE")"
             continue
         fi
-        DO_SOMETHING=1
-    }
 
-
-    [ ! -z "$IONICE" ] && {
-        [[ $IONICE =~ [0-7] ]] || {
-            WARN "IOnice/IOprio allowed only in range 0-7, rule ignored: $(cat "$FILE")"
-            continue
+        [ ! -z "$SCHED" ] && {
+            [[ $SCHED =~ (batch|deadline|fifo|idle|other|rr|iso) ]] || {
+                WARN "Sched (case sensitive) support only (batch|deadline|fifo|idle|other|rr|iso), rule ignored: $(cat "$FILE")"
+                continue
+            }
+            DO_SOMETHING=1
         }
-        DO_SOMETHING=1
-    }
 
-    [ ! -z "$IOCLASS" ] && {
-        [[ $IOCLASS =~ (idle|realtime|best-effort) ]] || {
-            WARN "IOclass (case sensitive) support only (idle|realtime|best-effort), rule ignored: $(cat "$FILE")"
-            continue
+        [ ! -z "$OOM_SCORE_ADJ" ] && {
+            if [[ "$OOM_SCORE_ADJ" -gt 1000 ]] || [[ -1000 -gt "$OOM_SCORE_ADJ" ]]; then
+                WARN "OOM_SCORE_ADJ must be in range -1000..1000, rule ignored: $(cat "$FILE")"
+                continue
+            fi
+            DO_SOMETHING=1
         }
-        DO_SOMETHING=1
-    }
 
-    if [ "$IOCLASS" == "idle" ] && [ ! -z $IONICE ]; then
-        WARN "IOnice can't use IOclass idle + ionice/ioprio, rule ignored: $(cat "$FILE")"
-        continue
-    fi
+        [ "$DO_SOMETHING" != "0" ] && mv "$FILE" "RULES_CACHE/${NAME}.rule"
+    done
 
-    [ ! -z "$SCHED" ] && {
-        [[ $SCHED =~ (batch|deadline|fifo|idle|other|rr|iso) ]] || {
-            WARN "Sched (case sensitive) support only (batch|deadline|fifo|idle|other|rr|iso), rule ignored: $(cat "$FILE")"
-            continue
-        }
-        DO_SOMETHING=1
-    }
+    rm -rf RULES_CACHE_TMP "$TMP"
 
-    [ ! -z "$OOM_SCORE_ADJ" ] && {
-        if [[ "$OOM_SCORE_ADJ" -gt 1000 ]] || [[ -1000 -gt "$OOM_SCORE_ADJ" ]]; then
-            WARN "OOM_SCORE_ADJ must be in range -1000..1000, rule ignored: $(cat "$FILE")"
-            continue
-        fi
-        DO_SOMETHING=1
-    }
-
-    [ "$DO_SOMETHING" != "0" ] && mv "$FILE" "RULES_CACHE/$NAME"
-done
-
-rm -rf RULES_CACHE_TMP
-
-[ "3" == "$(ls -al RULES_CACHE/ | wc -l)" ] && ERRO "No rule is enabled!"
-
-INFO "Initialization completed"
-echo "---"
+    [ "1" == "$(ls -l RULES_CACHE/ | wc -l)" ] && ERRO "No rule is enabled!"
+}
 
 ## Show cached information
 show_rules(){
     INFO "Print compiled rules"
-    sort RULES_CACHE/* | column -t
+    sort RULES_CACHE/*.rule | column -t
 }
 
 show_types(){
+    load_types
     INFO "Print compiled types"
-    sort TYPES_CACHE/* | column -t
+    sort TYPES_CACHE/*.type | column -t
+    INFO "Cleanup types cache"
+    rm -rf
 }
 ## Helper for renice_w()
 nice_of_pid(){
@@ -261,11 +268,13 @@ show_help(){
     echo "Usage: ananicy [options]"
     echo "  start         Run script"
     echo "  stop          Stop script"
+    echo "  reload        Recompile rule cache"
     echo "  dump rules    Generate and print rules cache to stdout"
     echo "  dump types    Generate and print types cache to stdout"
 }
 
 ## Load general config
+INFO_MSG_PARSE_ENABLED=true
 INFO_MSG_NICE_ENABLED=true
 INFO_MSG_IOCLASS_ENABLED=true
 INFO_MSG_IONICE_ENABLED=true
@@ -281,14 +290,20 @@ case $1 in
         check_root_rights
         check_schedulers
         check_bins
+        check_config_dir
+        load_types
+        load_rules
+        compile_rules
+        INFO "Initialization completed"
+        systemd-notify --ready
         INFO "Start main process"
         CHECK_FREQ=${CHECK_FREQ:-0.2s}
+        export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
         while [ -d "$WORK_DIR" ]; do
-            for RULE in RULES_CACHE/*; do
+            for RULE in RULES_CACHE/*.rule; do
                 [ ! -d "$WORK_DIR" ] && break
                 [ ! -f "$RULE" ] && continue
-                unset  NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
-                export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
+                NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
                 source "$RULE"
                 NAME="${NAME//\"/}"
                 for PID in $( pgrep -f -w "$NAME" ); do
@@ -306,11 +321,27 @@ case $1 in
         done
     ;;
     stop) force_exit ;;
+    reload)
+        check_root_rights
+        check_schedulers
+        check_bins
+        check_config_dir
+        load_types
+        load_rules
+        compile_rules
+        force_exit(){ :; }
+    ;;
     dump)
+        check_config_dir
         case "$2" in
             rules) show_rules;;
             types) show_types;;
         esac
+        force_exit(){ :; }
     ;;
-    *) show_help ;;
+    *)
+        show_help
+        # Dont remove rules
+        force_exit(){ :; }
+    ;;
 esac

@@ -3,18 +3,18 @@ Description=Ananicy - ANother Auto NICe daemon
 After=local-fs.target
 
 [Service]
+Type=notify
 ExecStart=/usr/bin/ananicy start
+ExecReload=/usr/bin/ananicy reload
 Nice=19
 OOMScoreAdjust=-999
 Restart=always
 CPUAccounting=true
-CPUQuota=5%
 MemoryHigh=16M
 MemoryMax=64M
 ProtectSystem=true
 ProtectHome=true
 PrivateTmp=yes
-TimeoutSec=10
 
 [Install]
 WantedBy=local-fs.target
