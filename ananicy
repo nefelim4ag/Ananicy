@@ -84,6 +84,10 @@ load_rules(){
             fi
         done
     done
+
+    INFO "Cleanup types cache"
+    rm -rf TYPES_CACHE
+
     [ "1" == "$(ls -l RULES_CACHE_TMP/ | wc -l)" ] && ERRO "Config dir: $DIR_CONFIGS are empty!"
 }
 
@@ -157,8 +161,11 @@ show_rules(){
 }
 
 show_types(){
+    load_types
     INFO "Print compiled types"
     sort TYPES_CACHE/*.type | column -t
+    INFO "Cleanup types cache"
+    rm -rf
 }
 ## Helper for renice_w()
 nice_of_pid(){
