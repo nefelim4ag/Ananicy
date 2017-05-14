@@ -291,12 +291,12 @@ case $1 in
         systemd-notify --ready
         INFO "Start main process"
         CHECK_FREQ=${CHECK_FREQ:-0.2s}
+        export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
         while [ -d "$WORK_DIR" ]; do
             for RULE in RULES_CACHE/*; do
                 [ ! -d "$WORK_DIR" ] && break
                 [ ! -f "$RULE" ] && continue
-                unset  NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
-                export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
+                NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
                 source "$RULE"
                 NAME="${NAME//\"/}"
                 for PID in $( pgrep -f -w "$NAME" ); do
