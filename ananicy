@@ -325,6 +325,7 @@ case $1 in
         force_exit(){ :; }
     ;;
     dump)
+        check_config_dir
         case "$2" in
             rules) show_rules;;
             types) show_types;;
