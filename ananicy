@@ -53,7 +53,7 @@ load_types(){
             echo "$LINE" > "$TMP"
             source "$TMP"
             [ -z "$TYPE" ] && ERRO "$config:$line_number TYPE are empty!"
-            echo "$LINE" > "TYPES_CACHE/$TYPE"
+            echo "$LINE" > "TYPES_CACHE/${TYPE}.type"
         done
     done
 }
@@ -78,9 +78,9 @@ load_rules(){
             [ -z "$NAME" ] && \
                 ERRO "$config:$line_number NAME are empty!"
             if [ -z "$TYPE" ]; then
-                echo "$LINE" > "RULES_CACHE_TMP/$NAME"
+                echo "$LINE" > "RULES_CACHE_TMP/${NAME}.rule"
             else
-                echo "$LINE $(cat TYPES_CACHE/$TYPE)" > "RULES_CACHE_TMP/$NAME"
+                echo "$LINE $(cat TYPES_CACHE/${TYPE}.type)" > "RULES_CACHE_TMP/${NAME}.rule"
             fi
         done
     done
@@ -91,7 +91,7 @@ compile_rules(){
     ## Compile rules
     INFO "Compile rules to cache"
     mkdir -p "RULES_CACHE"
-    for FILE in RULES_CACHE_TMP/*; do
+    for FILE in RULES_CACHE_TMP/*.rule; do
         unset NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
         DO_SOMETHING=0
         source "$FILE"
@@ -142,7 +142,7 @@ compile_rules(){
             DO_SOMETHING=1
         }
 
-        [ "$DO_SOMETHING" != "0" ] && mv "$FILE" "RULES_CACHE/$NAME"
+        [ "$DO_SOMETHING" != "0" ] && mv "$FILE" "RULES_CACHE/${NAME}.rule"
     done
 
     rm -rf RULES_CACHE_TMP "$TMP"
@@ -153,12 +153,12 @@ compile_rules(){
 ## Show cached information
 show_rules(){
     INFO "Print compiled rules"
-    sort RULES_CACHE/* | column -t
+    sort RULES_CACHE/*.rule | column -t
 }
 
 show_types(){
     INFO "Print compiled types"
-    sort TYPES_CACHE/* | column -t
+    sort TYPES_CACHE/*.type | column -t
 }
 ## Helper for renice_w()
 nice_of_pid(){
@@ -293,7 +293,7 @@ case $1 in
         CHECK_FREQ=${CHECK_FREQ:-0.2s}
         export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
         while [ -d "$WORK_DIR" ]; do
-            for RULE in RULES_CACHE/*; do
+            for RULE in RULES_CACHE/*.rule; do
                 [ ! -d "$WORK_DIR" ] && break
                 [ ! -f "$RULE" ] && continue
                 NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
@@ -330,6 +330,7 @@ case $1 in
             rules) show_rules;;
             types) show_types;;
         esac
+        force_exit(){ :; }
     ;;
     *)
         show_help
