@@ -1,11 +1,11 @@
 # Type: Game
 # Use more CPU time if possible
-# Games not always need more IO, but in most cases can be hungry to CPU
+# Games do not always need more IO, but in most cases can be hungry for CPU
 TYPE=GAME           NICE=-5
 
 # Type: PLAYER AUDIO/VIDEO
-# Try add more CPU power for decrease latency/lags
-# Try add real time io for avoiding lags
+# Try to add more CPU power to decrease latency/lags
+# Try to add real time io for avoiding lags
 TYPE=PLAYER_AUDIO   NICE=-3 IOCLASS=realtime
 TYPE=PLAYER_VIDEO   NICE=-3 IOCLASS=realtime
 
@@ -14,15 +14,15 @@ TYPE=IMAGE_VIEW     NICE=-3
 TYPE=DOC_VIEW       NICE=-3
 
 # Type: Low Latency Realtime Apps
-# In general case not so havy, but must don't lags
+# In general case not so heavy, but must not lag
 TYPE=LowLatency_RT  NICE=-10 IOCLASS=realtime
 
 # Type: BackGround CPU/IO Load
-# Background CPU/IO it's needed, but it's must be silent as possible
+# Background CPU/IO it's needed, but it must be as silent as possible
 TYPE=BG_CPUIO       NICE=19 IOCLASS=idle SCHED=idle
 
 # Type: Heavy CPU Load
-# It's must work fast enough but must not create so many noise
+# It must work fast enough but must not create so much noise
 TYPE=HEAVY_CPU      NICE=19 IOCLASS=best-effort IONICE=7
 
 # Type: Chat
