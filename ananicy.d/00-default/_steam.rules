@@ -6,7 +6,7 @@ NAME=dota2           TYPE=GAME       # http://store.steampowered.com/app/570
 NAME=hl2_linux       TYPE=GAME       # http://store.steampowered.com/app/440
 NAME=ns2_linux32     TYPE=GAME       # http://store.steampowered.com/app/4920/Natural_Selection_2/
 
-NAME=PA              TYPE=GAME       # http://store.steampowered.com/app/233250
+NAME='.*/PA .*'      TYPE=GAME       # http://store.steampowered.com/app/233250
 NAME=CoherentUI_Host TYPE=GAME       # PA UI
 
 NAME=Sam3            TYPE=GAME       # http://store.steampowered.com/app/41070
