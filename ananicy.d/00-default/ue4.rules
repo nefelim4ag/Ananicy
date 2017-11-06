@@ -1,0 +1,5 @@
+# unreal engine 4: https://www.unrealengine.com
+NAME=UE4Editor TYPE=BG_CPUIO
+NAME=ShaderCompileWorker TYPE=BG_CPUIO
+NAME=UnrealLightmass TYPE=BG_CPUIO
+NAME=UnrealPak TYPE=BG_CPUIO
