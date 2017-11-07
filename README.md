@@ -25,7 +25,7 @@ Read more about semantic versioning [here](http://semver.org/)
 ## Installation
 To use ananicy you must have systemd installed.
 
-You can install ananicy manualy by:
+You can install ananicy manually by:
 ```
 $ git clone https://github.com/Nefelim4ag/Ananicy.git /tmp/ananicy
 $ cd /tmp/ananicy
