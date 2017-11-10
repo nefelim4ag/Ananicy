@@ -249,7 +249,7 @@ check_root_rights(){ [ "$UID" == "0" ] || ERRO "Script must be runned as root!";
 check_schedulers(){
     for disk_path in /sys/class/block/*; do
         disk_name=$(basename $disk_path)
-        [[ "$disk_name" =~ (loop|ram) ]] && continue
+        [[ "$disk_name" =~ (loop|ram|sr) ]] && continue
         scheduler_path="$disk_path/queue/scheduler"
         [ ! -f $scheduler_path ] && continue
         grep -q '\[cfq\]\|\[bfq\]' $scheduler_path || \
