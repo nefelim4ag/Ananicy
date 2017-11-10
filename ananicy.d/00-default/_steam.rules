@@ -1,5 +1,8 @@
 ################################################################################
 # Rules for Steam and Steam Apps: http://store.steampowered.com
+NAME=steam           TYPE=BG_CPUIO   # Steam client
+NAME=steamwebhelper  TYPE=BG_CPUIO   # Steam integrated web browser
+
 NAME=csgo_linux      TYPE=GAME       # http://store.steampowered.com/app/413850
 NAME=cure_linux      TYPE=GAME       # http://store.steampowered.com/app/355180
 NAME=dota2           TYPE=GAME       # http://store.steampowered.com/app/570

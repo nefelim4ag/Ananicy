@@ -5,4 +5,7 @@ NAME=baloo_file     TYPE=BG_CPUIO
 
 NAME=krunner        TYPE=LowLatency_RT
 NAME=kwin_x11       TYPE=LowLatency_RT
+NAME=kwin_wayland   TYPE=LowLatency_RT
 NAME=plasmashell    NICE=-1
+
+NAME=kdeconnectd    TYPE=BG_CPUIO
