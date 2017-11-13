@@ -17,9 +17,9 @@ ERRO_ENABLED=true
 
 TMP="$(mktemp -u)"
 
-INFO(){ YN $INFO_ENABLED || return; echo -n "INFO: "; echo "$@" ;}
-WARN(){ YN $WARN_ENABLED || return; echo -n "WARN: "; echo "$@" ;}
-ERRO(){ YN $ERRO_ENABLED || exit 1; echo -n "ERRO: "; echo "$@" ; exit 1;}
+INFO(){ YN $INFO_ENABLED || return; echo "INFO: $*";}
+WARN(){ YN $WARN_ENABLED || return; echo "WARN: $*";}
+ERRO(){ YN $ERRO_ENABLED || exit 1; echo "ERRO: $*"; exit 1;}
 
 check_config_dir(){
     ## Check DIR_CONFIGS
