@@ -20,4 +20,4 @@ NAME=ss2013.bin      TYPE=GAME       # http://store.steampowered.com/app/233720
 NAME=SaintsRow4.i386 TYPE=GAME       # http://store.steampowered.com/app/206420
 NAME=TombRaider      TYPE=GAME       # http://store.steampowered.com/app/203160
 
-NAME=Robocraft.x86_64 TYPE=GAME      # http://store.steampowered.com/app/301520
+NAME='.*/Robocraft.x86_64' TYPE=GAME      # http://store.steampowered.com/app/301520
