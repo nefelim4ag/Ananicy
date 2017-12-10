@@ -11,9 +11,9 @@ YN(){
     esac
 }
 
-INFO_ENABLED=true
-WARN_ENABLED=true
-ERRO_ENABLED=true
+export INFO_ENABLED=true
+export WARN_ENABLED=true
+export ERRO_ENABLED=true
 
 TMP="$(mktemp -u)"
 
@@ -21,13 +21,13 @@ INFO(){ YN $INFO_ENABLED || return; echo "INFO: $*";}
 WARN(){ YN $WARN_ENABLED || return; echo "WARN: $*";}
 ERRO(){ YN $ERRO_ENABLED || exit 1; echo "ERRO: $*"; exit 1;}
 
+export WORK_DIR=/run/ananicy/
+export DIR_CONFIGS=/etc/ananicy.d/
+
 check_config_dir(){
-    ## Check DIR_CONFIGS
-    DIR_CONFIGS=/etc/ananicy.d/
     INFO "Check $DIR_CONFIGS dir"
     [ -d "$DIR_CONFIGS" ] || ERRO "Config dir $DIR_CONFIGS doesn't exist!"
 
-    WORK_DIR=/run/ananicy/
     mkdir -p "$WORK_DIR"
     cd "$WORK_DIR" || exit 1
 }
@@ -158,10 +158,15 @@ compile_rules(){
     [ "1" == "$(ls -l RULES_CACHE/ | wc -l)" ] && ERRO "No rule is enabled!"
 }
 
+split_rules(){
+        mv RULES_CACHE RULES_CACHE_OFTEN
+        mkdir -p RULES_CACHE_RARE
+}
+
 ## Show cached information
 show_rules(){
     INFO "Print compiled rules"
-    sort RULES_CACHE/*.rule | column -t
+    grep . -R RULES_CACHE_*/*.rule | sort | column -t
 }
 
 show_types(){
@@ -169,7 +174,7 @@ show_types(){
     INFO "Print compiled types"
     sort TYPES_CACHE/*.type | column -t
     INFO "Cleanup types cache"
-    rm -rf
+    rm -rf TYPES_CACHE
 }
 ## Helper for renice_w()
 nice_of_pid(){
@@ -177,7 +182,10 @@ nice_of_pid(){
     # But in some cases (name of process have a spaces)
     # It's break so.. use long solution
     [ -f /proc/$1/stat ] || return 1
-    stat=( $(sed 's/) . /:/g' /proc/$1/stat 2> /dev/null | cut -d':' -f2) )
+    read -r LINE < /proc/$1/stat
+    stat=(
+        $(echo $LINE | sed -e 's/) . /:/g' | cut -d':' -f2)
+    )
     echo ${stat[15]}
 }
 
@@ -298,20 +306,23 @@ case $1 in
         load_types
         load_rules
         compile_rules
+        split_rules
         INFO "Initialization completed"
         systemd-notify --ready
         INFO "Start main process"
         CHECK_FREQ=${CHECK_FREQ:-0.2s}
         export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
+        # Thread with frequently matched rules
         while [ -d "$WORK_DIR" ]; do
-            for RULE in RULES_CACHE/*.rule; do
+            for RULE in RULES_CACHE_OFTEN/*.rule; do
                 [ ! -d "$WORK_DIR" ] && break
                 [ ! -f "$RULE" ] && continue
                 NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
                 source "$RULE"
                 NAME="${NAME//\"/}"
-                for PID in $( pgrep -f -w "$NAME" ); do
-                    [ -z "$PID" ] && return
+                PIDS=( $( pgrep -f -w "$NAME" ) )
+                for PID in "${PIDS[@]}"; do
+                    [ -z "$PID" ] && break
                     [ ! -d "/proc/$PID"     ] && continue
                     [ ! -z "$NICE"          ] && renice_w
                     [ ! -z "$IOCLASS"       ] && ionice_class_w
@@ -319,10 +330,48 @@ case $1 in
                     [ ! -z "$SCHED"         ] && schedtool_policy_w
                     [ ! -z "$OOM_SCORE_ADJ" ] && oom_score_adj_w
                 done
+                if ((${#PIDS[@]} == 0)); then
+                        mv $RULE RULES_CACHE_RARE/
+                        continue
+                fi
                 # Pause before processing next rule
                 sleep $CHECK_FREQ
             done
-        done
+            sleep $CHECK_FREQ
+        done &
+        # Thread with rarely matched rules
+        while [ -d "$WORK_DIR" ]; do
+            for RULE in RULES_CACHE_RARE/*.rule; do
+                [ ! -d "$WORK_DIR" ] && break
+                [ ! -f "$RULE" ] && continue
+                NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
+                source "$RULE"
+                NAME="${NAME//\"/}"
+                PIDS=( $( pgrep -f -w "$NAME" ) )
+                for PID in "${PIDS[@]}"; do
+                    [ -z "$PID" ] && break
+                    [ ! -d "/proc/$PID"     ] && continue
+                    [ ! -z "$NICE"          ] && renice_w
+                    [ ! -z "$IOCLASS"       ] && ionice_class_w
+                    [ ! -z "$IONICE"        ] && ionice_w
+                    [ ! -z "$SCHED"         ] && schedtool_policy_w
+                    [ ! -z "$OOM_SCORE_ADJ" ] && oom_score_adj_w
+                done
+                if ((${#PIDS[@]} > 0)); then
+                        mv $RULE RULES_CACHE_OFTEN/
+                        continue
+                fi
+                # Pause before processing next rule
+                sleep $CHECK_FREQ
+                sleep $CHECK_FREQ
+                sleep $CHECK_FREQ
+                sleep $CHECK_FREQ
+                sleep $CHECK_FREQ
+            done
+            sleep $CHECK_FREQ
+            sleep $CHECK_FREQ
+        done &
+        wait
     ;;
     stop) force_exit ;;
     reload)
@@ -333,6 +382,7 @@ case $1 in
         load_types
         load_rules
         compile_rules
+        split_rules
         force_exit(){ :; }
     ;;
     dump)
