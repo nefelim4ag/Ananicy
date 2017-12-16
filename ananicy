@@ -293,6 +293,8 @@ INFO_MSG_IONICE_ENABLED=true
 INFO_MSG_SCHED_ENABLED=true
 INFO_MSG_OOM_SCORE_ADJ_ENABLED=true
 
+export PGREP_ARGS="-f -w"
+
 CONF="/etc/ananicy.d/ananicy.conf"
 [ -f "$CONF" ] && source "$CONF"
 
@@ -318,9 +320,12 @@ case $1 in
                 [ ! -d "$WORK_DIR" ] && break
                 [ ! -f "$RULE" ] && continue
                 NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
+                PGREP_ARGS="-f -w"
                 source "$RULE"
                 NAME="${NAME//\"/}"
-                PIDS=( $( pgrep -f -w "$NAME" ) )
+                PIDS=(
+                        $( pgrep $PGREP_ARGS "$NAME" )
+                )
                 for PID in "${PIDS[@]}"; do
                     [ -z "$PID" ] && break
                     [ ! -d "/proc/$PID"     ] && continue
@@ -338,6 +343,7 @@ case $1 in
                 sleep $CHECK_FREQ
             done
             sleep $CHECK_FREQ
+            sleep $CHECK_FREQ
         done &
         # Thread with rarely matched rules
         while [ -d "$WORK_DIR" ]; do
@@ -345,9 +351,12 @@ case $1 in
                 [ ! -d "$WORK_DIR" ] && break
                 [ ! -f "$RULE" ] && continue
                 NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
+                PGREP_ARGS="-f -w"
                 source "$RULE"
                 NAME="${NAME//\"/}"
-                PIDS=( $( pgrep -f -w "$NAME" ) )
+                PIDS=(
+                        $( pgrep $PGREP_ARGS "$NAME" )
+                )
                 for PID in "${PIDS[@]}"; do
                     [ -z "$PID" ] && break
                     [ ! -d "/proc/$PID"     ] && continue
