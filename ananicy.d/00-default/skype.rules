@@ -1,2 +1,2 @@
 # Skype: https://www.skype.com
-NAME=skypeforlinux TYPE=CHAT
+NAME=skypeforlinux TYPE=CHAT PGREP_ARGS="-xw"

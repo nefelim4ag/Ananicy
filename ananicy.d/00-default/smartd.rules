@@ -1,2 +1,2 @@
 # https://www.smartmontools.org/
-NAME=smartd TYPE=BG_CPUIO
+NAME=smartd TYPE=BG_CPUIO PGREP_ARGS="-xw"
