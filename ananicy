@@ -264,7 +264,7 @@ check_schedulers(){
         [[ "$disk_name" =~ (loop|ram|sr) ]] && continue
         scheduler_path="$disk_path/queue/scheduler"
         [ ! -f $scheduler_path ] && continue
-        grep -q '\[cfq\]\|\[bfq\]' $scheduler_path || \
+        grep -q '\[cfq\]\|\[bfq\]\|\[bfq-mq\]' $scheduler_path || \
             WARN "Disk $disk_name not used cfq/bfq scheduler IOCLASS/IONICE will not work on it!"
     done
 }
