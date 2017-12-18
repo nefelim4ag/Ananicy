@@ -18,6 +18,6 @@ NAME=aces            TYPE=GAME       # http://store.steampowered.com/app/236390
 NAME=RocketLeague    TYPE=GAME       # http://store.steampowered.com/app/252950
 NAME=ss2013.bin      TYPE=GAME       # http://store.steampowered.com/app/233720
 NAME=SaintsRow4.i386 TYPE=GAME       # http://store.steampowered.com/app/206420
-NAME=TombRaider      TYPE=GAME       # http://store.steampowered.com/app/203160
+NAME=TombRaider      TYPE=GAME PGREP_ARGS="-xw" # http://store.steampowered.com/app/203160
 
 NAME='.*/Robocraft.x86_64' TYPE=GAME      # http://store.steampowered.com/app/301520
