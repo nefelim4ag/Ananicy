@@ -1,11 +1,11 @@
 ################################################################################S
 # https://community.kde.org/Baloo
 # Baloo is the file indexing and file search framework for KDE.
-NAME=baloo_file     TYPE=BG_CPUIO
+NAME=baloo_file     TYPE=BG_CPUIO      PGREP_ARGS="-xw"
 
-NAME=krunner        TYPE=LowLatency_RT
-NAME=kwin_x11       TYPE=LowLatency_RT
+NAME=krunner        TYPE=LowLatency_RT PGREP_ARGS="-xw"
+NAME=kwin_x11       TYPE=LowLatency_RT PGREP_ARGS="-xw"
 NAME=kwin_wayland   TYPE=LowLatency_RT
-NAME=plasmashell    NICE=-1
+NAME=plasmashell    NICE=-1            PGREP_ARGS="-xw"
 
-NAME=kdeconnectd    TYPE=BG_CPUIO
+NAME=kdeconnectd    TYPE=BG_CPUIO      PGREP_ARGS="-xw"
