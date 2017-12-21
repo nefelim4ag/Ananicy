@@ -1,2 +1,2 @@
 # http://meldmerge.org
-NAME=meld TYPE=BG_CPUIO
+NAME=meld TYPE=BG_CPUIO PGREP_ARGS='-wx'
