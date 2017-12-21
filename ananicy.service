@@ -7,6 +7,7 @@ Type=notify
 ExecStart=/usr/bin/ananicy start
 ExecReload=/usr/bin/ananicy reload
 Nice=19
+SuccessExitStatus=143
 OOMScoreAdjust=-999
 Restart=always
 CPUAccounting=true
