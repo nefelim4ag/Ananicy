@@ -14,7 +14,9 @@ NAME=CoherentUI_Host TYPE=GAME       # PA UI
 
 NAME=Sam3            TYPE=GAME       # http://store.steampowered.com/app/41070
 NAME=StarConflict    TYPE=GAME       # http://store.steampowered.com/app/212070
-NAME=aces            TYPE=GAME       # http://store.steampowered.com/app/236390
+NAME='/aces'         TYPE=GAME       # http://store.steampowered.com/app/236390
+NAME='^aces$'        TYPE=GAME
+NAME='^ aces .*'     TYPE=GAME
 NAME=RocketLeague    TYPE=GAME       # http://store.steampowered.com/app/252950
 NAME=ss2013.bin      TYPE=GAME       # http://store.steampowered.com/app/233720
 NAME=SaintsRow4.i386 TYPE=GAME       # http://store.steampowered.com/app/206420
