@@ -18,9 +18,9 @@ NAME=hl2_linux       TYPE=GAME
 NAME=ns2_linux       TYPE=GAME
 
 # http://store.steampowered.com/app/233250
-NAME='.*/PA .*'      TYPE=GAME
+NAME=PA              TYPE=GAME PGREP_ARGS="-xw"
 # PA UI
-NAME=CoherentUI_Host TYPE=GAME
+NAME=CoherentUI_Host TYPE=GAME PGREP_ARGS="-xw"
 
 # http://store.steampowered.com/app/41070
 NAME=Sam3            TYPE=GAME
