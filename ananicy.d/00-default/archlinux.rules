@@ -1,0 +1,4 @@
+# Some rules for Arch Linux specific tools
+
+NAME=mkinitcpio TYPE=BG_CPUIO  PGREP_ARGS='-wx'
+NAME=pacman	TYPE=BG_CPUIO  PGREP_ARGS='-wx'
