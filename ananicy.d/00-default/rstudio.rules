@@ -1,0 +1,4 @@
+# rstudio itself
+NAME=rstudio  TYPE=LowLatency_RT    PGREP_ARGS='-xw'
+# its rsession
+NAME=rsession TYPE=BG_CPUIO         PGREP_ARGS='-xw'
