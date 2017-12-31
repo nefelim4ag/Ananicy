@@ -1,0 +1,3 @@
+# https://www.mozilla.org/firefox/
+NAME=firefox TYPE=DOC_VIEW PGREP_ARGS="-xw"
+NAME="Web Content" TYPE=DOC_VIEW PGREP_ARGS="-xw"
