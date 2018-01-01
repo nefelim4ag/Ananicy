@@ -1,1 +1,1 @@
-NAME=virt-manager TYPE=LowLatency_RT PGREP_ARGS='-wx'
+NAME="^[[:alnum:]/]*python. [[:alnum:]/]*virt-manager" TYPE=LowLatency_RT
