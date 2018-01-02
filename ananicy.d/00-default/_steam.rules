@@ -1,10 +1,10 @@
 ################################################################################
 # Rules for Steam and Steam Apps: http://store.steampowered.com
 # Steam client
-NAME=steam           TYPE=BG_CPUIO
+NAME=steam           TYPE=BG_CPUIO PGREP_ARGS="-xw"
 
 # Steam integrated web browser
-NAME=steamwebhelper  TYPE=BG_CPUIO
+NAME=steamwebhelper  TYPE=BG_CPUIO PGREP_ARGS="-xw"
 
 # http://store.steampowered.com/app/413850
 NAME=csgo_linux      TYPE=GAME
