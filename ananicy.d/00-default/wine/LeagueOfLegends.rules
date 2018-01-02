@@ -1,5 +1,0 @@
-# http://www.leagueoflegends.com/
-# NAME=LoLLauncher.exe	NICE=0
-# NAME=LolClient.exe	NICE=0
-# NAME=LoLPatcher.exe	NICE=0
-NAME="League of Legen"  TYPE=GAME
