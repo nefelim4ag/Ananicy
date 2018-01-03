@@ -298,6 +298,11 @@ export PGREP_ARGS="-f -w"
 CONF="/etc/ananicy.d/ananicy.conf"
 [ -f "$CONF" ] && source "$CONF"
 
+sleep_x_times(){
+        X=${1-:"1"}
+        while ((X > 0)); do sleep $CHECK_FREQ; X=$((X-1)); done
+}
+
 ## Main process
 case $1 in
     start)
@@ -340,10 +345,9 @@ case $1 in
                         continue
                 fi
                 # Pause before processing next rule
-                sleep $CHECK_FREQ
+                sleep_x_times 1
             done
-            sleep $CHECK_FREQ
-            sleep $CHECK_FREQ
+            sleep_x_times 2
         done &
         # Thread with rarely matched rules
         while [ -d "$WORK_DIR" ]; do
@@ -371,14 +375,9 @@ case $1 in
                         continue
                 fi
                 # Pause before processing next rule
-                sleep $CHECK_FREQ
-                sleep $CHECK_FREQ
-                sleep $CHECK_FREQ
-                sleep $CHECK_FREQ
-                sleep $CHECK_FREQ
+                sleep_x_times 2
             done
-            sleep $CHECK_FREQ
-            sleep $CHECK_FREQ
+            sleep_x_times 5
         done &
         wait
     ;;
