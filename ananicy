@@ -293,6 +293,12 @@ INFO_MSG_IONICE_ENABLED=true
 INFO_MSG_SCHED_ENABLED=true
 INFO_MSG_OOM_SCORE_ADJ_ENABLED=true
 
+FREQ_SCALE_OFTEN_BETWEEN_RULES=1
+FREQ_SCALE_OFTEN_BETWEEN_RUNS=2
+FREQ_SCALE_RARE_BETWEEN_RULES=2
+FREQ_SCALE_RARE_BETWEEN_RUNS=5
+
+
 export PGREP_ARGS="-f -w"
 
 CONF="/etc/ananicy.d/ananicy.conf"
@@ -340,14 +346,16 @@ case $1 in
                     [ ! -z "$SCHED"         ] && schedtool_policy_w
                     [ ! -z "$OOM_SCORE_ADJ" ] && oom_score_adj_w
                 done
-                if ((${#PIDS[@]} == 0)); then
-                        mv $RULE RULES_CACHE_RARE/
-                        continue
-                fi
+                ((${#PIDS[@]} > 0)) && touch $RULE
                 # Pause before processing next rule
-                sleep_x_times 1
+                sleep_x_times $FREQ_SCALE_OFTEN_BETWEEN_RULES
             done
-            sleep_x_times 2
+            find RULES_CACHE_OFTEN -type f -cmin +5 | \
+                while read -r rarerule; do
+                        [ ! -f "$rarerule" ] && continue
+                        mv $rarerule RULES_CACHE_RARE/
+                done
+            sleep_x_times $FREQ_SCALE_OFTEN_BETWEEN_RUNS
         done &
         # Thread with rarely matched rules
         while [ -d "$WORK_DIR" ]; do
@@ -370,14 +378,11 @@ case $1 in
                     [ ! -z "$SCHED"         ] && schedtool_policy_w
                     [ ! -z "$OOM_SCORE_ADJ" ] && oom_score_adj_w
                 done
-                if ((${#PIDS[@]} > 0)); then
-                        mv $RULE RULES_CACHE_OFTEN/
-                        continue
-                fi
+                ((${#PIDS[@]} > 0)) && mv $RULE RULES_CACHE_OFTEN/
                 # Pause before processing next rule
-                sleep_x_times 2
+                sleep_x_times $FREQ_SCALE_RARE_BETWEEN_RULES
             done
-            sleep_x_times 5
+            sleep_x_times $FREQ_SCALE_RARE_BETWEEN_RUNS
         done &
         wait
     ;;
