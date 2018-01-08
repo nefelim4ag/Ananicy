@@ -228,7 +228,7 @@ oom_score_adj_w(){
     [[ "$C_OOM_SCORE_ADJ" == "$OOM_SCORE_ADJ" ]] && return
     echo $OOM_SCORE_ADJ > /proc/$PID/oom_score_adj || return
     INFO_ENABLED="$INFO_MSG_OOM_SCORE_ADJ_ENABLED"
-    INFO "Process ${NAME}[$PID] ioclass: $C_OOM_SCORE_ADJ -> $OOM_SCORE_ADJ"
+    INFO "Process ${NAME}[$PID] oom_score: $C_OOM_SCORE_ADJ -> $OOM_SCORE_ADJ"
 }
 
 schedtool_policy_of_pid(){ schedtool $1 2> /dev/null | grep POLICY | cut -d ':' -f3 | cut -d ' ' -f2 | tr -d ' '; }
