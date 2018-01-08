@@ -228,7 +228,7 @@ oom_score_adj_w(){
     [[ "$C_OOM_SCORE_ADJ" == "$OOM_SCORE_ADJ" ]] && return
     echo $OOM_SCORE_ADJ > /proc/$PID/oom_score_adj || return
     INFO_ENABLED="$INFO_MSG_OOM_SCORE_ADJ_ENABLED"
-    INFO "Process ${NAME}[$PID] ioclass: $C_OOM_SCORE_ADJ -> $OOM_SCORE_ADJ"
+    INFO "Process ${NAME}[$PID] oom_score: $C_OOM_SCORE_ADJ -> $OOM_SCORE_ADJ"
 }
 
 schedtool_policy_of_pid(){ schedtool $1 2> /dev/null | grep POLICY | cut -d ':' -f3 | cut -d ' ' -f2 | tr -d ' '; }
@@ -293,14 +293,84 @@ INFO_MSG_IONICE_ENABLED=true
 INFO_MSG_SCHED_ENABLED=true
 INFO_MSG_OOM_SCORE_ADJ_ENABLED=true
 
+FREQ_SCALE_OFTEN_BETWEEN_RULES=1
+FREQ_SCALE_OFTEN_BETWEEN_RUNS=2
+FREQ_SCALE_RARE_BETWEEN_RULES=2
+FREQ_SCALE_RARE_BETWEEN_RUNS=5
+
+
 export PGREP_ARGS="-f -w"
 
 CONF="/etc/ananicy.d/ananicy.conf"
 [ -f "$CONF" ] && source "$CONF"
 
+sleep_x_times(){
+        X=${1-:"1"}
+        while ((X > 0)); do sleep $CHECK_FREQ; X=$((X-1)); done
+}
+
+pgrep_w(){ pgrep $PGREP_ARGS "$@"; }
+
+do_pid_things(){
+        for PID in "$@"; do
+            [ -z "$PID" ] && break
+            [ ! -d "/proc/$PID"     ] && continue
+            [ ! -z "$NICE"          ] && renice_w
+            [ ! -z "$IOCLASS"       ] && ionice_class_w
+            [ ! -z "$IONICE"        ] && ionice_w
+            [ ! -z "$SCHED"         ] && schedtool_policy_w
+            [ ! -z "$OOM_SCORE_ADJ" ] && oom_score_adj_w
+        done
+}
+
+# Thread with frequently matched rules
+thread_often(){
+        while [ -d "$WORK_DIR" ]; do
+            for RULE in RULES_CACHE_OFTEN/*.rule; do
+                [ ! -d "$WORK_DIR" ] && break
+                [ ! -f "$RULE" ] && continue
+                NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
+                PGREP_ARGS="-f -w"
+                source "$RULE"
+                NAME="${NAME//\"/}"
+                PIDS=( $( pgrep_w "$NAME" ) )
+                do_pid_things "${PIDS[@]}"
+                ((${#PIDS[@]} > 0)) && touch $RULE
+                # Pause before processing next rule
+                sleep_x_times $FREQ_SCALE_OFTEN_BETWEEN_RULES
+            done
+            find RULES_CACHE_OFTEN -type f -cmin +5 | \
+                while read -r rarerule; do
+                        [ ! -f "$rarerule" ] && continue
+                        mv $rarerule RULES_CACHE_RARE/
+                done
+            sleep_x_times $FREQ_SCALE_OFTEN_BETWEEN_RUNS
+        done
+}
+
+# Thread with rarely matched rules
+thread_rare(){
+        while [ -d "$WORK_DIR" ]; do
+            for RULE in RULES_CACHE_RARE/*.rule; do
+                [ ! -d "$WORK_DIR" ] && break
+                [ ! -f "$RULE" ] && continue
+                NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
+                PGREP_ARGS="-f -w"
+                source "$RULE"
+                NAME="${NAME//\"/}"
+                PIDS=( $( pgrep_w "$NAME" ) )
+                do_pid_things "${PIDS[@]}"
+                ((${#PIDS[@]} > 0)) && mv $RULE RULES_CACHE_OFTEN/
+                # Pause before processing next rule
+                sleep_x_times $FREQ_SCALE_RARE_BETWEEN_RULES
+            done
+            sleep_x_times $FREQ_SCALE_RARE_BETWEEN_RUNS
+        done
+}
+
 ## Main process
 case $1 in
-    start)
+   start)
         check_root_rights
         check_schedulers
         check_bins
@@ -314,72 +384,8 @@ case $1 in
         INFO "Start main process"
         CHECK_FREQ=${CHECK_FREQ:-0.2s}
         export NAME PID NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
-        # Thread with frequently matched rules
-        while [ -d "$WORK_DIR" ]; do
-            for RULE in RULES_CACHE_OFTEN/*.rule; do
-                [ ! -d "$WORK_DIR" ] && break
-                [ ! -f "$RULE" ] && continue
-                NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
-                PGREP_ARGS="-f -w"
-                source "$RULE"
-                NAME="${NAME//\"/}"
-                PIDS=(
-                        $( pgrep $PGREP_ARGS "$NAME" )
-                )
-                for PID in "${PIDS[@]}"; do
-                    [ -z "$PID" ] && break
-                    [ ! -d "/proc/$PID"     ] && continue
-                    [ ! -z "$NICE"          ] && renice_w
-                    [ ! -z "$IOCLASS"       ] && ionice_class_w
-                    [ ! -z "$IONICE"        ] && ionice_w
-                    [ ! -z "$SCHED"         ] && schedtool_policy_w
-                    [ ! -z "$OOM_SCORE_ADJ" ] && oom_score_adj_w
-                done
-                if ((${#PIDS[@]} == 0)); then
-                        mv $RULE RULES_CACHE_RARE/
-                        continue
-                fi
-                # Pause before processing next rule
-                sleep $CHECK_FREQ
-            done
-            sleep $CHECK_FREQ
-            sleep $CHECK_FREQ
-        done &
-        # Thread with rarely matched rules
-        while [ -d "$WORK_DIR" ]; do
-            for RULE in RULES_CACHE_RARE/*.rule; do
-                [ ! -d "$WORK_DIR" ] && break
-                [ ! -f "$RULE" ] && continue
-                NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
-                PGREP_ARGS="-f -w"
-                source "$RULE"
-                NAME="${NAME//\"/}"
-                PIDS=(
-                        $( pgrep $PGREP_ARGS "$NAME" )
-                )
-                for PID in "${PIDS[@]}"; do
-                    [ -z "$PID" ] && break
-                    [ ! -d "/proc/$PID"     ] && continue
-                    [ ! -z "$NICE"          ] && renice_w
-                    [ ! -z "$IOCLASS"       ] && ionice_class_w
-                    [ ! -z "$IONICE"        ] && ionice_w
-                    [ ! -z "$SCHED"         ] && schedtool_policy_w
-                    [ ! -z "$OOM_SCORE_ADJ" ] && oom_score_adj_w
-                done
-                if ((${#PIDS[@]} > 0)); then
-                        mv $RULE RULES_CACHE_OFTEN/
-                        continue
-                fi
-                # Pause before processing next rule
-                sleep $CHECK_FREQ
-                sleep $CHECK_FREQ
-                sleep $CHECK_FREQ
-                sleep $CHECK_FREQ
-                sleep $CHECK_FREQ
-            done
-            sleep $CHECK_FREQ
-            sleep $CHECK_FREQ
-        done &
+        thread_often &
+        thread_rare &
         wait
     ;;
     stop) force_exit ;;
