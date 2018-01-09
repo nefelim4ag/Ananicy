@@ -101,6 +101,7 @@ compile_rules(){
     for FILE in RULES_CACHE_TMP/*.rule; do
         unset NICE IOCLASS IONICE SCHED OOM_SCORE_ADJ
         DO_SOMETHING=0
+        PGREP_ARGS="-wf"
         source "$FILE"
         # Check if rule do something
         [ ! -z "$NICE" ] && {
@@ -150,7 +151,9 @@ compile_rules(){
         }
 
         HASH=$(get_md5sum "${NAME}")
-        [ "$DO_SOMETHING" != "0" ] && mv "$FILE" "RULES_CACHE/${HASH}.rule"
+        if [ "$DO_SOMETHING" != "0" ]; then
+                echo "NAME=\"$NAME\";PGREP_ARGS=$PGREP_ARGS;NICE=$NICE;IOCLASS=$IOCLASS;IONICE=$IONICE;SCHED=$SCHED;OOM_SCORE_ADJ=$OOM_SCORE_ADJ;TYPE=$TYPE;" > "RULES_CACHE/${HASH}.rule"
+        fi
     done
 
     rm -rf RULES_CACHE_TMP "$TMP"
@@ -166,7 +169,7 @@ split_rules(){
 ## Show cached information
 show_rules(){
     INFO "Print compiled rules"
-    grep . -R RULES_CACHE_*/*.rule | sort | column -t
+    grep . -R RULES_CACHE_*/*.rule | sort | column -s ';' -t
 }
 
 show_types(){
@@ -299,8 +302,6 @@ FREQ_SCALE_RARE_BETWEEN_RULES=2
 FREQ_SCALE_RARE_BETWEEN_RUNS=5
 
 
-export PGREP_ARGS="-f -w"
-
 CONF="/etc/ananicy.d/ananicy.conf"
 [ -f "$CONF" ] && source "$CONF"
 
@@ -330,7 +331,6 @@ thread_often(){
                 [ ! -d "$WORK_DIR" ] && break
                 [ ! -f "$RULE" ] && continue
                 NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
-                PGREP_ARGS="-f -w"
                 source "$RULE"
                 NAME="${NAME//\"/}"
                 PIDS=( $( pgrep_w "$NAME" ) )
@@ -355,7 +355,6 @@ thread_rare(){
                 [ ! -d "$WORK_DIR" ] && break
                 [ ! -f "$RULE" ] && continue
                 NICE="" IOCLASS="" IONICE="" SCHED="" OOM_SCORE_ADJ=""
-                PGREP_ARGS="-f -w"
                 source "$RULE"
                 NAME="${NAME//\"/}"
                 PIDS=( $( pgrep_w "$NAME" ) )
