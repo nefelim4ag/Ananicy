@@ -1,0 +1,2 @@
+NAME=vmware-vmx TYPE=HEAVY_CPU
+NAME=vmware TYPE=HEAVY_CPU
