@@ -15,7 +15,7 @@ TYPE=DOC_VIEW       NICE=-3
 
 # Type: Low Latency Realtime Apps
 # In general case not so heavy, but must not lag
-TYPE=LowLatency_RT  NICE=-10 IOCLASS=realtime
+TYPE=LowLatency_RT  NICE=-15 IOCLASS=realtime
 
 # Type: BackGround CPU/IO Load
 # Background CPU/IO it's needed, but it must be as silent as possible
