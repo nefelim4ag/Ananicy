@@ -1,0 +1,1 @@
+NAME='^[[:alnum:]/]*mono.*smuxi' TYPE=CHAT PGREP_ARGS='-wx'
