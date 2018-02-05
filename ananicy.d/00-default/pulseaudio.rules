@@ -1,1 +1,1 @@
-# NAME=pulseaudio     IOCLASS=realtime
+NAME=pulseaudio	TYPE=LowLatency_RT
