@@ -16,6 +16,9 @@ MemoryMax=64M
 ProtectSystem=true
 ProtectHome=true
 PrivateTmp=yes
+CapabilityBoundingSet=CAP_SYS_NICE CAP_SYS_RESOURCE
+AmbientCapabilities=CAP_SYS_NICE CAP_SYS_RESOURCE
+NotifyAccess=all
 
 [Install]
 WantedBy=local-fs.target
