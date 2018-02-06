@@ -1,2 +1,2 @@
 # https://www.mozilla.org/en-US/thunderbird/
-NAME=thunderbird TYPE=LowLatency_RT PGREP_ARGS='-wx'
+NAME=thunderbird TYPE=CHAT PGREP_ARGS='-wx'
