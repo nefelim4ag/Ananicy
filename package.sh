@@ -1,13 +1,13 @@
 #!/bin/bash -e
 ################################################################################
 # echo wrappers
-INFO(){ echo -n "INFO: "; echo "$@" ;}
-WARN(){ echo -n "WARN: "; echo "$@" ;}
-ERRO(){ echo -n "ERRO: "; echo -n "$@" ; echo " Abort!"; exit 1;}
+INFO(){ echo "INFO: $*";}
+WARN(){ echo "WARN: $*";}
+ERRO(){ echo "ERRO: $*"; exit 1;}
 
 debian_package(){
     cd "$(dirname $0)"
-    VERSION=$(git tag | tail -n 1)
+    VERSION=$(git tag --sort version:refname | tail -n 1)
     [ -z "$VERSION" ] && ERRO "Can't get git tag, VERSION are empty!"
     DEB_NAME=ananicy-${VERSION}_any
     mkdir -p $DEB_NAME
@@ -19,6 +19,7 @@ debian_package(){
         echo "Section: custom"
         echo "Priority: optional"
         echo "Architecture: all"
+        echo "Depends: coreutils, schedtool"
         echo "Essential: no"
         echo "Installed-Size: 16"
         echo "Maintainer: nefelim4ag@gmail.com"
