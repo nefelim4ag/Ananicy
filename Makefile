@@ -15,10 +15,10 @@ A_BIN := $(PREFIX)/usr/bin/ananicy
 
 default:  help
 
-$(ANANICY_D_T_I): $(ANANICY_D_T)
+$(PREFIX)/etc/%.types: $(SRC_DIR)/%.types
 	install -Dm644 $< $@
 
-$(ANANICY_D_R_I): $(ANANICY_D_R)
+$(PREFIX)/etc/%.rules: $(SRC_DIR)/%.rules
 	install -Dm644 $< $@
 
 $(A_CONF): $(SRC_DIR)/ananicy.d/ananicy.conf
