@@ -1,0 +1,6 @@
+## Rules for Steam on Wine
+# Steam client
+NAME=Steam.exe           TYPE=BG_CPUIO PGREP_ARGS="-xw"
+
+# Steam integrated web browser
+NAME=steamwebhelper.     TYPE=BG_CPUIO PGREP_ARGS="-xw"
