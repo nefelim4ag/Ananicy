@@ -229,6 +229,10 @@ class Ananicy:
                 pid = int(proc_dir)
                 task_dirs = os.listdir("/proc/" + str(pid) + "/task/")
                 exe = os.path.realpath("/proc/" + str(pid) + "/exe")
+                with open("/proc/" + str(pid) + "/oom_score_adj") as fd:
+                    _oom_score_adj = fd.readlines()
+                    _oom_score_adj = _oom_score_adj[0]
+                    oom_score_adj = int(_oom_score_adj.rstrip())
             except ValueError:
                 continue
             except FileNotFoundError:
@@ -243,6 +247,7 @@ class Ananicy:
                 stat = ""
                 cmdline = ""
                 nice = ""
+                oom_score_adj = ""
                 try:
                     with open("/proc/" + str(pid) + "/task/" + str(tpid) + "/stat") as fd:
                         stat = fd.readlines()
@@ -263,9 +268,10 @@ class Ananicy:
                 proc[tpid] = {
                     'exe': exe,
                     'cmd': cmd,
+                    'nice': nice,
+                    'oom_score_adj': oom_score_adj,
                     'stat': stat,
                     'cmdline': cmdline,
-                    'nice': nice
                 }
         self.proc = proc
 
@@ -309,6 +315,22 @@ class Ananicy:
         except subprocess.CalledProcessError:
             return
 
+    def get_oom_score_adj(self, pid):
+        with open("/proc/" + str(pid) + "/oom_score_adj") as fd:
+            _oom_score_adj = fd.readlines()
+            _oom_score_adj = _oom_score_adj[0]
+            return int(_oom_score_adj.rstrip())
+
+    def oom_score_adj(self, proc, pid, oom_score_adj):
+        try:
+            c_oom_score_adj = self.get_oom_score_adj(pid)
+            if c_oom_score_adj != oom_score_adj:
+                file = open("/proc/" + str(pid) + "/oom_score_adj")
+                file.write(str(oom_score_adj))
+                print("Adj OOM score[" + str(pid) + "]:", proc[pid]["cmd"], c_oom_score_adj, "->", oom_score_adj)
+        except FileNotFoundError:
+            return
+
     def process_pid(self, proc, pid):
         proc_entry = proc[pid]
         cmd = proc_entry["cmd"]
@@ -323,6 +345,8 @@ class Ananicy:
             self.ioclass(proc, pid, rule["ioclass"])
         if rule.get("ionice"):
             self.ionice(proc, pid, rule["ionice"])
+        if rule.get("oom_score_adj"):
+            self.oom_score_adj(proc, pid, rule["oom_score_adj"])
 
     def processing_rules(self):
         proc = self.proc
