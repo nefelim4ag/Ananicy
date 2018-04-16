@@ -24,8 +24,9 @@ class Ananicy:
 
     proc = {}
 
-    def __init__(self, config_dir="/etc/ananicy.d/"):
-        self.__check_disks_schedulers()
+    def __init__(self, config_dir="/etc/ananicy.d/", check_sched=True):
+        if check_sched:
+            self.__check_disks_schedulers()
         self.dir_must_exits(config_dir)
         self.config_dir = config_dir
         self.load_types()
@@ -252,8 +253,9 @@ class Ananicy:
                         nice = int(nice)
 
                     with open("/proc/" + str(pid) + "/task/" + str(tpid) + "/cmdline") as fd:
-                        cmdline = fd.readlines()
-                        cmdline = stat[0].rstrip()
+                        _cmdline = fd.readlines()
+                        for i in _cmdline:
+                            cmdline += i
                 except FileNotFoundError:
                     continue
 
@@ -300,14 +302,14 @@ class Ananicy:
             sleep(1)
 
     def dump_types(self):
-        print(json.dumps(self.types, indent=4))
+        print(json.dumps(self.types, indent=4), flush=True)
 
     def dump_rules(self):
-        print(json.dumps(self.rules, indent=4))
+        print(json.dumps(self.rules, indent=4), flush=True)
 
     def dump_proc(self):
         self.update_proc_map()
-        print(json.dumps(self.proc, indent=4))
+        print(json.dumps(self.proc, indent=4), flush=True)
 
 
 def help():
@@ -331,7 +333,7 @@ def main(argv):
         daemon.run()
 
     if argv[1] == "dump":
-        daemon = Ananicy()
+        daemon = Ananicy(check_sched=False)
         if argv[2] == "rules":
             daemon.dump_rules()
         if argv[2] == "types":
