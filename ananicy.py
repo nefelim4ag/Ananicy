@@ -28,6 +28,8 @@ class Ananicy:
         self.config_dir = config_dir
         self.load_types()
         self.load_rules()
+        if os.getenv("NOTIFY_SOCKET"):
+            self.run_cmd(["systemd-notify", "--ready"])
 
     def __strip_line(self, line):
         line = line.rstrip()
