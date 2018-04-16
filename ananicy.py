@@ -25,6 +25,7 @@ class Ananicy:
     proc = {}
 
     def __init__(self, config_dir="/etc/ananicy.d/"):
+        self.__check_disks_schedulers()
         self.dir_must_exits(config_dir)
         self.config_dir = config_dir
         self.load_types()
@@ -53,6 +54,29 @@ class Ananicy:
     def __check_oom_score_adj(self, adj):
         if adj < -1000 or adj > 1000:
             raise Failure("OOM_SCORE_ADJ must be in range -1000..1000")
+
+    def __check_disks_schedulers(self):
+        prefix = "/sys/class/block/"
+        for disk in os.listdir(prefix):
+            if re.search('loop', disk):
+                continue
+            if re.search('ram', disk):
+                continue
+            if re.search('sr', disk):
+                continue
+            scheduler = prefix + disk + "/queue/scheduler"
+            if not os.path.exists(scheduler):
+                continue
+            with open(scheduler) as fd:
+                c_sched = fd.readlines()
+                c_sched = c_sched[0].rstrip()
+                if re.search('\\[cfq\\]', c_sched):
+                    continue
+                if re.search('\\[bfq\\]', c_sched):
+                    continue
+                if re.search('\\[bfq-mq\\]', c_sched):
+                    continue
+            print("Disk", disk, "not use cfq/bfq scheduler IOCLASS/IONICE will not work on it")
 
     def get_type_info(self, line):
         line = self.__strip_line(line)
@@ -231,8 +255,6 @@ class Ananicy:
     def run(self):
         _thread.start_new_thread(self.update_proc_map, (1,))
         sleep(1)
-        print(json.dumps(self.proc, indent=4))
-        sleep(1000)
 
         pass
 
