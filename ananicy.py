@@ -74,7 +74,7 @@ class Ananicy:
                     continue
                 if re.search('\\[bfq-mq\\]', c_sched):
                     continue
-            print("Disk", disk, "not use cfq/bfq scheduler IOCLASS/IONICE will not work on it")
+            print("Disk {} not use cfq/bfq scheduler IOCLASS/IONICE will not work on it".format(disk))
 
     def get_type_info(self, line):
         line = self.__strip_line(line)
@@ -229,10 +229,8 @@ class Ananicy:
                 pid = int(proc_dir)
                 task_dirs = os.listdir("/proc/" + str(pid) + "/task/")
                 exe = os.path.realpath("/proc/" + str(pid) + "/exe")
-                with open("/proc/" + str(pid) + "/oom_score_adj") as fd:
-                    _oom_score_adj = fd.readlines()
-                    _oom_score_adj = _oom_score_adj[0]
-                    oom_score_adj = int(_oom_score_adj.rstrip())
+                _oom_score_adj = open("/proc/" + str(pid) + "/oom_score_adj").readline()
+                oom_score_adj = int(_oom_score_adj.rstrip())
             except ValueError:
                 continue
             except FileNotFoundError:
@@ -247,25 +245,20 @@ class Ananicy:
                 stat = ""
                 cmdline = ""
                 nice = ""
-                oom_score_adj = ""
                 try:
-                    with open("/proc/" + str(pid) + "/task/" + str(tpid) + "/stat") as fd:
-                        stat = fd.readlines()
-                        stat = stat[0].rstrip()
-                        m = re.search('\\) . .*', stat)
-                        m = m.group(0)
-                        m = m.rsplit()
-                        nice = m[17]
-                        nice = int(nice)
+                    stat = open("/proc/" + str(pid) + "/task/" + str(tpid) + "/stat").readline().rstrip()
+                    m = re.search('\\) . .*', stat)
+                    m = m.group(0)
+                    m = m.rsplit()
+                    nice = int(m[17])
 
-                    with open("/proc/" + str(pid) + "/task/" + str(tpid) + "/cmdline") as fd:
-                        _cmdline = fd.readlines()
-                        for i in _cmdline:
-                            cmdline += i
+                    cmdline = open("/proc/" + str(pid) + "/task/" + str(tpid) + "/cmdline").readline().rstrip('\x00')
+                    cmdline = cmdline.replace('\u0000', ' ')
                 except FileNotFoundError:
                     continue
 
                 proc[tpid] = {
+                    'tpid': tpid,
                     'exe': exe,
                     'cmd': cmd,
                     'nice': nice,
@@ -285,7 +278,8 @@ class Ananicy:
             self.run_cmd(["renice", "-n", str(nice), "-p", str(pid)])
         except subprocess.CalledProcessError:
             return
-        print("Renice[" + str(pid) + "]:", proc[pid]["cmd"], proc[pid]["nice"], "->", nice)
+        msg = "renice: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, proc[pid]["nice"], nice)
+        print(msg)
 
     def get_ioclass(self, pid):
         ret = self.run_cmd(["ionice", "-p", str(pid)])
@@ -302,7 +296,8 @@ class Ananicy:
             c_ioclass = self.get_ioclass(pid)
             if ioclass != c_ioclass:
                 self.run_cmd(["ionice", "-p", str(pid), "-c", ioclass])
-                print("Reioclass[" + str(pid) + "]:", proc[pid]["cmd"], c_ioclass, "->", ioclass)
+                msg = "ioclass: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, c_ioclass, ioclass)
+                print(msg)
         except subprocess.CalledProcessError:
             return
 
@@ -311,15 +306,14 @@ class Ananicy:
             c_ionice = self.get_ionice(pid)
             if str(ionice) != c_ionice:
                 self.run_cmd(["ionice", "-p", str(pid), "-n", str(ionice)])
-                print("Reionice[" + str(pid) + "]:", proc[pid]["cmd"], c_ionice, "->", ionice)
+                msg = "ionice: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, c_ionice, ionice)
+                print(msg)
         except subprocess.CalledProcessError:
             return
 
     def get_oom_score_adj(self, pid):
-        with open("/proc/" + str(pid) + "/oom_score_adj") as fd:
-            _oom_score_adj = fd.readlines()
-            _oom_score_adj = _oom_score_adj[0]
-            return int(_oom_score_adj.rstrip())
+        _oom_score_adj = open("/proc/" + str(pid) + "/oom_score_adj").readline().rstrip()
+        return int(_oom_score_adj)
 
     def oom_score_adj(self, proc, pid, oom_score_adj):
         try:
@@ -327,7 +321,8 @@ class Ananicy:
             if c_oom_score_adj != oom_score_adj:
                 file = open("/proc/" + str(pid) + "/oom_score_adj")
                 file.write(str(oom_score_adj))
-                print("Adj OOM score[" + str(pid) + "]:", proc[pid]["cmd"], c_oom_score_adj, "->", oom_score_adj)
+                msg = "oom_score_adj: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, c_oom_score_adj, oom_score_adj)
+                print(msg)
         except FileNotFoundError:
             return
 
