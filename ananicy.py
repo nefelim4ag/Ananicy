@@ -174,7 +174,7 @@ class Ananicy:
                     try:
                         self.get_rule_info(line)
                     except Failure as e:
-                        print(file, e.msg)
+                        print(file + ":", e)
 
         if len(self.rules) == 0:
             raise Failure("No rules loaded")
@@ -211,13 +211,9 @@ class Ananicy:
             try:
                 pid = int(proc_dir)
                 task_dirs = os.listdir("/proc/" + str(pid) + "/task/")
+                exe = os.path.realpath("/proc/" + str(pid) + "/exe")
             except ValueError:
                 continue
-            except FileNotFoundError:
-                continue
-
-            try:
-                exe = os.path.realpath("/proc/" + str(pid) + "/exe")
             except FileNotFoundError:
                 continue
             _exe = exe.split('/')
