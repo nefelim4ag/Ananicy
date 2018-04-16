@@ -95,13 +95,15 @@ class Ananicy:
             if "TYPE=" in col:
                 name = self.__get_val(col)
             if "NICE=" in col:
-                nice = int(self.__get_val(col))
-                self.__check_nice(nice)
+                if "IONICE=" in col:
+                    ionice = int(self.__get_val(col))
+                    self.__check_ionice(ionice)
+                else:
+                    nice = int(self.__get_val(col))
+                    self.__check_nice(nice)
             if "IOCLASS=" in col:
                 ioclass = self.__get_val(col)
-            if "IONICE=" in col:
-                ionice = int(self.__get_val(col))
-                self.__check_ionice(ionice)
+
             if "SCHED=" in col:
                 sched = self.__get_val(col)
             if "OOM_SCORE_ADJ=" in col:
@@ -111,7 +113,13 @@ class Ananicy:
         if name == "":
             raise Failure("Missing TYPE=")
 
-        self.types[name] = self.RULE(nice, ioclass, ionice, sched, oom_score_adj)
+        self.types[name] = self.RULE(
+            nice=nice,
+            ioclass=ioclass,
+            ionice=ionice,
+            sched=sched,
+            oom_score_adj=oom_score_adj
+        )
 
     def load_types(self):
         type_files = self.find_files(self.config_dir, '.*\\.types')
@@ -148,13 +156,14 @@ class Ananicy:
                 sched = type.sched
                 oom_score_adj = type.oom_score_adj
             if "NICE=" in col:
-                nice = int(self.__get_val(col))
-                self.__check_nice(nice)
+                if "IONICE=" in col:
+                    ionice = int(self.__get_val(col))
+                    self.__check_ionice(ionice)
+                else:
+                    nice = int(self.__get_val(col))
+                    self.__check_nice(nice)
             if "IOCLASS=" in col:
                 ioclass = self.__get_val(col)
-            if "IONICE=" in col:
-                ionice = int(self.__get_val(col))
-                self.__check_ionice(ionice)
             if "SCHED=" in col:
                 sched = self.__get_val(col)
             if "OOM_SCORE_ADJ=" in col:
@@ -164,7 +173,13 @@ class Ananicy:
         if name == "":
             raise Failure("Missing NAME=")
 
-        self.rules[name] = self.RULE(nice, ioclass, ionice, sched, oom_score_adj)
+        self.rules[name] = self.RULE(
+            nice=nice,
+            ioclass=ioclass,
+            ionice=ionice,
+            sched=sched,
+            oom_score_adj=oom_score_adj
+        )
 
     def load_rules(self):
         rule_files = self.find_files(self.config_dir, '.*\\.rules')
@@ -234,6 +249,7 @@ class Ananicy:
                         m = m.group(0)
                         m = m.rsplit()
                         nice = m[17]
+                        nice = int(nice)
 
                     with open("/proc/" + str(pid) + "/task/" + str(tpid) + "/cmdline") as fd:
                         cmdline = fd.readlines()
@@ -255,13 +271,27 @@ class Ananicy:
             self.update_proc_map()
             sleep(pause)
 
-    def process_pid(self, pid):
-        pass
+    def renice(self, proc, pid, nice):
+        print("Renice:", proc[pid]["cmd"], proc[pid]["nice"], "->", nice)
+        try:
+            self.run_cmd(["renice", "-n", str(nice), "-p", str(pid)])
+        except subprocess.CalledProcessError:
+            return
+
+    def process_pid(self, proc, pid):
+        proc_entry = proc[pid]
+        cmd = proc_entry["cmd"]
+        rule = self.rules.get(cmd)
+        if not rule:
+            return
+        current_nice = proc_entry["nice"]
+        if current_nice != rule.nice:
+            self.renice(proc, pid, rule.nice)
 
     def processing_rules(self):
         proc = self.proc
         for pid in proc:
-            self.process_pid(pid)
+            self.process_pid(proc, pid)
 
     def run(self):
         _thread.start_new_thread(self.thread_update_proc_map, (1,))
