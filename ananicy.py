@@ -275,9 +275,37 @@ class Ananicy:
             sleep(pause)
 
     def renice(self, proc, pid, nice):
-        print("Renice:", proc[pid]["cmd"], proc[pid]["nice"], "->", nice)
         try:
             self.run_cmd(["renice", "-n", str(nice), "-p", str(pid)])
+        except subprocess.CalledProcessError:
+            return
+        print("Renice[" + str(pid) + "]:", proc[pid]["cmd"], proc[pid]["nice"], "->", nice)
+
+    def get_ioclass(self, pid):
+        ret = self.run_cmd(["ionice", "-p", str(pid)])
+        stdout = ret.stdout.rsplit(': prio ')
+        return stdout[0].rstrip()
+
+    def get_ionice(self, pid):
+        ret = self.run_cmd(["ionice", "-p", str(pid)])
+        stdout = ret.stdout.rsplit(': prio ')
+        return stdout[1].rstrip()
+
+    def ioclass(self, proc, pid, ioclass):
+        try:
+            c_ioclass = self.get_ioclass(pid)
+            if ioclass != c_ioclass:
+                self.run_cmd(["ionice", "-p", str(pid), "-c", ioclass])
+                print("Reioclass[" + str(pid) + "]:", proc[pid]["cmd"], c_ioclass, "->", ioclass)
+        except subprocess.CalledProcessError:
+            return
+
+    def ionice(self, proc, pid, ionice):
+        try:
+            c_ionice = self.get_ionice(pid)
+            if str(ionice) != c_ionice:
+                self.run_cmd(["ionice", "-p", str(pid), "-n", str(ionice)])
+                print("Reionice[" + str(pid) + "]:", proc[pid]["cmd"], c_ionice, "->", ionice)
         except subprocess.CalledProcessError:
             return
 
@@ -291,6 +319,10 @@ class Ananicy:
         if rule.get("nice"):
             if current_nice != rule["nice"]:
                 self.renice(proc, pid, rule["nice"])
+        if rule.get("ioclass"):
+            self.ioclass(proc, pid, rule["ioclass"])
+        if rule.get("ionice"):
+            self.ionice(proc, pid, rule["ionice"])
 
     def processing_rules(self):
         proc = self.proc
