@@ -326,6 +326,49 @@ class Ananicy:
         except FileNotFoundError:
             return
 
+    def get_sched(self, pid):
+        try:
+            ret = self.run_cmd(["schedtool", str(pid)])
+            if "ERROR" in ret.stdout.rstrip():
+                return
+            sched = ret.stdout.rstrip()
+            sched = sched.rsplit(',')
+            sched = sched[1]
+            sched = sched.rstrip(' ').rsplit(': ')[1]
+            sched = sched.rsplit('_')[1]
+            sched = sched.lower()
+            return sched
+        except subprocess.CalledProcessError:
+            return
+
+    def sched(self, proc, pid, sched):
+        l_prio = 0
+        arg_map = {
+            'other': '-N',
+            'normal': '-N',
+            'rr': '-R',
+            'fifo': '-F',
+            'batch': '-B',
+            'iso': '-I',
+            'idle': '-D'
+        }
+        c_sched = self.get_sched(pid)
+        if not c_sched:
+            return
+        if c_sched == sched:
+            return
+        if sched == "other" and c_sched == "normal":
+            return
+        if sched == "idle" and c_sched == "idleprio":
+            return
+        if sched == "rr" or sched == "fifo":
+            l_prio = 1
+        sched_arg = arg_map[sched]
+        try:
+            self.run_cmd(["schedtool", sched_arg, "-p", str(l_prio), str(pid)])
+        except subprocess.CalledProcessError:
+            return
+
     def process_pid(self, proc, pid):
         proc_entry = proc[pid]
         cmd = proc_entry["cmd"]
@@ -340,6 +383,8 @@ class Ananicy:
             self.ioclass(proc, pid, rule["ioclass"])
         if rule.get("ionice"):
             self.ionice(proc, pid, rule["ionice"])
+        if rule.get("sched"):
+            self.sched(proc, pid, rule["sched"])
         if rule.get("oom_score_adj"):
             self.oom_score_adj(proc, pid, rule["oom_score_adj"])
 
