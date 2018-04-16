@@ -7,7 +7,6 @@ import subprocess
 import json
 import _thread
 
-from collections import namedtuple
 from time import sleep
 
 
@@ -16,8 +15,6 @@ class Failure(Exception):
 
 
 class Ananicy:
-    RULE = namedtuple('RULE', ['nice', 'ioclass', 'ionice', 'sched', 'oom_score_adj'])
-
     config_dir = None
     types = {}
     rules = {}
@@ -42,7 +39,7 @@ class Ananicy:
         tmp = col.split('=')
         if len(tmp) < 1:
             return ""
-        return tmp[1]
+        return tmp[1].rstrip('"')
 
     def __check_nice(self, nice):
         if nice > 19 or nice < -20:
@@ -114,13 +111,13 @@ class Ananicy:
         if name == "":
             raise Failure("Missing TYPE=")
 
-        self.types[name] = self.RULE(
-            nice=nice,
-            ioclass=ioclass,
-            ionice=ionice,
-            sched=sched,
-            oom_score_adj=oom_score_adj
-        )
+        self.types[name] = {
+            "nice": nice,
+            "ioclass": ioclass,
+            "ionice": ionice,
+            "sched": sched,
+            "oom_score_adj": oom_score_adj
+        }
 
     def load_types(self):
         type_files = self.find_files(self.config_dir, '.*\\.types')
@@ -130,7 +127,7 @@ class Ananicy:
                     try:
                         self.get_type_info(line)
                     except Failure as e:
-                        print(file, e.msg)
+                        print(file, e)
 
     def get_rule_info(self, line):
         line = self.__strip_line(line)
@@ -151,18 +148,22 @@ class Ananicy:
             if "TYPE=" in col:
                 type = self.__get_val(col)
                 type = self.types[type]
-                nice = type.nice
-                ioclass = type.ioclass
-                ionice = type.ionice
-                sched = type.sched
-                oom_score_adj = type.oom_score_adj
+                nice = type.get("nice")
+                ioclass = type.get("ioclass")
+                ionice = type.get("ionice")
+                sched = type.get("sched")
+                oom_score_adj = type.get("oom_score_adj")
             if "NICE=" in col:
                 if "IONICE=" in col:
-                    ionice = int(self.__get_val(col))
-                    self.__check_ionice(ionice)
+                    ionice = self.__get_val(col)
+                    if ionice:
+                        ionice = int(ionice)
+                        self.__check_ionice(ionice)
                 else:
-                    nice = int(self.__get_val(col))
-                    self.__check_nice(nice)
+                    nice = self.__get_val(col)
+                    if nice:
+                        nice = int(nice)
+                        self.__check_nice(nice)
             if "IOCLASS=" in col:
                 ioclass = self.__get_val(col)
             if "SCHED=" in col:
@@ -174,13 +175,13 @@ class Ananicy:
         if name == "":
             raise Failure("Missing NAME=")
 
-        self.rules[name] = self.RULE(
-            nice=nice,
-            ioclass=ioclass,
-            ionice=ionice,
-            sched=sched,
-            oom_score_adj=oom_score_adj
-        )
+        self.rules[name] = {
+            "nice": nice,
+            "ioclass": ioclass,
+            "ionice": ionice,
+            "sched": sched,
+            "oom_score_adj": oom_score_adj
+        }
 
     def load_rules(self):
         rule_files = self.find_files(self.config_dir, '.*\\.rules')
@@ -287,8 +288,9 @@ class Ananicy:
         if not rule:
             return
         current_nice = proc_entry["nice"]
-        if current_nice != rule.nice:
-            self.renice(proc, pid, rule.nice)
+        if rule.get("nice"):
+            if current_nice != rule["nice"]:
+                self.renice(proc, pid, rule["nice"])
 
     def processing_rules(self):
         proc = self.proc
