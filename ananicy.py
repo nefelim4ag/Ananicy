@@ -205,64 +205,83 @@ class Ananicy:
                     files += [entry_path]
         return files
 
-    def update_proc_map(self, pause=1):
-        while True:
-            proc = {}
-            for proc_dir in os.listdir("/proc"):
+    def update_proc_map(self):
+        proc = {}
+        for proc_dir in os.listdir("/proc"):
+            try:
+                pid = int(proc_dir)
+                task_dirs = os.listdir("/proc/" + str(pid) + "/task/")
+            except ValueError:
+                continue
+            except FileNotFoundError:
+                continue
+
+            try:
+                exe = os.path.realpath("/proc/" + str(pid) + "/exe")
+            except FileNotFoundError:
+                continue
+            _exe = exe.split('/')
+            cmd = _exe[-1]
+            for task_dir in task_dirs:
                 try:
-                    pid = int(proc_dir)
-                    task_dirs = os.listdir("/proc/" + str(pid) + "/task/")
+                    tpid = int(task_dir)
                 except ValueError:
                     continue
-                except FileNotFoundError:
-                    continue
-
+                stat = ""
+                cmdline = ""
+                nice = ""
                 try:
-                    exe = os.path.realpath("/proc/" + str(pid) + "/exe")
-                except FileNotFoundError:
-                    continue
-                _exe = exe.split('/')
-                cmd = _exe[-1]
-                for task_dir in task_dirs:
-                    try:
-                        tpid = int(task_dir)
-                    except ValueError:
-                        continue
-                    cmd = ""
-                    stat = ""
-                    cmdline = ""
-                    nice = ""
                     with open("/proc/" + str(pid) + "/task/" + str(tpid) + "/stat") as fd:
                         stat = fd.readlines()
                         stat = stat[0].rstrip()
-                        _stat = stat.rsplit()
-                        nice = _stat[18]
+                        m = re.search('\\) . .*', stat)
+                        m = m.group(0)
+                        m = m.rsplit()
+                        nice = m[17]
 
                     with open("/proc/" + str(pid) + "/task/" + str(tpid) + "/cmdline") as fd:
                         cmdline = fd.readlines()
                         cmdline = stat[0].rstrip()
+                except FileNotFoundError:
+                    continue
 
-                    proc[tpid] = {
-                        'exe': exe,
-                        'cmd': cmd,
-                        'stat': stat,
-                        'cmdline': cmdline,
-                        'nice': nice
-                    }
-            self.proc = proc
+                proc[tpid] = {
+                    'exe': exe,
+                    'cmd': cmd,
+                    'stat': stat,
+                    'cmdline': cmdline,
+                    'nice': nice
+                }
+        self.proc = proc
+
+    def thread_update_proc_map(self, pause=1):
+        while True:
+            self.update_proc_map()
             sleep(pause)
 
-    def run(self):
-        _thread.start_new_thread(self.update_proc_map, (1,))
-        sleep(1)
-
+    def process_pid(self, pid):
         pass
+
+    def processing_rules(self):
+        proc = self.proc
+        for pid in proc:
+            self.process_pid(pid)
+
+    def run(self):
+        _thread.start_new_thread(self.thread_update_proc_map, (1,))
+        while True:
+            self.processing_rules()
+            sleep(1)
 
     def dump_types(self):
         print(json.dumps(self.types, indent=4))
 
     def dump_rules(self):
         print(json.dumps(self.rules, indent=4))
+
+    def dump_proc(self):
+        self.update_proc_map()
+        print(json.dumps(self.proc, indent=4))
 
 
 def help():
@@ -271,7 +290,8 @@ def help():
           "  stop          Stop script\n",
           "  reload        Recompile rule cache\n",
           "  dump rules    Generate and print rules cache to stdout\n",
-          "  dump types    Generate and print types cache to stdout")
+          "  dump types    Generate and print types cache to stdout\n",
+          "  dump proc     Generate and print proc map cache to stdout")
     exit(0)
 
 
@@ -290,6 +310,8 @@ def main(argv):
             daemon.dump_rules()
         if argv[2] == "types":
             daemon.dump_types()
+        if argv[2] == "proc":
+            daemon.dump_proc()
 
 
 if __name__ == '__main__':
