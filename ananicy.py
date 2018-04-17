@@ -124,12 +124,12 @@ class Ananicy:
     def load_types(self):
         type_files = self.find_files(self.config_dir, '.*\\.types')
         for file in type_files:
-            with open(file) as fd:
-                for line in fd.readlines():
-                    try:
-                        self.get_type_info(line)
-                    except Failure as e:
-                        print(file, e, flush=True)
+            print("Load types:", file)
+            for line in open(file).readlines():
+                try:
+                    self.get_type_info(line)
+                except Failure as e:
+                    print(file, e, flush=True)
 
     def get_rule_info(self, line):
         line = self.__strip_line(line)
@@ -188,12 +188,12 @@ class Ananicy:
     def load_rules(self):
         rule_files = self.find_files(self.config_dir, '.*\\.rules')
         for file in rule_files:
-            with open(file) as fd:
-                for line in fd.readlines():
-                    try:
-                        self.get_rule_info(line)
-                    except Failure as e:
-                        print(file + ":", e, flush=True)
+            print("Load rules:", file)
+            for line in open(file).readlines():
+                try:
+                    self.get_rule_info(line)
+                except Failure as e:
+                    print(file + ":", e, flush=True)
 
         if len(self.rules) == 0:
             raise Failure("No rules loaded")
