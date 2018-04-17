@@ -21,11 +21,14 @@ class Ananicy:
 
     proc = {}
 
+    check_freq = 5
+
     def __init__(self, config_dir="/etc/ananicy.d/", check_sched=True):
         if check_sched:
             self.__check_disks_schedulers()
         self.dir_must_exits(config_dir)
         self.config_dir = config_dir
+        self.load_config()
         self.load_types()
         self.load_rules()
         if os.getenv("NOTIFY_SOCKET"):
@@ -120,6 +123,15 @@ class Ananicy:
             "sched": sched,
             "oom_score_adj": oom_score_adj
         }
+
+    def load_config(self):
+        lines = open(self.config_dir + "ananicy.conf").readlines()
+        for line in lines:
+            line = self.__strip_line(line)
+            for col in line.rsplit():
+                if "check_freq=" in col:
+                    check_freq = self.__get_val(col)
+                    self.check_freq = float(check_freq)
 
     def load_types(self):
         type_files = self.find_files(self.config_dir, '.*\\.types')
@@ -396,10 +408,10 @@ class Ananicy:
             self.process_pid(proc, pid)
 
     def run(self):
-        _thread.start_new_thread(self.thread_update_proc_map, (1,))
+        _thread.start_new_thread(self.thread_update_proc_map, (self.check_freq,))
         while True:
             self.processing_rules()
-            sleep(1)
+            sleep(self.check_freq)
 
     def dump_types(self):
         print(json.dumps(self.types, indent=4), flush=True)
