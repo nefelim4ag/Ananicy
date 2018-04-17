@@ -466,8 +466,6 @@ class Ananicy:
 def help():
     print("Usage: ananicy [options]\n",
           "  start         Run script\n",
-          "  stop          Stop script\n",
-          "  reload        Recompile rule cache\n",
           "  dump rules    Generate and print rules cache to stdout\n",
           "  dump types    Generate and print types cache to stdout\n",
           "  dump proc     Generate and print proc map cache to stdout", flush=True)

@@ -54,7 +54,19 @@ NAME=<process_name> NICE=cpu_nice SCHED=cpu_sched IOCLASS=io_class IONICE=io_nic
 
 All fields except NAME are optional.
 
-NAME used for pgrep -f -w, so you can test your rules manually.
+NAME used for match processes by exec bin name
+```
+~ basename $(sudo realpath /proc/1/exe)
+systemd
+```
+
+Currently match by other things, not supported.
+
+You can check what Ananicy see, by:
+```
+ananicy dump proc
+```
+
 
 Example configurations:
 ```
