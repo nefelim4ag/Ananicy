@@ -1,5 +1,0 @@
-# https://i3wm.org
-# https://github.com/vivien/i3blocks
-NAME='/i3'           TYPE=LowLatency_RT
-NAME='/i3-bar'       TYPE=LowLatency_RT
-NAME='/i3-blocks'    TYPE=LowLatency_RT

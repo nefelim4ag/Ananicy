@@ -38,4 +38,4 @@ NAME=SaintsRow4.i386 TYPE=GAME
 NAME=TombRaider      TYPE=GAME PGREP_ARGS="-xw"
 
 # http://store.steampowered.com/app/301520
-NAME='.*/Robocraft.x86_64' TYPE=GAME
+NAME=Robocraft.x86_64 TYPE=GAME
