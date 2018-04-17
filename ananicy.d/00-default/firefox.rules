@@ -1,2 +1,2 @@
 # https://www.mozilla.org/firefox/
-NAME=firefox TYPE=DOC_VIEW PGREP_ARGS="-xw"
+NAME=firefox TYPE=DOC_VIEW

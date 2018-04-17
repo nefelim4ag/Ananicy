@@ -1,2 +1,2 @@
 # http://vk.com/messenger
-NAME=vk TYPE=CHAT PGREP_ARGS="-xw"
+NAME=vk TYPE=CHAT

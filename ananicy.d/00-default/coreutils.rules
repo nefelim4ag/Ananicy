@@ -1,24 +1,24 @@
 # Some rules for computationally or IO expensive tools from the GNU coreutils
-NAME=cat        TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=cksum      TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=comm       TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=dd         TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=df         TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=du         TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=install    TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=join       TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=md5sum     TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=mkdir      TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=mv         TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=rm         TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=rmdir      TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=sha1sum    TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=sha256sum  TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=sha384sum  TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=sha512sum  TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=shred      TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=sort       TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=sum        TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=tac        TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=tee        TYPE=BG_CPUIO  PGREP_ARGS='-wx'
-NAME=wc         TYPE=BG_CPUIO  PGREP_ARGS='-wx'
+NAME=cat        TYPE=BG_CPUIO
+NAME=cksum      TYPE=BG_CPUIO
+NAME=comm       TYPE=BG_CPUIO
+NAME=dd         TYPE=BG_CPUIO
+NAME=df         TYPE=BG_CPUIO
+NAME=du         TYPE=BG_CPUIO
+NAME=install    TYPE=BG_CPUIO
+NAME=join       TYPE=BG_CPUIO
+NAME=md5sum     TYPE=BG_CPUIO
+NAME=mkdir      TYPE=BG_CPUIO
+NAME=mv         TYPE=BG_CPUIO
+NAME=rm         TYPE=BG_CPUIO
+NAME=rmdir      TYPE=BG_CPUIO
+NAME=sha1sum    TYPE=BG_CPUIO
+NAME=sha256sum  TYPE=BG_CPUIO
+NAME=sha384sum  TYPE=BG_CPUIO
+NAME=sha512sum  TYPE=BG_CPUIO
+NAME=shred      TYPE=BG_CPUIO
+NAME=sort       TYPE=BG_CPUIO
+NAME=sum        TYPE=BG_CPUIO
+NAME=tac        TYPE=BG_CPUIO
+NAME=tee        TYPE=BG_CPUIO
+NAME=wc         TYPE=BG_CPUIO

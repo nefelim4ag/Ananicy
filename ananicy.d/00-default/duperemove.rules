@@ -1,2 +1,2 @@
 # Tools for deduping file systems: https://github.com/markfasheh/duperemove
-NAME=duperemove TYPE=BG_CPUIO PGREP_ARGS="-xw"
+NAME=duperemove TYPE=BG_CPUIO

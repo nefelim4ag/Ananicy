@@ -1,6 +1,6 @@
-NAME=xfwm4                      TYPE=LowLatency_RT PGREP_ARGS='-wx'
-NAME=xfsettingsd                TYPE=LowLatency_RT PGREP_ARGS='-wx'
-NAME=xfce4-session              TYPE=LowLatency_RT PGREP_ARGS='-wx'
-NAME=xfconfd                    TYPE=LowLatency_RT PGREP_ARGS='-wx'
-NAME=xfce4-appfinder            TYPE=LowLatency_RT PGREP_ARGS='-wx'
-NAME=xfce4-notifyd              TYPE=LowLatency_RT PGREP_ARGS='-wx'
+NAME=xfwm4                      TYPE=LowLatency_RT
+NAME=xfsettingsd                TYPE=LowLatency_RT
+NAME=xfce4-session              TYPE=LowLatency_RT
+NAME=xfconfd                    TYPE=LowLatency_RT
+NAME=xfce4-appfinder            TYPE=LowLatency_RT
+NAME=xfce4-notifyd              TYPE=LowLatency_RT

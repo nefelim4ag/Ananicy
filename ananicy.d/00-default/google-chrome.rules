@@ -1,4 +1,4 @@
 # https://www.google.com
-NAME=chrome         TYPE=DOC_VIEW PGREP_ARGS="-xw"
-NAME=nacl_helper    TYPE=DOC_VIEW PGREP_ARGS="-xw"
-NAME=chrome-sandbox TYPE=DOC_VIEW PGREP_ARGS="-xw"
+NAME=chrome         TYPE=DOC_VIEW
+NAME=nacl_helper    TYPE=DOC_VIEW
+NAME=chrome-sandbox TYPE=DOC_VIEW

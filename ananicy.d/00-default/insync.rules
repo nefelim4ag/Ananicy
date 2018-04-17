@@ -1,2 +1,2 @@
 # Insync for Google Drive https://www.insynchq.com/
-NAME=insync TYPE=BG_CPUIO PGREP_ARGS="-xw"
+NAME=insync TYPE=BG_CPUIO

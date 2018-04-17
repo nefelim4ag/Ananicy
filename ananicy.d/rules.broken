@@ -5,7 +5,7 @@ NAME="^[[:alnum:]/]*python. [[:alnum:]/]*virt-manager" TYPE=LowLatency_RT
 NAME='xfce4/panel/wrapper-'     TYPE=LowLatency_RT
 
 # https://smuxi.im/
-NAME='^[[:alnum:]/]*mono.*smuxi' TYPE=CHAT PGREP_ARGS='-wf'
+NAME='^[[:alnum:]/]*mono.*smuxi' TYPE=CHAT
 
 # PPSSPP, PSP Emulator
 NAME=./PPSSPPSDL        TYPE=GAME
@@ -17,7 +17,7 @@ NAME='/i3-bar'       TYPE=LowLatency_RT
 NAME='/i3-blocks'    TYPE=LowLatency_RT
 
 # Possible gcc?
-NAME=cc1 TYPE=HEAVY_CPU PGREP_ARGS='-wx'
+NAME=cc1 TYPE=HEAVY_CPU
 
 # Firefox?
-NAME="Web Content" TYPE=DOC_VIEW PGREP_ARGS="-xw"
+NAME="Web Content" TYPE=DOC_VIEW
