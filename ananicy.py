@@ -33,12 +33,15 @@ class Ananicy:
         "apply_oom_score_adj": True
     }
 
-    def __init__(self, config_dir="/etc/ananicy.d/", check_sched=True):
-        if check_sched:
+    def __init__(self, config_dir="/etc/ananicy.d/", daemon=True):
+        if daemon:
             self.__check_disks_schedulers()
         self.dir_must_exits(config_dir)
         self.config_dir = config_dir
         self.load_config()
+        if not daemon:
+            for i in self.verbose:
+                self.verbose[i] = False
         self.load_types()
         self.load_rules()
         if os.getenv("NOTIFY_SOCKET"):
@@ -482,7 +485,7 @@ def main(argv):
         daemon.run()
 
     if argv[1] == "dump":
-        daemon = Ananicy(check_sched=False)
+        daemon = Ananicy(daemon=False)
         if argv[2] == "rules":
             daemon.dump_rules()
         if argv[2] == "types":
