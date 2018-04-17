@@ -76,7 +76,7 @@ class Ananicy:
                     continue
                 if re.search('\\[bfq-mq\\]', c_sched):
                     continue
-            print("Disk {} not use cfq/bfq scheduler IOCLASS/IONICE will not work on it".format(disk))
+            print("Disk {} not use cfq/bfq scheduler IOCLASS/IONICE will not work on it".format(disk), flush=True)
 
     def get_type_info(self, line):
         line = self.__strip_line(line)
@@ -129,7 +129,7 @@ class Ananicy:
                     try:
                         self.get_type_info(line)
                     except Failure as e:
-                        print(file, e)
+                        print(file, e, flush=True)
 
     def get_rule_info(self, line):
         line = self.__strip_line(line)
@@ -193,7 +193,7 @@ class Ananicy:
                     try:
                         self.get_rule_info(line)
                     except Failure as e:
-                        print(file + ":", e)
+                        print(file + ":", e, flush=True)
 
         if len(self.rules) == 0:
             raise Failure("No rules loaded")
@@ -281,7 +281,7 @@ class Ananicy:
         except subprocess.CalledProcessError:
             return
         msg = "renice: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, proc[pid]["nice"], nice)
-        print(msg)
+        print(msg, flush=True)
 
     def get_ioclass(self, pid):
         ret = self.run_cmd(["ionice", "-p", str(pid)])
@@ -299,7 +299,7 @@ class Ananicy:
             if ioclass != c_ioclass:
                 self.run_cmd(["ionice", "-p", str(pid), "-c", ioclass])
                 msg = "ioclass: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, c_ioclass, ioclass)
-                print(msg)
+                print(msg, flush=True)
         except subprocess.CalledProcessError:
             return
 
@@ -309,7 +309,7 @@ class Ananicy:
             if str(ionice) != c_ionice:
                 self.run_cmd(["ionice", "-p", str(pid), "-n", str(ionice)])
                 msg = "ionice: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, c_ionice, ionice)
-                print(msg)
+                print(msg, flush=True)
         except subprocess.CalledProcessError:
             return
 
@@ -324,7 +324,7 @@ class Ananicy:
                 file = open("/proc/" + str(pid) + "/oom_score_adj")
                 file.write(str(oom_score_adj))
                 msg = "oom_score_adj: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, c_oom_score_adj, oom_score_adj)
-                print(msg)
+                print(msg, flush=True)
         except FileNotFoundError:
             return
 
@@ -419,7 +419,7 @@ def help():
           "  reload        Recompile rule cache\n",
           "  dump rules    Generate and print rules cache to stdout\n",
           "  dump types    Generate and print types cache to stdout\n",
-          "  dump proc     Generate and print proc map cache to stdout")
+          "  dump proc     Generate and print proc map cache to stdout", flush=True)
     exit(0)
 
 
