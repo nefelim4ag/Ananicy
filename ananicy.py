@@ -23,6 +23,16 @@ class Ananicy:
 
     check_freq = 5
 
+    verbose = {
+        "type_load": True,
+        "rule_load": True,
+        "apply_nice": True,
+        "apply_ioclass": True,
+        "apply_ionice": True,
+        "apply_sched": True,
+        "apply_oom_score_adj": True
+    }
+
     def __init__(self, config_dir="/etc/ananicy.d/", check_sched=True):
         if check_sched:
             self.__check_disks_schedulers()
@@ -124,6 +134,12 @@ class Ananicy:
             "oom_score_adj": oom_score_adj
         }
 
+    def __YN(self, val):
+        if val.lower() in ("true", "yes", "1"):
+            return True
+        else:
+            return False
+
     def load_config(self):
         lines = open(self.config_dir + "ananicy.conf").readlines()
         for line in lines:
@@ -132,11 +148,26 @@ class Ananicy:
                 if "check_freq=" in col:
                     check_freq = self.__get_val(col)
                     self.check_freq = float(check_freq)
+                if "type_load=" in col:
+                    self.verbose["type_load"] = self.__YN(self.__get_val(col))
+                if "rule_load=" in col:
+                    self.verbose["rule_load"] = self.__YN(self.__get_val(col))
+                if "apply_nice=" in col:
+                    self.verbose["apply_nice"] = self.__YN(self.__get_val(col))
+                if "apply_ioclass=" in col:
+                    self.verbose["apply_ioclass"] = self.__YN(self.__get_val(col))
+                if "apply_ionice=" in col:
+                    self.verbose["apply_ionice"] = self.__YN(self.__get_val(col))
+                if "apply_sched=" in col:
+                    self.verbose["apply_sched"] = self.__YN(self.__get_val(col))
+                if "apply_oom_score_adj=" in col:
+                    self.verbose["apply_oom_score_adj"] = self.__YN(self.__get_val(col))
 
     def load_types(self):
         type_files = self.find_files(self.config_dir, '.*\\.types')
         for file in type_files:
-            print("Load types:", file)
+            if self.verbose["type_load"]:
+                print("Load types:", file)
             for line in open(file).readlines():
                 try:
                     self.get_type_info(line)
@@ -200,7 +231,8 @@ class Ananicy:
     def load_rules(self):
         rule_files = self.find_files(self.config_dir, '.*\\.rules')
         for file in rule_files:
-            print("Load rules:", file)
+            if self.verbose["rule_load"]:
+                print("Load rules:", file)
             for line in open(file).readlines():
                 try:
                     self.get_rule_info(line)
@@ -293,7 +325,8 @@ class Ananicy:
         except subprocess.CalledProcessError:
             return
         msg = "renice: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, proc[pid]["nice"], nice)
-        print(msg, flush=True)
+        if self.verbose["apply_nice"]:
+            print(msg, flush=True)
 
     def get_ioclass(self, pid):
         ret = self.run_cmd(["ionice", "-p", str(pid)])
@@ -311,7 +344,8 @@ class Ananicy:
             if ioclass != c_ioclass:
                 self.run_cmd(["ionice", "-p", str(pid), "-c", ioclass])
                 msg = "ioclass: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, c_ioclass, ioclass)
-                print(msg, flush=True)
+                if self.verbose["apply_ioclass"]:
+                    print(msg, flush=True)
         except subprocess.CalledProcessError:
             return
 
@@ -321,7 +355,8 @@ class Ananicy:
             if str(ionice) != c_ionice:
                 self.run_cmd(["ionice", "-p", str(pid), "-n", str(ionice)])
                 msg = "ionice: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, c_ionice, ionice)
-                print(msg, flush=True)
+                if self.verbose["apply_ionice"]:
+                    print(msg, flush=True)
         except subprocess.CalledProcessError:
             return
 
@@ -336,7 +371,8 @@ class Ananicy:
                 file = open("/proc/" + str(pid) + "/oom_score_adj")
                 file.write(str(oom_score_adj))
                 msg = "oom_score_adj: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, c_oom_score_adj, oom_score_adj)
-                print(msg, flush=True)
+                if self.verbose["apply_oom_score_adj"]:
+                    print(msg, flush=True)
         except FileNotFoundError:
             return
 
@@ -382,6 +418,9 @@ class Ananicy:
             self.run_cmd(["schedtool", sched_arg, "-p", str(l_prio), str(pid)])
         except subprocess.CalledProcessError:
             return
+        msg = "sched: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, c_sched, sched)
+        if self.verbose["apply_sched"]:
+            print(msg)
 
     def process_pid(self, proc, pid):
         proc_entry = proc[pid]
