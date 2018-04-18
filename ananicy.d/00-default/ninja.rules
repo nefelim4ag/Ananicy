@@ -1,2 +1,2 @@
 # http://mesonbuild.com - Meson is an open source build system.
-NAME=ninja TYPE=HEAVY_CPU
+NAME=ninja TYPE=BG_CPUIO

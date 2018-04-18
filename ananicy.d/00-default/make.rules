@@ -1,2 +1,2 @@
 # make - GNU make utility to maintain groups of programs
-NAME=make TYPE=HEAVY_CPU
+NAME=make TYPE=BG_CPUIO
