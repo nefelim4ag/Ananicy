@@ -39,3 +39,6 @@ NAME=TombRaider      TYPE=GAME
 
 # http://store.steampowered.com/app/301520
 NAME=Robocraft.x86_64 TYPE=GAME
+
+# http://store.steampowered.com/app/233130
+NAME=ShadowWarrior.bin.x86 TYPE=GAME
