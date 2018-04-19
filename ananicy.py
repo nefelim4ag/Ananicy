@@ -339,7 +339,11 @@ class Ananicy:
     def get_ionice(self, pid):
         ret = self.run_cmd(["ionice", "-p", str(pid)])
         stdout = ret.stdout.rsplit(': prio ')
-        return stdout[1].rstrip()
+        # can return only ioclass, if process class are idle
+        if len(stdout) == 2:
+            return stdout[1].rstrip()
+        else:
+            return None
 
     def ioclass(self, proc, pid, ioclass):
         try:
@@ -355,6 +359,8 @@ class Ananicy:
     def ionice(self, proc, pid, ionice):
         try:
             c_ionice = self.get_ionice(pid)
+            if c_ionice is None:
+                return
             if str(ionice) != c_ionice:
                 self.run_cmd(["ionice", "-p", str(pid), "-n", str(ionice)])
                 msg = "ionice: {}[{}] {} -> {}".format(proc[pid]["cmd"], pid, c_ionice, ionice)
