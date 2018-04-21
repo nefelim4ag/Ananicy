@@ -1,2 +1,2 @@
 # Tox client: https://github.com/qTox/qTox
-NAME=qtox TYPE=CHAT
+{ "name": "qtox", "type": "Chat" }

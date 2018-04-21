@@ -1,2 +1,2 @@
 # https://inkscape.org
-NAME=inkscape TYPE=LowLatency_RT
+{ "name": "inkscape", "type": "LowLatency_RT" }

@@ -1,4 +1,4 @@
 # Some rules for Arch Linux specific tools
 
-NAME=mkinitcpio TYPE=BG_CPUIO
-NAME=pacman	TYPE=BG_CPUIO
+{ "name": "mkinitcpio", "type": "BG_CPUIO" }
+{ "name": "pacman", "type": "BG_CPUIO" }

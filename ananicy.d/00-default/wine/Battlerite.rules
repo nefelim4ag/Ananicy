@@ -1,2 +1,2 @@
 # https://www.battlerite.com
-NAME=Battlerite.exe TYPE=GAME
+{ "name": "Battlerite.exe", "type": "Game" }

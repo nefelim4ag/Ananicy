@@ -1,2 +1,2 @@
 # https://www.smitegame.com/
-NAME=CoherentUI_Host TYPE=GAME
+{ "name": "CoherentUI_Host", "type": "Game" }

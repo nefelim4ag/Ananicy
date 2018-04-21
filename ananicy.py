@@ -99,42 +99,17 @@ class Ananicy:
         if len(line) < 2:
             return
 
-        name = ""
-        nice = ""
-        ioclass = ""
-        ionice = ""
-        sched = ""
-        oom_score_adj = ""
+        line = json.loads(line)
+        type = line.get("type")
+        if type == "":
+            raise Failure('Missing "type": ')
 
-        line = line.split()
-        for col in line:
-            if "TYPE=" in col:
-                name = self.__get_val(col)
-            if "NICE=" in col:
-                if "IONICE=" in col:
-                    ionice = int(self.__get_val(col))
-                    self.__check_ionice(ionice)
-                else:
-                    nice = int(self.__get_val(col))
-                    self.__check_nice(nice)
-            if "IOCLASS=" in col:
-                ioclass = self.__get_val(col)
-
-            if "SCHED=" in col:
-                sched = self.__get_val(col)
-            if "OOM_SCORE_ADJ=" in col:
-                oom_score_adj = int(self.__get_val(col))
-                self.__check_oom_score_adj(oom_score_adj)
-
-        if name == "":
-            raise Failure("Missing TYPE=")
-
-        self.types[name] = {
-            "nice": nice,
-            "ioclass": ioclass,
-            "ionice": ionice,
-            "sched": sched,
-            "oom_score_adj": oom_score_adj
+        self.types[type] = {
+            "nice": line.get("nice"),
+            "ioclass": line.get("ioclass"),
+            "ionice": line.get("ionice"),
+            "sched": line.get("sched"),
+            "oom_score_adj": line.get("oom_score_adj")
         }
 
     def __YN(self, val):
@@ -171,64 +146,46 @@ class Ananicy:
         for file in type_files:
             if self.verbose["type_load"]:
                 print("Load types:", file)
+            line_number = 1
             for line in open(file).readlines():
                 try:
                     self.get_type_info(line)
                 except Failure as e:
-                    print(file, e, flush=True)
+                    str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                    print(str, flush=True)
+                except json.decoder.JSONDecodeError as e:
+                    str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                    print(str, flush=True)
+                line_number += 1
 
     def get_rule_info(self, line):
         line = self.__strip_line(line)
         if len(line) < 2:
             return
 
-        name = ""
-        nice = ""
-        ioclass = ""
-        ionice = ""
-        sched = ""
-        oom_score_adj = ""
-
-        line = line.split()
-        for col in line:
-            if "NAME=" in col:
-                name = self.__get_val(col)
-            if "TYPE=" in col:
-                type = self.__get_val(col)
-                type = self.types[type]
-                nice = type.get("nice")
-                ioclass = type.get("ioclass")
-                ionice = type.get("ionice")
-                sched = type.get("sched")
-                oom_score_adj = type.get("oom_score_adj")
-            if "NICE=" in col:
-                if "IONICE=" in col:
-                    ionice = self.__get_val(col)
-                    if ionice:
-                        ionice = int(ionice)
-                        self.__check_ionice(ionice)
-                else:
-                    nice = self.__get_val(col)
-                    if nice:
-                        nice = int(nice)
-                        self.__check_nice(nice)
-            if "IOCLASS=" in col:
-                ioclass = self.__get_val(col)
-            if "SCHED=" in col:
-                sched = self.__get_val(col)
-            if "OOM_SCORE_ADJ=" in col:
-                oom_score_adj = int(self.__get_val(col))
-                self.__check_oom_score_adj(oom_score_adj)
-
+        #
+        line = json.loads(line)
+        name = line.get("name")
         if name == "":
-            raise Failure("Missing NAME=")
+            raise Failure('Missing "name": ')
+
+        type = line.get("type")
+        if type:
+            if not self.types.get(type):
+                raise Failure('"type": "{}" not defined'.format(type))
+            type = self.types[type]
+            for attr in ("nice", "ioclass", "ionice", "sched", "oom_score_adj"):
+                tmp = type.get(attr)
+                if tmp:
+                    line[attr] = tmp
 
         self.rules[name] = {
-            "nice": nice,
-            "ioclass": ioclass,
-            "ionice": ionice,
-            "sched": sched,
-            "oom_score_adj": oom_score_adj
+            "nice": line.get("nice"),
+            "ioclass": line.get("ioclass"),
+            "ionice": line.get("ionice"),
+            "sched": line.get("sched"),
+            "oom_score_adj": line.get("oom_score_adj"),
+            "type": line.get("type")
         }
 
     def load_rules(self):
@@ -236,11 +193,17 @@ class Ananicy:
         for file in rule_files:
             if self.verbose["rule_load"]:
                 print("Load rules:", file)
+            line_number = 1
             for line in open(file).readlines():
                 try:
                     self.get_rule_info(line)
                 except Failure as e:
-                    print(file + ":", e, flush=True)
+                    str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                    print(str, flush=True)
+                except json.decoder.JSONDecodeError as e:
+                    str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                    print(str, flush=True)
+                line_number += 1
 
         if len(self.rules) == 0:
             raise Failure("No rules loaded")

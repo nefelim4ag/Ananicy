@@ -1,2 +1,2 @@
 # http://mesonbuild.com - Meson is an open source build system.
-NAME=ninja TYPE=BG_CPUIO
+{ "name": "ninja", "type": "BG_CPUIO" }

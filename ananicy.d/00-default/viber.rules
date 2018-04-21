@@ -1,2 +1,2 @@
 # https://www.viber.com
-NAME=viber TYPE=CHAT
+{ "name": "viber", "type":"Chat" }

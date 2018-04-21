@@ -1,2 +1,2 @@
 # http://mirageiv.sourceforge.net
-NAME=mirage      TYPE=IMAGE_VIEW
+{ "name": "mirage", "type": "Image-View" }

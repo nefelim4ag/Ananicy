@@ -1,2 +1,2 @@
 # https://www.freedesktop.org/wiki/Software/systemd/
-NAME=systemd-timesyncd TYPE=BG_CPUIO
+{ "name": "systemd-timesyncd", "type": "BG_CPUIO" }

@@ -1,2 +1,2 @@
 # Music player: http://qmmp.ylsoftware.com/
-NAME=qmmp TYPE=PLAYER_AUDIO
+{ "name": "qmmp", "type": "Player-Audio" }

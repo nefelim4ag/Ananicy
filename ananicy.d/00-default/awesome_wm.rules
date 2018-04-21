@@ -1,2 +1,2 @@
 # https://awesomewm.org
-NAME=awesome TYPE=LowLatency_RT
+{ "name": "awesome", "type": "LowLatency_RT" }

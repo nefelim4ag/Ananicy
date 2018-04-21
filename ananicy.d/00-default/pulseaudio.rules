@@ -1,1 +1,1 @@
-NAME=pulseaudio	TYPE=LowLatency_RT
+{ "name": "pulseaudio", "type": "LowLatency_RT" }

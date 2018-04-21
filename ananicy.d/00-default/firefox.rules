@@ -1,2 +1,2 @@
 # https://www.mozilla.org/firefox/
-NAME=firefox TYPE=DOC_VIEW
+{ "name": "firefox", "type":"Doc-View" }

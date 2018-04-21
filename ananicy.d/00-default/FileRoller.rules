@@ -1,2 +1,2 @@
 # https://wiki.gnome.org/Apps/FileRoller
-NAME=file-roller TYPE=BG_CPUIO
+{ "name": "file-roller", "type": "BG_CPUIO" }

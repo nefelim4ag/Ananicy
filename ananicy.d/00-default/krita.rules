@@ -1,2 +1,2 @@
 # https://krita.org
-NAME=krita      TYPE=LowLatency_RT
+{ "name": "krita", "type": "LowLatency_RT" }

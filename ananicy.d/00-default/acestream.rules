@@ -1,4 +1,4 @@
 # http://acestream.org
-NAME=acestreamengine    TYPE=PLAYER_VIDEO
-NAME=acestream-launcher TYPE=PLAYER_VIDEO
-NAME=acestream-player   TYPE=PLAYER_VIDEO
+{ "name": "acestreamengine",    "type": "Player-Video" }
+{ "name": "acestream-launcher", "type": "Player-Video" }
+{ "name": "acestream-player",   "type": "Player-Video" }

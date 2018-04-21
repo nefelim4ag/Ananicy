@@ -1,2 +1,2 @@
 # Sound editor: http://www.audacityteam.org/
-NAME=audacity TYPE=LowLatency_RT
+{ "name": "audacity", "type": "LowLatency_RT" }

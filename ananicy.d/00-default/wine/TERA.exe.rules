@@ -1,2 +1,2 @@
 # TERA Online MMORPG Game
-NAME=TERA.exe TYPE=GAME
+{ "name": "TERA.exe", "type": "Game" }

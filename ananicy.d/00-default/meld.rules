@@ -1,2 +1,2 @@
 # http://meldmerge.org
-NAME=meld TYPE=BG_CPUIO
+{ "name": "meld", "type": "BG_CPUIO" }

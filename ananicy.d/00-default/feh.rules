@@ -1,2 +1,2 @@
 # https://feh.finalrewind.org
-NAME=feh      TYPE=IMAGE_VIEW
+{ "name": "feh", "type": "Image-View" }

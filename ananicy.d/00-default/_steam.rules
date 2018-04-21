@@ -1,44 +1,44 @@
 ################################################################################
 # Rules for Steam and Steam Apps: http://store.steampowered.com
 # Steam client
-NAME=steam           TYPE=BG_CPUIO
+{ "name": "steam", "type": "BG_CPUIO" }
 
 # Steam integrated web browser
-NAME=steamwebhelper  TYPE=BG_CPUIO
+{ "name": "steamwebhelper", "type": "BG_CPUIO" }
 
 # http://store.steampowered.com/app/413850
-NAME=csgo_linux      TYPE=GAME
+{ "name": "csgo_linux", "type": "Game"}
  # http://store.steampowered.com/app/355180
-NAME=cure_linux      TYPE=GAME
+{ "name": "cure_linux", "type": "Game"}
 # http://store.steampowered.com/app/570
-NAME=dota2           TYPE=GAME
+{ "name": "dota2", "type": "Game"}
 # http://store.steampowered.com/app/440
-NAME=hl2_linux       TYPE=GAME
+{ "name": "hl2_linux", "type": "Game"}
 # http://store.steampowered.com/app/4920/Natural_Selection_2/
-NAME=ns2_linux       TYPE=GAME
+{ "name": "ns2_linux", "type": "Game"}
 
 # http://store.steampowered.com/app/233250
-NAME=PA              TYPE=GAME
+{ "name": "PA", "type": "Game"}
 # PA UI
-NAME=CoherentUI_Host TYPE=GAME
+{ "name": "CoherentUI_Host", "type": "Game"}
 
 # http://store.steampowered.com/app/41070
-NAME=Sam3            TYPE=GAME
+{ "name": "Sam3", "type": "Game"}
 # http://store.steampowered.com/app/212070
-NAME=StarConflict    TYPE=GAME
+{ "name": "StarConflict", "type": "Game"}
 # http://store.steampowered.com/app/236390
-NAME=aces            TYPE=GAME
+{ "name": "aces", "type": "Game"}
 # http://store.steampowered.com/app/252950
-NAME=RocketLeague    TYPE=GAME
+{ "name": "RocketLeague", "type": "Game"}
 # http://store.steampowered.com/app/233720
-NAME=ss2013.bin      TYPE=GAME
+{ "name": "ss2013.bin", "type": "Game"}
 # http://store.steampowered.com/app/206420
-NAME=SaintsRow4.i386 TYPE=GAME
+{ "name": "SaintsRow4.i386", "type": "Game"}
 # http://store.steampowered.com/app/203160
-NAME=TombRaider      TYPE=GAME
+{ "name": "TombRaider", "type": "Game"}
 
 # http://store.steampowered.com/app/301520
-NAME=Robocraft.x86_64 TYPE=GAME
+{ "name": "Robocraft.x86_64", "type": "Game"}
 
 # http://store.steampowered.com/app/233130
-NAME=ShadowWarrior.bin.x86 TYPE=GAME
+{ "name": "ShadowWarrior.bin.x86", "type": "Game"}

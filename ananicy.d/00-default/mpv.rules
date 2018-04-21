@@ -1,2 +1,2 @@
 # Video player: https://mpv.io/
-NAME=mpv TYPE=PLAYER_VIDEO
+{ "name": "mpv", "type": "Player-Video" }

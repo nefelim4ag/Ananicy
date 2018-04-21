@@ -1,1 +1,1 @@
-NAME=gcc TYPE=HEAVY_CPU
+{ "name": "gcc", "type": "Heavy_CPU" }

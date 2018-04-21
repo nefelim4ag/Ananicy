@@ -1,2 +1,2 @@
 # A rule for GNU R, a language for statistical computing and graphics
-NAME=R TYPE=BG_CPUIO
+{ "name": "R", "type": "BG_CPUIO" }

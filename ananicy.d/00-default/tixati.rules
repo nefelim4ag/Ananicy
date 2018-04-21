@@ -1,2 +1,2 @@
 # https://www.tixati.com - Torrent-client Tixati
-NAME=tixati TYPE=BG_CPUIO
+{ "name": "tixati", "type": "BG_CPUIO" }

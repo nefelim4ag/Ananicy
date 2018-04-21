@@ -1,2 +1,2 @@
 # https://hexchat.github.io
-NAME=hexchat TYPE=CHAT
+{ "name": "hexchat", "type": "Chat" }

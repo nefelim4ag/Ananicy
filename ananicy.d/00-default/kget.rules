@@ -1,2 +1,2 @@
 # Download manager: https://www.kde.org/applications/internet/kget/
-NAME=kget TYPE=BG_CPUIO
+{ "name": "kget", "type": "BG_CPUIO" }

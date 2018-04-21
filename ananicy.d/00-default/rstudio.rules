@@ -1,4 +1,4 @@
 # rstudio itself
-NAME=rstudio  TYPE=LowLatency_RT
+{ "name": "rstudio", "type": "LowLatency_RT" }
 # its rsession
-NAME=rsession TYPE=BG_CPUIO
+{ "name": "rsession", "type": "BG_CPUIO" }

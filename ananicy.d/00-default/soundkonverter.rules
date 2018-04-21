@@ -1,2 +1,2 @@
 # KDE frontend to many audio converter tools
-NAME=soundkonverter     TYPE=HEAVY_CPU
+{ "name": "soundkonverter", "type": "Heavy_CPU" }

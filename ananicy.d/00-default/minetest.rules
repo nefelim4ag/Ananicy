@@ -1,2 +1,2 @@
 # http://www.minetest.net/
-NAME=minetest TYPE=GAME
+{ "name": "minetest", "type": "Game" }

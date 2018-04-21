@@ -1,2 +1,2 @@
 # OwnCloud desktop client: https://owncloud.org
-NAME=owncloud TYPE=BG_CPUIO
+{ "name": "owncloud", "type": "BG_CPUIO" }

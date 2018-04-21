@@ -1,2 +1,2 @@
-NAME=vmware-vmx TYPE=HEAVY_CPU
-NAME=vmware TYPE=HEAVY_CPU
+{ "name": "vmware-vmx", "type": "Heavy_CPU" }
+{ "name": "vmware", "type": "Heavy_CPU" }

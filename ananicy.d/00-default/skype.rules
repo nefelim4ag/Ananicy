@@ -1,2 +1,2 @@
 # Skype: https://www.skype.com
-NAME=skypeforlinux TYPE=CHAT
+{ "name": "skypeforlinux", "type": "Chat" }

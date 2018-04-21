@@ -1,2 +1,2 @@
 # Soulseek client: http://www.soulseekqt.net
-NAME=soulseekqt TYPE=DOC_VIEW
+{ "name": "soulseekqt", "type":"Doc-View" }

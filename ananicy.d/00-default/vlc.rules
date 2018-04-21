@@ -1,2 +1,2 @@
 # Video player: http://www.videolan.org/vlc/index.html
-NAME=vlc TYPE=PLAYER_VIDEO
+{ "name": "vlc", "type": "Player-Video" }

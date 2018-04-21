@@ -1,2 +1,2 @@
 # Nextcloud desktop client: https://nextcloud.com/
-NAME=nextcloud TYPE=BG_CPUIO
+{ "name": "nextcloud", "type": "BG_CPUIO" }

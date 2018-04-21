@@ -1,2 +1,2 @@
 # Insync for Google Drive https://www.insynchq.com/
-NAME=insync TYPE=BG_CPUIO
+{ "name": "insync", "type": "BG_CPUIO" }
