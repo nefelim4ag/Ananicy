@@ -60,16 +60,22 @@ class Ananicy:
         return tmp[1].rstrip('"')
 
     def __check_nice(self, nice):
-        if nice > 19 or nice < -20:
-            raise Failure("Nice must be in range -20..19")
+        if nice:
+            if nice > 19 or nice < -20:
+                raise Failure("Nice must be in range -20..19")
+        return nice
 
     def __check_ionice(self, ionice):
-        if ionice > 7 or ionice < 0:
-            raise Failure("IOnice/IOprio allowed only in range 0-7")
+        if ionice:
+            if ionice > 7 or ionice < 0:
+                raise Failure("IOnice/IOprio allowed only in range 0-7")
+        return ionice
 
     def __check_oom_score_adj(self, adj):
-        if adj < -1000 or adj > 1000:
-            raise Failure("OOM_SCORE_ADJ must be in range -1000..1000")
+        if adj:
+            if adj < -1000 or adj > 1000:
+                raise Failure("OOM_SCORE_ADJ must be in range -1000..1000")
+        return adj
 
     def __check_disks_schedulers(self):
         prefix = "/sys/class/block/"
@@ -99,17 +105,17 @@ class Ananicy:
         if len(line) < 2:
             return
 
-        line = json.loads(line)
+        line = json.loads(line, parse_int=int)
         type = line.get("type")
         if type == "":
             raise Failure('Missing "type": ')
 
         self.types[type] = {
-            "nice": line.get("nice"),
+            "nice": self.__check_nice(line.get("nice")),
             "ioclass": line.get("ioclass"),
-            "ionice": line.get("ionice"),
+            "ionice": self.__check_ionice(line.get("ionice")),
             "sched": line.get("sched"),
-            "oom_score_adj": line.get("oom_score_adj")
+            "oom_score_adj": self.__check_oom_score_adj(line.get("oom_score_adj"))
         }
 
     def __YN(self, val):
@@ -163,8 +169,7 @@ class Ananicy:
         if len(line) < 2:
             return
 
-        #
-        line = json.loads(line)
+        line = json.loads(line, parse_int=int)
         name = line.get("name")
         if name == "":
             raise Failure('Missing "name": ')
@@ -180,11 +185,11 @@ class Ananicy:
                     line[attr] = tmp
 
         self.rules[name] = {
-            "nice": line.get("nice"),
+            "nice": self.__check_nice(line.get("nice")),
             "ioclass": line.get("ioclass"),
-            "ionice": line.get("ionice"),
+            "ionice": self.__check_ionice(line.get("ionice")),
             "sched": line.get("sched"),
-            "oom_score_adj": line.get("oom_score_adj"),
+            "oom_score_adj": self.__check_oom_score_adj(line.get("oom_score_adj")),
             "type": line.get("type")
         }
 
