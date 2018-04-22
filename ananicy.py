@@ -16,7 +16,7 @@ class Failure(Exception):
 
 class CgroupController:
     cgroup_fs = "/sys/fs/cgroup/"
-    type = "cpu,cpuacct"
+    type = "cpu"
     name = ""
     work_path = ""
 
