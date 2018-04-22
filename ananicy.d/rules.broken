@@ -7,9 +7,6 @@ NAME='xfce4/panel/wrapper-'     TYPE=LowLatency_RT
 # https://smuxi.im/
 NAME='^[[:alnum:]/]*mono.*smuxi' TYPE=CHAT
 
-# PPSSPP, PSP Emulator
-NAME=./PPSSPPSDL        TYPE=GAME
-
 # https://i3wm.org
 # https://github.com/vivien/i3blocks
 NAME='/i3'           TYPE=LowLatency_RT
