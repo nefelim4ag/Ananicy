@@ -210,7 +210,7 @@ class Ananicy:
         files = self.find_files(self.config_dir, '.*\\.cgroups')
         for file in files:
             if self.verbose["cgroup_load"]:
-                print("Load types:", file)
+                print("Load cgroup:", file)
             line_number = 1
             for line in open(file).readlines():
                 try:
