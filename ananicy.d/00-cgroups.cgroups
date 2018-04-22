@@ -1,0 +1,7 @@
+# Cgroups definitions
+# Currently very simple, only for group CPU intensive tasks
+
+# cpuquota same as systemd CPUQuota,
+# only difference is - meaning of N% is all CPUs, not one core.
+{ "cgroup": "cpu90", "CPUQuota": 90 }
+{ "cgroup": "cpu80", "CPUQuota": 80 }

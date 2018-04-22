@@ -14,8 +14,78 @@ class Failure(Exception):
     pass
 
 
+class CgroupController:
+    cgroup_fs = "/sys/fs/cgroup/"
+    type = "cpu,cpuacct"
+    name = ""
+    work_path = ""
+
+    ncpu = 1
+
+    period_us = 100000
+    quota_us = 100000
+
+    files = {}
+    files_mtime = {}
+    tasks = {}
+
+    def __init__(self, name, cpuquota):
+        self.ncpu = os.cpu_count()
+        self.name = name
+        self.work_path = self.cgroup_fs + self.type + "/" + self.name
+
+        if not os.path.exists(self.cgroup_fs):
+            raise Failure("cgroup fs not mounted")
+
+        if not os.path.exists(self.work_path):
+            os.makedirs(self.work_path)
+
+        self.quota_us = self.period_us * self.ncpu * cpuquota / 100
+        self.files = {
+            'tasks': self.work_path + "/tasks"
+        }
+
+        open(self.work_path + "/cpu.cfs_period_us", 'w').write(str(self.period_us))
+        open(self.work_path + "/cpu.cfs_quota_us", 'w').write(str(self.quota_us))
+
+        self.files_mtime[self.files["tasks"]] = 0
+
+        _thread.start_new_thread(self.__tread_update_tasks, ())
+
+    def __tread_update_tasks(self):
+        tasks_path = self.files["tasks"]
+        while True:
+            tasks = {}
+
+            while self.files_mtime[tasks_path] == os.path.getmtime(tasks_path):
+                sleep(1)
+
+            self.files_mtime[self.files["tasks"]] = os.path.getmtime(tasks_path)
+
+            pids = open(self.files["tasks"], 'r')
+            for pid in pids.readlines():
+                pid = int(pid.rstrip())
+                tasks[pid] = True
+
+            self.tasks = tasks
+
+    def pid_in_cgroup(self, pid):
+        tasks = self.tasks
+        if tasks.get(int(pid)):
+            return True
+        else:
+            return False
+
+    def add_pid(self, pid):
+        try:
+            open(self.files["tasks"], 'w').write(str(pid))
+        except OSError:
+            pass
+
+
 class Ananicy:
     config_dir = None
+    cgroups = {}
     types = {}
     rules = {}
 
@@ -24,13 +94,15 @@ class Ananicy:
     check_freq = 5
 
     verbose = {
+        "cgroup_load": True,
         "type_load": True,
         "rule_load": True,
         "apply_nice": True,
         "apply_ioclass": True,
         "apply_ionice": True,
         "apply_sched": True,
-        "apply_oom_score_adj": True
+        "apply_oom_score_adj": True,
+        "apply_cgroup": True
     }
 
     def __init__(self, config_dir="/etc/ananicy.d/", daemon=True):
@@ -42,6 +114,7 @@ class Ananicy:
         if not daemon:
             for i in self.verbose:
                 self.verbose[i] = False
+        self.load_cgroups()
         self.load_types()
         self.load_rules()
         if os.getenv("NOTIFY_SOCKET"):
@@ -100,6 +173,72 @@ class Ananicy:
                     continue
             print("Disk {} not use cfq/bfq scheduler IOCLASS/IONICE will not work on it".format(disk), flush=True)
 
+    def __YN(self, val):
+        if val.lower() in ("true", "yes", "1"):
+            return True
+        else:
+            return False
+
+    def load_config(self):
+        lines = open(self.config_dir + "ananicy.conf").readlines()
+        for line in lines:
+            line = self.__strip_line(line)
+            for col in line.rsplit():
+                if "check_freq=" in col:
+                    check_freq = self.__get_val(col)
+                    self.check_freq = float(check_freq)
+                if "cgroup_load=" in col:
+                    self.verbose["cgroup_load"] = self.__YN(self.__get_val(col))
+                if "type_load=" in col:
+                    self.verbose["type_load"] = self.__YN(self.__get_val(col))
+                if "rule_load=" in col:
+                    self.verbose["rule_load"] = self.__YN(self.__get_val(col))
+                if "apply_nice=" in col:
+                    self.verbose["apply_nice"] = self.__YN(self.__get_val(col))
+                if "apply_ioclass=" in col:
+                    self.verbose["apply_ioclass"] = self.__YN(self.__get_val(col))
+                if "apply_ionice=" in col:
+                    self.verbose["apply_ionice"] = self.__YN(self.__get_val(col))
+                if "apply_sched=" in col:
+                    self.verbose["apply_sched"] = self.__YN(self.__get_val(col))
+                if "apply_oom_score_adj=" in col:
+                    self.verbose["apply_oom_score_adj"] = self.__YN(self.__get_val(col))
+                if "apply_cgroup=" in col:
+                    self.verbose["apply_cgroup"] = self.__YN(self.__get_val(col))
+
+    def load_cgroups(self):
+        files = self.find_files(self.config_dir, '.*\\.cgroups')
+        for file in files:
+            if self.verbose["cgroup_load"]:
+                print("Load types:", file)
+            line_number = 1
+            for line in open(file).readlines():
+                try:
+                    self.get_cgroup_info(line)
+                except Failure as e:
+                    str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                    print(str, flush=True)
+                except json.decoder.JSONDecodeError as e:
+                    str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                    print(str, flush=True)
+                line_number += 1
+
+    def get_cgroup_info(self, line):
+        line = self.__strip_line(line)
+        if len(line) < 2:
+            return
+
+        line = json.loads(line, parse_int=int)
+        cgroup = line.get("cgroup")
+        if not cgroup:
+            raise Failure('Missing "cgroup": ')
+
+        cpuquota = line.get("CPUQuota")
+        if not cpuquota:
+            raise Failure('Missing "CPUQuota": ')
+
+        self.cgroups[cgroup] = CgroupController(cgroup, cpuquota)
+
     def get_type_info(self, line):
         line = self.__strip_line(line)
         if len(line) < 2:
@@ -115,37 +254,9 @@ class Ananicy:
             "ioclass": line.get("ioclass"),
             "ionice": self.__check_ionice(line.get("ionice")),
             "sched": line.get("sched"),
-            "oom_score_adj": self.__check_oom_score_adj(line.get("oom_score_adj"))
+            "oom_score_adj": self.__check_oom_score_adj(line.get("oom_score_adj")),
+            "cgroup": line.get("cgroup")
         }
-
-    def __YN(self, val):
-        if val.lower() in ("true", "yes", "1"):
-            return True
-        else:
-            return False
-
-    def load_config(self):
-        lines = open(self.config_dir + "ananicy.conf").readlines()
-        for line in lines:
-            line = self.__strip_line(line)
-            for col in line.rsplit():
-                if "check_freq=" in col:
-                    check_freq = self.__get_val(col)
-                    self.check_freq = float(check_freq)
-                if "type_load=" in col:
-                    self.verbose["type_load"] = self.__YN(self.__get_val(col))
-                if "rule_load=" in col:
-                    self.verbose["rule_load"] = self.__YN(self.__get_val(col))
-                if "apply_nice=" in col:
-                    self.verbose["apply_nice"] = self.__YN(self.__get_val(col))
-                if "apply_ioclass=" in col:
-                    self.verbose["apply_ioclass"] = self.__YN(self.__get_val(col))
-                if "apply_ionice=" in col:
-                    self.verbose["apply_ionice"] = self.__YN(self.__get_val(col))
-                if "apply_sched=" in col:
-                    self.verbose["apply_sched"] = self.__YN(self.__get_val(col))
-                if "apply_oom_score_adj=" in col:
-                    self.verbose["apply_oom_score_adj"] = self.__YN(self.__get_val(col))
 
     def load_types(self):
         type_files = self.find_files(self.config_dir, '.*\\.types')
@@ -179,10 +290,14 @@ class Ananicy:
             if not self.types.get(type):
                 raise Failure('"type": "{}" not defined'.format(type))
             type = self.types[type]
-            for attr in ("nice", "ioclass", "ionice", "sched", "oom_score_adj"):
+            for attr in ("nice", "ioclass", "ionice", "sched", "oom_score_adj", "cgroup"):
                 tmp = type.get(attr)
                 if tmp:
                     line[attr] = tmp
+
+        cgroup = line.get("cgroup")
+        if not self.cgroups.get(cgroup):
+            cgroup = None
 
         self.rules[name] = {
             "nice": self.__check_nice(line.get("nice")),
@@ -190,7 +305,8 @@ class Ananicy:
             "ionice": self.__check_ionice(line.get("ionice")),
             "sched": line.get("sched"),
             "oom_score_adj": self.__check_oom_score_adj(line.get("oom_score_adj")),
-            "type": line.get("type")
+            "type": line.get("type"),
+            "cgroup": cgroup
         }
 
     def load_rules(self):
@@ -417,6 +533,17 @@ class Ananicy:
             self.sched(proc, pid, rule["sched"])
         if rule.get("oom_score_adj"):
             self.oom_score_adj(proc, pid, rule["oom_score_adj"])
+        cgroup = rule.get("cgroup")
+        if cgroup:
+            cgroup_ctrl = self.cgroups[cgroup]
+            if cgroup_ctrl.pid_in_cgroup(pid):
+                pass
+            else:
+                cgroup_ctrl.add_pid(pid)
+                msg = "Cgroup: {}[{}] added to {}".format(proc[pid]["cmd"], pid, cgroup_ctrl.name)
+                if self.verbose["apply_cgroup"]:
+                    print(msg)
+
 
     def processing_rules(self):
         proc = self.proc
@@ -432,6 +559,9 @@ class Ananicy:
     def dump_types(self):
         print(json.dumps(self.types, indent=4), flush=True)
 
+    def dump_cgroups(self):
+        print(self.cgroups, flush=True)
+
     def dump_rules(self):
         print(json.dumps(self.rules, indent=4), flush=True)
 
@@ -445,6 +575,7 @@ def help():
           "  start         Run script\n",
           "  dump rules    Generate and print rules cache to stdout\n",
           "  dump types    Generate and print types cache to stdout\n",
+          "  dump cgroups  Generate and print cgroups cache to stdout\n",
           "  dump proc     Generate and print proc map cache to stdout", flush=True)
     exit(0)
 
@@ -460,10 +591,14 @@ def main(argv):
 
     if argv[1] == "dump":
         daemon = Ananicy(daemon=False)
+        if len(argv) < 3:
+            help()
         if argv[2] == "rules":
             daemon.dump_rules()
         if argv[2] == "types":
             daemon.dump_types()
+        if argv[2] == "cgroups":
+            daemon.dump_cgroups()
         if argv[2] == "proc":
             daemon.dump_proc()
 

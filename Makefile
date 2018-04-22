@@ -8,12 +8,18 @@ ANANICY_D_R_I := $(patsubst $(SRC_DIR)/%.rules, $(PREFIX)/etc/%.rules, $(ANANICY
 ANANICY_D_T := $(shell find $(SRC_DIR)/ananicy.d -type f -name "*.types")
 ANANICY_D_T_I := $(patsubst $(SRC_DIR)/%.types, $(PREFIX)/etc/%.types, $(ANANICY_D_T))
 
+ANANICY_D_G := $(shell find $(SRC_DIR)/ananicy.d -type f -name "*.cgroups")
+ANANICY_D_G_I := $(patsubst $(SRC_DIR)/%.cgroups, $(PREFIX)/etc/%.cgroups, $(ANANICY_D_G))
+
 A_SERVICE := $(PREFIX)/lib/systemd/system/ananicy.service
 A_CONF := $(PREFIX)/etc/ananicy.d/ananicy.conf
 A_BIN := $(PREFIX)/usr/bin/ananicy
 
 
 default:  help
+
+$(PREFIX)/etc/%.cgroups: $(SRC_DIR)/%.cgroups
+	install -Dm644 $< $@
 
 $(PREFIX)/etc/%.types: $(SRC_DIR)/%.types
 	install -Dm644 $< $@
@@ -32,11 +38,20 @@ $(A_SERVICE): $(SRC_DIR)/ananicy.service
 
 
 install: ## Install ananicy
-install: $(A_CONF) $(A_BIN) $(A_SERVICE) $(ANANICY_D_R_I) $(ANANICY_D_T_I)
+install: $(A_CONF) $(A_BIN)
+install: $(A_SERVICE)
+install: $(ANANICY_D_G_I)
+install: $(ANANICY_D_T_I)
+install: $(ANANICY_D_R_I)
 
 uninstall: ## Delete ananicy
 uninstall:
-	@rm -fv   $(A_CONF) $(A_BIN) $(A_SERVICE) $(ANANICY_D_R_I)
+	@rm -fv $(A_CONF)
+	@rm -rf $(A_BIN)
+	@rm -rf $(A_SERVICE)
+	@rm -rf $(ANANICY_D_G_I)
+	@rm -rf $(ANANICY_D_T_I)
+	@rm -rf $(ANANICY_D_R_I)
 
 
 deb: ## Create debian package

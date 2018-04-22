@@ -19,11 +19,11 @@
 
 # Type: BackGround CPU/IO Load
 # Background CPU/IO it's needed, but it must be as silent as possible
-{ "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle" }
+{ "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
 
 # Type: Heavy CPU Load
 # It must work fast enough but must not create so much noise
-{ "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7 }
+{ "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
 
 # Type: Chat
 {"type": "Chat", "nice": -1, "ioclass": "best-effort", "ionice": 7 }
