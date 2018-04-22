@@ -562,7 +562,11 @@ class Ananicy:
         print(json.dumps(self.types, indent=4), flush=True)
 
     def dump_cgroups(self):
-        print(self.cgroups, flush=True)
+        cgroups_dict = {}
+        for cgroup in self.cgroups:
+            cgroups_dict[cgroup] = self.cgroups[cgroup].__dict__
+
+        print(json.dumps(cgroups_dict, indent=4), flush=True)
 
     def dump_rules(self):
         print(json.dumps(self.rules, indent=4), flush=True)
