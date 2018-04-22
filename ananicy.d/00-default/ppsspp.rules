@@ -1,0 +1,4 @@
+# PPSSPP, PSP emulator
+{ "name": "PPSSPPSDL", "type": "Game"}
+{ "name": "PPSSPPHeadless", "type": "Game"}
+{ "name": "PPSSPPQt", "type": "Game"}
