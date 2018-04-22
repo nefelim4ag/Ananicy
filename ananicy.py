@@ -548,6 +548,8 @@ class Ananicy:
     def processing_rules(self):
         proc = self.proc
         for pid in proc:
+            if not os.path.exists("/proc/" + str(pid)):
+                continue
             self.process_pid(proc, pid)
 
     def run(self):
