@@ -37,6 +37,9 @@ class CgroupController:
         if not os.path.exists(self.cgroup_fs):
             raise Failure("cgroup fs not mounted")
 
+        if not os.path.exists(self.cgroup_fs + self.type):
+            raise Failure("cgroup fs: {} missing".format(self.type))
+
         if not os.path.exists(self.work_path):
             os.makedirs(self.work_path)
 
