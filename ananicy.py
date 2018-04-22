@@ -48,8 +48,11 @@ class CgroupController:
             'tasks': self.work_path + "/tasks"
         }
 
-        open(self.work_path + "/cpu.cfs_period_us", 'w').write(str(self.period_us))
-        open(self.work_path + "/cpu.cfs_quota_us", 'w').write(str(self.quota_us))
+        try:
+            open(self.work_path + "/cpu.cfs_period_us", 'w').write(str(self.period_us))
+            open(self.work_path + "/cpu.cfs_quota_us", 'w').write(str(self.quota_us))
+        except PermissionError as e:
+            raise Failure(e)
 
         self.files_mtime[self.files["tasks"]] = 0
 
