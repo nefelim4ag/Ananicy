@@ -1,1 +1,4 @@
+# cc1 and cc1plus high CPU usage compilers invoked by GCC
 { "name": "gcc", "type": "BG_CPUIO" }
+{ "name": "cc1", "type": "BG_CPUIO" }
+{ "name": "cc1plus", "type": "BG_CPUIO" }
