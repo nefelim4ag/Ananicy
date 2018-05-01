@@ -361,7 +361,8 @@ class Ananicy:
                 files += self.find_files(entry_path, name_mask)
             if os.path.isfile(entry_path):
                 if re.search(name_mask, entry_name):
-                    files += [entry_path]
+                    realpath = os.path.realpath(entry_path)
+                    files += [realpath]
         return files
 
     def update_proc_map(self):
@@ -388,13 +389,14 @@ class Ananicy:
                 cmdline = ""
                 nice = ""
                 try:
-                    stat = open("/proc/" + str(pid) + "/task/" + str(tpid) + "/stat").readline().rstrip()
+                    prefix = "/proc/{}/task/{}".format(pid, tpid)
+                    stat = open(prefix + "/stat").readline().rstrip()
                     m = re.search('\\) . .*', stat)
                     m = m.group(0)
                     m = m.rsplit()
                     nice = int(m[17])
 
-                    cmdline = open("/proc/" + str(pid) + "/task/" + str(tpid) + "/cmdline").readline().rstrip('\x00')
+                    cmdline = open(prefix + "/cmdline").readline().rstrip('\x00')
                     cmdline = cmdline.replace('\u0000', ' ')
                 except FileNotFoundError:
                     continue
@@ -552,7 +554,6 @@ class Ananicy:
                 msg = "Cgroup: {}[{}] added to {}".format(proc[pid]["cmd"], pid, cgroup_ctrl.name)
                 if self.verbose["apply_cgroup"]:
                     print(msg)
-
 
     def processing_rules(self):
         proc = self.proc
