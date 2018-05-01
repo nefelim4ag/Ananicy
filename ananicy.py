@@ -44,13 +44,16 @@ class CgroupController:
             os.makedirs(self.work_path)
 
         self.quota_us = self.period_us * self.ncpu * cpuquota / 100
+        self.quota_us = int(self.quota_us)
         self.files = {
             'tasks': self.work_path + "/tasks"
         }
 
         try:
-            open(self.work_path + "/cpu.cfs_period_us", 'w').write(str(self.period_us))
-            open(self.work_path + "/cpu.cfs_quota_us", 'w').write(str(self.quota_us))
+            with open(self.work_path + "/cpu.cfs_period_us", 'w') as fd:
+                fd.write(str(self.period_us))
+            with open(self.work_path + "/cpu.cfs_quota_us", 'w') as fd:
+                fd.write(str(self.quota_us))
         except PermissionError as e:
             raise Failure(e)
 
