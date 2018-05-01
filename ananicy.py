@@ -78,6 +78,8 @@ class TPID():
         ret = self.run_cmd(["ionice", "-p", str(self.tpid)])
         stdout = ret.stdout.rsplit(': prio ')
         self.__ioclass = stdout[0].rstrip()
+        if self.__ioclass == "none":
+            self.__ioclass = "best-effort"
         # can return only ioclass, if process class are idle
         if len(stdout) == 2:
             self.__ionice = stdout[1].rstrip()
@@ -462,37 +464,34 @@ class Ananicy:
         return files
 
     def update_proc_map(self):
-        for tpid in list(self.proc):
-            pid = self.proc.get(tpid).pid
-            if not os.path.exists("/proc/{}/task/{}".format(pid, tpid)):
-                self.proc.pop(tpid, None)
-
+        proc = {}
         for pid in os.listdir("/proc"):
             try:
                 pid = int(pid)
                 if not os.path.isdir("/proc/{}".format(pid)):
                     continue
-                if not os.path.exists("/proc/{}/exe".format(pid)):
+                if not os.path.realpath("/proc/{}/exe".format(pid)):
                     continue
 
-                pid_create_time = os.path.getmtime("/proc/{}".format(pid))
-                pid_create_time += self.check_freq
-                if pid_create_time > time.time():
+                mtime = os.path.getmtime("/proc/{}".format(pid)) + self.check_freq
+                if mtime > time.time():
                     continue
 
                 path = "/proc/{}/task/".format(pid)
-                for task_dir in os.listdir(path):
-                    tpid = int(task_dir)
-                    self.proc[tpid] = TPID(pid, tpid)
+                for tpid in os.listdir(path):
+                    tpid = int(tpid)
+                    path = "/proc/{}/task/{}".format(pid, tpid)
+
+                    mtime = os.path.getmtime(path) + self.check_freq
+                    if mtime > time.time():
+                        continue
+
+                    proc[tpid] = TPID(pid, tpid)
             except ValueError:
                 continue
             except FileNotFoundError:
                 continue
-
-    def thread_update_proc_map(self, pause=1):
-        while True:
-            self.update_proc_map()
-            sleep(pause)
+        self.proc = proc
 
     def renice(self, pid: int, nice: int):
         c_nice = self.proc[pid].nice
@@ -557,10 +556,8 @@ class Ananicy:
         if self.verbose["apply_sched"]:
             print(msg)
 
-    def process_pid(self, tpid):
+    def process_tpid(self, tpid):
         pe = self.proc.get(tpid)
-        if not pe:
-            return
         if not os.path.exists("/proc/{}/task/{}".format(pe.pid, pe.tpid)):
             return
         rule = self.rules.get(pe.cmd)
@@ -590,14 +587,11 @@ class Ananicy:
                 if self.verbose["apply_cgroup"]:
                     print(msg)
 
-    def processing_rules(self):
-        for tpid in list(self.proc):
-            self.process_pid(tpid)
-
     def run(self):
-        _thread.start_new_thread(self.thread_update_proc_map, (self.check_freq,))
         while True:
-            self.processing_rules()
+            self.update_proc_map()
+            for tpid in self.proc:
+                self.process_tpid(tpid)
             sleep(self.check_freq)
 
     def dump_types(self):
