@@ -3,6 +3,7 @@
 import os
 import re
 import sys
+import time
 import subprocess
 import json
 import _thread
@@ -19,14 +20,24 @@ class TPID():
     tpid = 0
     exe = None
     __cmd = None
+    __ionice = None
+    __ioclass = None
     __oom_score_adj = None
 
     def __init__(self, pid: int, tpid: int):
         self.pid = pid
         self.tpid = tpid
         self.prefix = "/proc/{}/task/{}/".format(pid, tpid)
-        self.exe = os.path.realpath("/proc/" + str(pid) + "/exe")
+        self.exe = os.path.realpath("/proc/{}/exe".format(pid))
         self.__oom_score_adj = self.prefix + "/oom_score_adj"
+
+    def run_cmd(self, run):
+        ret = subprocess.run(run, timeout=30, check=True,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE,
+                             universal_newlines=True
+                             )
+        return ret
 
     @property
     def cmd(self):
@@ -62,6 +73,44 @@ class TPID():
         _cmdline = _cmdline.rstrip('\x00')
         _cmdline = _cmdline.replace('\u0000', ' ')
         return _cmdline.split()
+
+    def __get_ioprop(self):
+        ret = self.run_cmd(["ionice", "-p", str(self.tpid)])
+        stdout = ret.stdout.rsplit(': prio ')
+        self.__ioclass = stdout[0].rstrip()
+        # can return only ioclass, if process class are idle
+        if len(stdout) == 2:
+            self.__ionice = stdout[1].rstrip()
+        else:
+            self.__ionice = None
+
+    @property
+    def ioclass(self):
+        if not self.__ioclass:
+            self.__get_ioprop()
+        return self.__ioclass
+
+    @property
+    def ionice(self):
+        if not self.__ionice:
+            self.__get_ioprop()
+        return self.__ionice
+
+    @property
+    def sched(self):
+        try:
+            ret = self.run_cmd(["schedtool", str(self.tpid)])
+            if "ERROR" in ret.stdout.rstrip():
+                return
+            sched = ret.stdout.rstrip()
+            sched = sched.rsplit(',')
+            sched = sched[1]
+            sched = sched.rstrip(' ').rsplit(': ')[1]
+            sched = sched.rsplit('_')[1]
+            sched = sched.lower()
+            return sched
+        except subprocess.CalledProcessError:
+            return
 
 
 class CgroupController:
@@ -114,26 +163,23 @@ class CgroupController:
     def __tread_update_tasks(self):
         tasks_path = self.files["tasks"]
         while True:
-            tasks = {}
-
             while self.files_mtime[tasks_path] == os.path.getmtime(tasks_path):
                 sleep(1)
 
             self.files_mtime[self.files["tasks"]] = os.path.getmtime(tasks_path)
 
-            pids = open(self.files["tasks"], 'r')
-            for pid in pids.readlines():
-                pid = int(pid.rstrip())
-                tasks[pid] = True
-
+            tasks = {}
+            with open(self.files["tasks"], 'r') as fd:
+                for pid in fd.readlines():
+                    pid = int(pid.rstrip())
+                    tasks[pid] = True
             self.tasks = tasks
 
     def pid_in_cgroup(self, pid):
         tasks = self.tasks
         if tasks.get(int(pid)):
             return True
-        else:
-            return False
+        return False
 
     def add_pid(self, pid):
         try:
@@ -416,99 +462,74 @@ class Ananicy:
         return files
 
     def update_proc_map(self):
-        proc = {}
-        for proc_dir in os.listdir("/proc"):
+        for tpid in list(self.proc):
+            pid = self.proc.get(tpid).pid
+            if not os.path.exists("/proc/{}/task/{}".format(pid, tpid)):
+                self.proc.pop(tpid, None)
+
+        for pid in os.listdir("/proc"):
             try:
-                pid = int(proc_dir)
+                pid = int(pid)
+                if not os.path.isdir("/proc/{}".format(pid)):
+                    continue
+                if not os.path.exists("/proc/{}/exe".format(pid)):
+                    continue
+
+                pid_create_time = os.path.getmtime("/proc/{}".format(pid))
+                pid_create_time += self.check_freq
+                if pid_create_time > time.time():
+                    continue
+
                 path = "/proc/{}/task/".format(pid)
                 for task_dir in os.listdir(path):
                     tpid = int(task_dir)
-                    proc[tpid] = TPID(pid, tpid)
+                    self.proc[tpid] = TPID(pid, tpid)
             except ValueError:
                 continue
             except FileNotFoundError:
                 continue
-        self.proc = proc
 
     def thread_update_proc_map(self, pause=1):
         while True:
             self.update_proc_map()
             sleep(pause)
 
-    def renice(self, proc, pid, nice):
-        try:
-            self.run_cmd(["renice", "-n", str(nice), "-p", str(pid)])
-        except subprocess.CalledProcessError:
+    def renice(self, pid: int, nice: int):
+        c_nice = self.proc[pid].nice
+        if c_nice == nice:
             return
-        msg = "renice: {}[{}] {} -> {}".format(proc[pid].cmd, pid, proc[pid].nice, nice)
+        self.run_cmd(["renice", "-n", str(nice), "-p", str(pid)])
+        msg = "renice: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_nice, nice)
         if self.verbose["apply_nice"]:
             print(msg, flush=True)
 
-    def get_ioclass(self, pid):
-        ret = self.run_cmd(["ionice", "-p", str(pid)])
-        stdout = ret.stdout.rsplit(': prio ')
-        return stdout[0].rstrip()
+    def ioclass(self, pid, ioclass):
+        c_ioclass = self.proc[pid].ioclass
+        if ioclass != c_ioclass:
+            self.run_cmd(["ionice", "-p", str(pid), "-c", ioclass])
+            msg = "ioclass: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_ioclass, ioclass)
+            if self.verbose["apply_ioclass"]:
+                print(msg, flush=True)
 
-    def get_ionice(self, pid):
-        ret = self.run_cmd(["ionice", "-p", str(pid)])
-        stdout = ret.stdout.rsplit(': prio ')
-        # can return only ioclass, if process class are idle
-        if len(stdout) == 2:
-            return stdout[1].rstrip()
-        else:
-            return None
-
-    def ioclass(self, proc, pid, ioclass):
-        try:
-            c_ioclass = self.get_ioclass(pid)
-            if ioclass != c_ioclass:
-                self.run_cmd(["ionice", "-p", str(pid), "-c", ioclass])
-                msg = "ioclass: {}[{}] {} -> {}".format(proc[pid].cmd, pid, c_ioclass, ioclass)
-                if self.verbose["apply_ioclass"]:
-                    print(msg, flush=True)
-        except subprocess.CalledProcessError:
+    def ionice(self, pid, ionice):
+        c_ionice = self.proc[pid].ionice
+        if c_ionice is None:
             return
+        if str(ionice) != c_ionice:
+            self.run_cmd(["ionice", "-p", str(pid), "-n", str(ionice)])
+            msg = "ionice: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_ionice, ionice)
+            if self.verbose["apply_ionice"]:
+                print(msg, flush=True)
 
-    def ionice(self, proc, pid, ionice):
-        try:
-            c_ionice = self.get_ionice(pid)
-            if c_ionice is None:
-                return
-            if str(ionice) != c_ionice:
-                self.run_cmd(["ionice", "-p", str(pid), "-n", str(ionice)])
-                msg = "ionice: {}[{}] {} -> {}".format(proc[pid].cmd, pid, c_ionice, ionice)
-                if self.verbose["apply_ionice"]:
-                    print(msg, flush=True)
-        except subprocess.CalledProcessError:
-            return
+    def oom_score_adj(self, pid, oom_score_adj):
+        c_oom_score_adj = self.proc[pid].oom_score_adj
+        if c_oom_score_adj != oom_score_adj:
+            self.set_oom_score_adj(pid, oom_score_adj)
+            msg = "oom_score_adj: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_oom_score_adj, oom_score_adj)
+            if self.verbose["apply_oom_score_adj"]:
+                print(msg, flush=True)
 
-    def oom_score_adj(self, proc, pid, oom_score_adj):
-        try:
-            c_oom_score_adj = proc[pid].oom_score_adj
-            if c_oom_score_adj != oom_score_adj:
-                self.set_oom_score_adj(pid, oom_score_adj)
-                msg = "oom_score_adj: {}[{}] {} -> {}".format(proc[pid].cmd, pid, c_oom_score_adj, oom_score_adj)
-                if self.verbose["apply_oom_score_adj"]:
-                    print(msg, flush=True)
-        except FileNotFoundError:
-            return
-
-    def get_sched(self, pid):
-        try:
-            ret = self.run_cmd(["schedtool", str(pid)])
-            if "ERROR" in ret.stdout.rstrip():
-                return
-            sched = ret.stdout.rstrip()
-            sched = sched.rsplit(',')
-            sched = sched[1]
-            sched = sched.rstrip(' ').rsplit(': ')[1]
-            sched = sched.rsplit('_')[1]
-            sched = sched.lower()
-            return sched
-        except subprocess.CalledProcessError:
-            return
-
-    def sched(self, proc, pid, sched):
+    def sched(self, pid, sched):
         l_prio = 0
         arg_map = {
             'other': '-N',
@@ -519,7 +540,7 @@ class Ananicy:
             'iso': '-I',
             'idle': '-D'
         }
-        c_sched = self.get_sched(pid)
+        c_sched = self.proc[pid].sched
         if not c_sched:
             return
         if c_sched == sched:
@@ -531,48 +552,47 @@ class Ananicy:
         if sched == "rr" or sched == "fifo":
             l_prio = 1
         sched_arg = arg_map[sched]
-        try:
-            self.run_cmd(["schedtool", sched_arg, "-p", str(l_prio), str(pid)])
-        except subprocess.CalledProcessError:
-            return
-        msg = "sched: {}[{}] {} -> {}".format(proc[pid].cmd, pid, c_sched, sched)
+        self.run_cmd(["schedtool", sched_arg, "-p", str(l_prio), str(pid)])
+        msg = "sched: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_sched, sched)
         if self.verbose["apply_sched"]:
             print(msg)
 
-    def process_pid(self, proc, pid):
-        proc_entry = proc[pid]
-        rule = self.rules.get(proc_entry.cmd)
+    def process_pid(self, tpid):
+        pe = self.proc.get(tpid)
+        if not pe:
+            return
+        if not os.path.exists("/proc/{}/task/{}".format(pe.pid, pe.tpid)):
+            return
+        rule = self.rules.get(pe.cmd)
         if not rule:
             return
-        current_nice = proc_entry.nice
-        if rule.get("nice"):
-            if current_nice != rule["nice"]:
-                self.renice(proc, pid, rule["nice"])
-        if rule.get("ioclass"):
-            self.ioclass(proc, pid, rule["ioclass"])
-        if rule.get("ionice"):
-            self.ionice(proc, pid, rule["ionice"])
-        if rule.get("sched"):
-            self.sched(proc, pid, rule["sched"])
-        if rule.get("oom_score_adj"):
-            self.oom_score_adj(proc, pid, rule["oom_score_adj"])
+        try:
+            if rule.get("nice"):
+                self.renice(tpid, rule["nice"])
+            if rule.get("ioclass"):
+                self.ioclass(tpid, rule["ioclass"])
+            if rule.get("ionice"):
+                self.ionice(tpid, rule["ionice"])
+            if rule.get("sched"):
+                self.sched(tpid, rule["sched"])
+            if rule.get("oom_score_adj"):
+                self.oom_score_adj(tpid, rule["oom_score_adj"])
+        except subprocess.CalledProcessError:
+            return
+        except FileNotFoundError:
+            return
         cgroup = rule.get("cgroup")
         if cgroup:
             cgroup_ctrl = self.cgroups[cgroup]
-            if cgroup_ctrl.pid_in_cgroup(pid):
-                pass
-            else:
-                cgroup_ctrl.add_pid(pid)
-                msg = "Cgroup: {}[{}] added to {}".format(proc[pid].cmd, pid, cgroup_ctrl.name)
+            if not cgroup_ctrl.pid_in_cgroup(tpid):
+                cgroup_ctrl.add_pid(tpid)
+                msg = "Cgroup: {}[{}] added to {}".format(self.proc[tpid].cmd, tpid, cgroup_ctrl.name)
                 if self.verbose["apply_cgroup"]:
                     print(msg)
 
     def processing_rules(self):
-        proc = self.proc
-        for pid in proc:
-            if not os.path.exists("/proc/" + str(pid)):
-                continue
-            self.process_pid(proc, pid)
+        for tpid in list(self.proc):
+            self.process_pid(tpid)
 
     def run(self):
         _thread.start_new_thread(self.thread_update_proc_map, (self.check_freq,))
@@ -605,6 +625,7 @@ class Ananicy:
                     "cmd": TPID_l.cmd,
                     "stat": TPID_l.stat,
                     "nice": TPID_l.nice,
+                    "ionice": [TPID_l.ioclass, TPID_l.ionice],
                     "oom_score_adj": TPID_l.oom_score_adj,
                     "cmdline": TPID_l.cmdline,
                 }
