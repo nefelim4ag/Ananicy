@@ -34,7 +34,6 @@ class TPID():
     def run_cmd(self, run):
         ret = subprocess.run(run, timeout=30, check=True,
                              stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE,
                              universal_newlines=True
                              )
         return ret
@@ -443,7 +442,6 @@ class Ananicy:
     def run_cmd(self, run):
         ret = subprocess.run(run, timeout=30, check=True,
                              stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE,
                              universal_newlines=True
                              )
         return ret
