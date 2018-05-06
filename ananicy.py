@@ -462,32 +462,77 @@ class Ananicy:
                     files += [realpath]
         return files
 
-    def update_proc_map(self):
-        proc = {}
+    def __proc_get_pids(self):
+        pids = []
         for pid in os.listdir("/proc"):
             try:
                 pid = int(pid)
-                if not os.path.isdir("/proc/{}".format(pid)):
-                    continue
+            except ValueError:
+                continue
+            if not os.path.isdir("/proc/{}".format(pid)):
+                continue
+            pids += [pid]
+        return pids
+
+    __kthreads = {}
+
+    def kthreads_update(self):
+        __kthreads = {}
+        for pid in self.__proc_get_pids():
+            try:
+                if not os.path.realpath("/proc/{}/exe".format(pid)):
+                    __kthreads[pid] = True
+            except FileNotFoundError:
+                continue
+        self.__kthreads = __kthreads
+
+    def thread_kthreads_update(self):
+        while False:
+            # self.kthreads_update()
+            sleep(60)
+
+    def proc_get_pids(self):
+        pids = []
+        for pid in self.__proc_get_pids():
+            if self.__kthreads.get(pid):
+                continue
+            try:
                 if not os.path.realpath("/proc/{}/exe".format(pid)):
                     continue
-
                 mtime = os.path.getmtime("/proc/{}".format(pid)) + self.check_freq
                 if mtime > time.time():
                     continue
+            except FileNotFoundError:
+                continue
+            pids += [pid]
+        return pids
 
-                path = "/proc/{}/task/".format(pid)
-                for tpid in os.listdir(path):
-                    tpid = int(tpid)
-                    path = "/proc/{}/task/{}".format(pid, tpid)
-
-                    mtime = os.path.getmtime(path) + self.check_freq
-                    if mtime > time.time():
-                        continue
-
-                    proc[tpid] = TPID(pid, tpid)
+    def pid_get_tpid(self, pid):
+        tpids = []
+        path = "/proc/{}/task/".format(pid)
+        for tpid in os.listdir(path):
+            try:
+                tpid = int(tpid)
             except ValueError:
                 continue
+
+            path = "/proc/{}/task/{}".format(pid, tpid)
+            try:
+                mtime = os.path.getmtime(path) + self.check_freq
+            except FileNotFoundError:
+                continue
+            if mtime > time.time():
+                continue
+
+            tpids += [tpid]
+        return tpids
+
+    def proc_map_update(self):
+        proc = {}
+        for pid in self.proc_get_pids():
+            try:
+                for tpid in self.pid_get_tpid(pid):
+                    proc[tpid] = TPID(pid, tpid)
             except FileNotFoundError:
                 continue
         self.proc = proc
@@ -587,8 +632,9 @@ class Ananicy:
                     print(msg)
 
     def run(self):
+        _thread.start_new_thread(self.thread_kthreads_update, ())
         while True:
-            self.update_proc_map()
+            self.proc_map_update()
             for tpid in self.proc:
                 self.process_tpid(tpid)
             sleep(self.check_freq)
