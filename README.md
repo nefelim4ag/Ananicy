@@ -49,12 +49,12 @@ Rules files should be placed under /etc/ananicy.d/ directory and have *.rules ex
 Inside .rules file every process is described on a separate line, general syntax is described below:
 
 ```
-NAME=<process_name> NICE=cpu_nice SCHED=cpu_sched IOCLASS=io_class IONICE=io_nice_value
+{ "name": "gcc", "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
 ```
 
-All fields except NAME are optional.
+All fields except 'name' are optional.
 
-NAME used for match processes by exec bin name
+'name' used for match processes by exec bin name
 ```
 ~ basename $(sudo realpath /proc/1/exe)
 systemd
@@ -65,14 +65,6 @@ Currently match by other things, not supported.
 You can check what Ananicy see, by:
 ```
 ananicy dump proc
-```
-
-
-Example configurations:
-```
-NAME=cron NICE=-1
-NAME=xz   NICE=19 IOCLASS=idle IONICE=4
-NAME=pulseaudio IOCLASS=realtime
 ```
 
 Ananicy load all rules in ram while starting, so to apply rules, you must restart service.
@@ -94,7 +86,7 @@ Example: pulseaudio uses 'nice' -11 by default, if you set other cpu hungry task
 
 About IO priority:
 
-1. It's usefull use IOCLASS=idle for IO hungry background tasks like: file indexers, Cloud Clients, Backups and etc.
+1. It's usefull use '{"ioclass": "idle"}' for IO hungry background tasks like: file indexers, Cloud Clients, Backups and etc.
 2. It's not cool set realtime to all tasks. The  RT  scheduling  class is given first access to the disk, regardless of what else is going on in the system.  Thus the RT class needs to be used with some care, as it can starve other processes. So try use ioclass first.
 
 ## Debugging
