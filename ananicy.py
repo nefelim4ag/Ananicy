@@ -32,13 +32,6 @@ class TPID():
         self.exe = os.path.realpath("/proc/{}/exe".format(pid))
         self.__oom_score_adj = self.prefix + "/oom_score_adj"
 
-    def run_cmd(self, run):
-        ret = subprocess.run(run, timeout=30, check=True,
-                             stdout=subprocess.PIPE,
-                             universal_newlines=True
-                             )
-        return ret
-
     @property
     def cmd(self):
         if not self.__cmd:
@@ -73,8 +66,15 @@ class TPID():
         _cmdline = _cmdline.replace('\u0000', ' ')
         return _cmdline.split()
 
+    def __ionice_cmd(self, tpid):
+        ret = subprocess.run(["ionice", "-p", str(tpid)], check=True,
+                             stdout=subprocess.PIPE,
+                             universal_newlines=True
+                             )
+        return ret
+
     def __get_ioprop(self):
-        ret = self.run_cmd(["ionice", "-p", str(self.tpid)])
+        ret = self.__ionice_cmd(self.tpid)
         stdout = ret.stdout.rsplit(': prio ')
         self.__ioclass = stdout[0].rstrip()
         if self.__ioclass == "none":
@@ -440,13 +440,6 @@ class Ananicy:
         if not os.path.exists(path):
             raise Failure("Missing dir: " + path)
 
-    def run_cmd(self, run):
-        ret = subprocess.run(run, timeout=30, check=True,
-                             stdout=subprocess.PIPE,
-                             universal_newlines=True
-                             )
-        return ret
-
     def find_files(self, path, name_mask):
         files = []
         entryes = os.listdir(path)
@@ -537,29 +530,38 @@ class Ananicy:
                 continue
         self.proc = proc
 
+    def renice_cmd(self, pid: int, nice: int):
+        subprocess.run(["renice", "-n", str(nice), "-p", str(pid)], stdout=subprocess.DEVNULL)
+
     def renice(self, pid: int, nice: int):
         c_nice = self.proc[pid].nice
         if c_nice == nice:
             return
-        self.run_cmd(["renice", "-n", str(nice), "-p", str(pid)])
+        self.renice_cmd(pid, nice)
         msg = "renice: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_nice, nice)
         if self.verbose["apply_nice"]:
             print(msg, flush=True)
 
-    def ioclass(self, pid, ioclass):
+    def ioclass_cmd(self, pid: int, ioclass: str):
+        subprocess.run(["ionice", "-p", str(pid), "-c", ioclass], stdout=subprocess.DEVNULL)
+
+    def ioclass(self, pid: int, ioclass: str):
         c_ioclass = self.proc[pid].ioclass
         if ioclass != c_ioclass:
-            self.run_cmd(["ionice", "-p", str(pid), "-c", ioclass])
+            self.ioclass_cmd(pid, ioclass)
             msg = "ioclass: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_ioclass, ioclass)
             if self.verbose["apply_ioclass"]:
                 print(msg, flush=True)
+
+    def ionice_cmd(self, pid: int, ionice: int):
+        subprocess.run(["ionice", "-p", str(pid), "-c", str(ionice)], stdout=subprocess.DEVNULL)
 
     def ionice(self, pid, ionice):
         c_ionice = self.proc[pid].ionice
         if c_ionice is None:
             return
         if str(ionice) != c_ionice:
-            self.run_cmd(["ionice", "-p", str(pid), "-n", str(ionice)])
+            self.ionice_cmd(pid, ionice)
             msg = "ionice: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_ionice, ionice)
             if self.verbose["apply_ionice"]:
                 print(msg, flush=True)
@@ -572,17 +574,24 @@ class Ananicy:
             if self.verbose["apply_oom_score_adj"]:
                 print(msg, flush=True)
 
-    def sched(self, pid, sched):
-        l_prio = None
+    def sched_cmd(self, pid: int, sched: str, l_prio: int = None):
         arg_map = {
-            'other': '-N',
-            'normal': '-N',
+            'other': '-N', 'normal': '-N',
             'rr': '-R',
             'fifo': '-F',
             'batch': '-B',
             'iso': '-I',
             'idle': '-D'
         }
+        sched_arg = arg_map[sched]
+        cmd = ["schedtool", sched_arg]
+        if l_prio:
+            cmd += ["-p", str(l_prio)]
+        cmd += [str(pid)]
+        subprocess.run(cmd, stdout=subprocess.DEVNULL)
+
+    def sched(self, pid, sched):
+        l_prio = None
         c_sched = self.proc[pid].sched
         if not c_sched or c_sched == sched:
             return
@@ -590,12 +599,7 @@ class Ananicy:
             return
         if sched == "rr" or sched == "fifo":
             l_prio = 1
-        sched_arg = arg_map[sched]
-        cmd = ["schedtool", sched_arg]
-        if l_prio:
-            cmd += ["-p", str(l_prio)]
-        cmd += [str(pid)]
-        self.run_cmd(cmd)
+        self.sched_cmd(pid, sched, l_prio)
         msg = "sched: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_sched, sched)
         if self.verbose["apply_sched"]:
             print(msg)
