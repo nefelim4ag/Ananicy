@@ -19,6 +19,7 @@ class TPID():
     pid = 0
     tpid = 0
     exe = None
+    _stat = None
     __cmd = None
     __ionice = None
     __ioclass = None
@@ -60,11 +61,10 @@ class TPID():
 
     @property
     def nice(self):
-        stat = self.stat
-        m = re.search('\\) . .*', stat)
-        m = m.group(0)
-        m = m.rsplit()
-        return int(m[17])
+        if not self._stat:
+            m = re.search('\\) . .*', self.stat)
+            self._stat = m.group(0).rsplit()
+        return int(self._stat[17])
 
     @property
     def cmdline(self):
@@ -97,21 +97,22 @@ class TPID():
             self.__get_ioprop()
         return self.__ionice
 
+    _scheds = {
+        0: "normal", "normal": 0,
+        1: "fifo", "fifo": 1,
+        2: "rr", "rr": 2,
+        3: "batch", "batch": 3,
+        4: "iso", "iso": 4,
+        5: "idle", "idle": 5
+    }
+
     @property
     def sched(self):
-        try:
-            ret = self.run_cmd(["schedtool", str(self.tpid)])
-            if "ERROR" in ret.stdout.rstrip():
-                return
-            sched = ret.stdout.rstrip()
-            sched = sched.rsplit(',')
-            sched = sched[1]
-            sched = sched.rstrip(' ').rsplit(': ')[1]
-            sched = sched.rsplit('_')[1]
-            sched = sched.lower()
-            return sched
-        except subprocess.CalledProcessError:
-            return
+        if not self._stat:
+            m = re.search('\\) . .*', self.stat)
+            self._stat = m.group(0).rsplit()
+        _sched = int(self._stat[39])
+        return self._scheds.get(_sched)
 
 
 class CgroupController:
@@ -527,7 +528,7 @@ class Ananicy:
                 print(msg, flush=True)
 
     def sched(self, pid, sched):
-        l_prio = 0
+        l_prio = None
         arg_map = {
             'other': '-N',
             'normal': '-N',
@@ -538,18 +539,18 @@ class Ananicy:
             'idle': '-D'
         }
         c_sched = self.proc[pid].sched
-        if not c_sched:
-            return
-        if c_sched == sched:
+        if not c_sched or c_sched == sched:
             return
         if sched == "other" and c_sched == "normal":
-            return
-        if sched == "idle" and c_sched == "idleprio":
             return
         if sched == "rr" or sched == "fifo":
             l_prio = 1
         sched_arg = arg_map[sched]
-        self.run_cmd(["schedtool", sched_arg, "-p", str(l_prio), str(pid)])
+        cmd = ["schedtool", sched_arg]
+        if l_prio:
+            cmd += ["-p", str(l_prio)]
+        cmd += [str(pid)]
+        self.run_cmd(cmd)
         msg = "sched: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_sched, sched)
         if self.verbose["apply_sched"]:
             print(msg)
@@ -617,6 +618,7 @@ class Ananicy:
                     "cmd": TPID_l.cmd,
                     "stat": TPID_l.stat,
                     "nice": TPID_l.nice,
+                    "sched": TPID_l.sched,
                     "ionice": [TPID_l.ioclass, TPID_l.ionice],
                     "oom_score_adj": TPID_l.oom_score_adj,
                     "cmdline": TPID_l.cmdline,
