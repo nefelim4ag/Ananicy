@@ -554,7 +554,7 @@ class Ananicy:
                 print(msg, flush=True)
 
     def ionice_cmd(self, pid: int, ionice: int):
-        subprocess.run(["ionice", "-p", str(pid), "-c", str(ionice)], stdout=subprocess.DEVNULL)
+        subprocess.run(["ionice", "-p", str(pid), "-n", str(ionice)], stdout=subprocess.DEVNULL)
 
     def ionice(self, pid, ionice):
         c_ionice = self.proc[pid].ionice
