@@ -225,7 +225,7 @@ class Ananicy:
         self.load_types()
         self.load_rules()
         if os.getenv("NOTIFY_SOCKET"):
-            self.run_cmd(["systemd-notify", "--ready"])
+            subprocess.run(["systemd-notify", "--ready"])
 
     def __strip_line(self, line):
         line = line.rstrip()
