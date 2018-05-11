@@ -481,7 +481,7 @@ class Ananicy:
 
     def thread_kthreads_update(self):
         while False:
-            # self.kthreads_update()
+            self.kthreads_update()
             sleep(60)
 
     def proc_get_pids(self):
@@ -657,7 +657,7 @@ class Ananicy:
         print(json.dumps(self.rules, indent=4), flush=True)
 
     def dump_proc(self):
-        self.update_proc_map()
+        self.proc_map_update()
         proc_dict = {}
         for tpid in self.proc:
             try:
