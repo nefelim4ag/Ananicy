@@ -11,7 +11,7 @@
 { "name": "csd-background",		"type": "LowLatency_RT" }
 { "name": "csd-clipboard",		"type": "LowLatency_RT" }
 { "name": "csd-color",			"type": "LowLatency_RT" }
-{ "name": "csd-cursor",			"type": "LowLatency_RT" }
+{ "name": "csd-cursor",		"type": "LowLatency_RT" }
 { "name": "csd-housekeeping",		"type": "LowLatency_RT" }
 { "name": "csd-keyboard",		"type": "LowLatency_RT" }
 { "name": "csd-media-keys",		"type": "LowLatency_RT" }
@@ -23,5 +23,5 @@
 { "name": "csd-screensaver-proxy",	"type": "LowLatency_RT" }
 { "name": "csd-sound",			"type": "LowLatency_RT" }
 { "name": "csd-wacom",			"type": "LowLatency_RT" }
-{ "name": "csd-xrandr",			"type": "LowLatency_RT" }
+{ "name": "csd-xrandr",		"type": "LowLatency_RT" }
 { "name": "csd-xsettings",		"type": "LowLatency_RT" }
