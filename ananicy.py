@@ -399,7 +399,9 @@ class Ananicy:
             type = self.types[type]
             for attr in ("nice", "ioclass", "ionice", "sched", "oom_score_adj", "cgroup"):
                 tmp = type.get(attr)
-                if tmp:
+                if not tmp:
+                    continue
+                if not line.get(attr):
                     line[attr] = tmp
 
         cgroup = line.get("cgroup")
