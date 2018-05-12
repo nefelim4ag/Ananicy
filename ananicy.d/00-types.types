@@ -15,7 +15,7 @@
 
 # Type: Low Latency Realtime Apps
 # In general case not so heavy, but must not lag
-{ "type": "LowLatency_RT", "nice": -15, "ioclass": "realtime" }
+{ "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
 
 # Type: BackGround CPU/IO Load
 # Background CPU/IO it's needed, but it must be as silent as possible
