@@ -535,44 +535,49 @@ class Ananicy:
     def renice_cmd(self, pid: int, nice: int):
         subprocess.run(["renice", "-n", str(nice), "-p", str(pid)], stdout=subprocess.DEVNULL)
 
-    def renice(self, pid: int, nice: int):
-        c_nice = self.proc[pid].nice
+    def renice(self, tpid: int, nice: int):
+        p_tpid = self.proc[tpid]
+        c_nice = p_tpid.nice
         if c_nice == nice:
             return
-        self.renice_cmd(pid, nice)
-        msg = "renice: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_nice, nice)
+        self.renice_cmd(tpid, nice)
+        msg = "renice: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid, c_nice, nice)
         if self.verbose["apply_nice"]:
             print(msg, flush=True)
 
     def ioclass_cmd(self, pid: int, ioclass: str):
         subprocess.run(["ionice", "-p", str(pid), "-c", ioclass], stdout=subprocess.DEVNULL)
 
-    def ioclass(self, pid: int, ioclass: str):
-        c_ioclass = self.proc[pid].ioclass
+    def ioclass(self, tpid: int, ioclass: str):
+        p_tpid = self.proc[tpid]
+        c_ioclass = p_tpid.ioclass
         if ioclass != c_ioclass:
-            self.ioclass_cmd(pid, ioclass)
-            msg = "ioclass: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_ioclass, ioclass)
+            self.ioclass_cmd(tpid, ioclass)
+            msg = "ioclass: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid, c_ioclass, ioclass)
             if self.verbose["apply_ioclass"]:
                 print(msg, flush=True)
 
     def ionice_cmd(self, pid: int, ionice: int):
         subprocess.run(["ionice", "-p", str(pid), "-n", str(ionice)], stdout=subprocess.DEVNULL)
 
-    def ionice(self, pid, ionice):
-        c_ionice = self.proc[pid].ionice
+    def ionice(self, tpid, ionice):
+        p_tpid = self.proc[tpid]
+        c_ionice = p_tpid.ionice
         if c_ionice is None:
             return
         if str(ionice) != c_ionice:
-            self.ionice_cmd(pid, ionice)
-            msg = "ionice: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_ionice, ionice)
+            self.ionice_cmd(tpid, ionice)
+            msg = "ionice: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid, c_ionice, ionice)
             if self.verbose["apply_ionice"]:
                 print(msg, flush=True)
 
-    def oom_score_adj(self, pid, oom_score_adj):
-        c_oom_score_adj = self.proc[pid].oom_score_adj
+    def oom_score_adj(self, tpid, oom_score_adj):
+        p_tpid = self.proc[tpid]
+        c_oom_score_adj = p_tpid.oom_score_adj
         if c_oom_score_adj != oom_score_adj:
-            self.set_oom_score_adj(pid, oom_score_adj)
-            msg = "oom_score_adj: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_oom_score_adj, oom_score_adj)
+            self.set_oom_score_adj(tpid, oom_score_adj)
+            msg = "oom_score_adj: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid,
+                                                             c_oom_score_adj, oom_score_adj)
             if self.verbose["apply_oom_score_adj"]:
                 print(msg, flush=True)
 
@@ -592,21 +597,23 @@ class Ananicy:
         cmd += [str(pid)]
         subprocess.run(cmd, stdout=subprocess.DEVNULL)
 
-    def sched(self, pid, sched):
+    def sched(self, tpid, sched):
+        p_tpid = self.proc[tpid]
         l_prio = None
-        c_sched = self.proc[pid].sched
+        c_sched = p_tpid.sched
         if not c_sched or c_sched == sched:
             return
         if sched == "other" and c_sched == "normal":
             return
         if sched == "rr" or sched == "fifo":
             l_prio = 1
-        self.sched_cmd(pid, sched, l_prio)
-        msg = "sched: {}[{}] {} -> {}".format(self.proc[pid].cmd, pid, c_sched, sched)
+        self.sched_cmd(p_tpid.tpid, sched, l_prio)
+        msg = "sched: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid, c_sched, sched)
         if self.verbose["apply_sched"]:
             print(msg)
 
     def process_tpid(self, tpid):
+        # proc entry
         pe = self.proc.get(tpid)
         if not os.path.exists("/proc/{}/task/{}".format(pe.pid, pe.tpid)):
             return
@@ -665,6 +672,7 @@ class Ananicy:
             try:
                 TPID_l = self.proc[tpid]
                 proc_dict[tpid] = {
+                    "pid": TPID_l.pid,
                     "tpid": TPID_l.tpid,
                     "exe": TPID_l.exe,
                     "cmd": TPID_l.cmd,
