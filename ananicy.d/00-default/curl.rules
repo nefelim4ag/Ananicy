@@ -1,0 +1,2 @@
+# curl - URL retrieval utility and library: https://curl.haxx.se
+{ "name": "curl", "type": "BG_CPUIO" }

@@ -1,0 +1,2 @@
+# aria2 - lightweight download utility: https://aria2.github.io/
+{ "name": "aria2c", "type": "BG_CPUIO" }
