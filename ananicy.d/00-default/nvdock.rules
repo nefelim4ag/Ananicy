@@ -1,0 +1,2 @@
+# Nvidia Dock Applet: https://aur.archlinux.org/packages/nvdock/
+{ "name": "nvdock", "type": "BG_CPUIO" }
