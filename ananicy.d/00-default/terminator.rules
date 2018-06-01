@@ -1,0 +1,3 @@
++# Terminator :  https://linux.die.net/man/1/terminator
++{ "name": "terminator",		"type": "LowLatency_RT" }
++{ "name": "terminator.wrapper",	"type": "LowLatency_RT" }
