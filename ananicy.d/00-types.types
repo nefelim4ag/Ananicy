@@ -1,7 +1,7 @@
 # Type: Game
 # Use more CPU time if possible
 # Games do not always need more IO, but in most cases can be hungry for CPU
-{ "type": "Game", "nice": -5 }
+{ "type": "Game", "nice": -5, "ioclass": "best-effort" }
 
 # Type: Player Audio/Video
 # Try to add more CPU power to decrease latency/lags
