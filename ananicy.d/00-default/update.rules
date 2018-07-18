@@ -1,0 +1,7 @@
+# system updaters
+{ "name": "apt-get", "type": "BG_CPUIO" } 
+{ "name": "aptitude", "type": "BG_CPUIO" } 
+{ "name": "zypper", "type": "BG_CPUIO" } 
+
+{ "name": "rpm", "type": "BG_CPUIO" } 
+{ "name": "dpkg", "type": "BG_CPUIO" } 
