@@ -1,11 +1,14 @@
 #!/bin/bash
+# Copywright Andre Madureira 2018
+# Install dependencies to make Ananicy work inside Debian 9
+
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 
 [ "$(whoami)" != "root" ] && echo -e "\n\tRUN this script as ROOT. Exiting...\n" && exit 1
 
 PWD=$(pwd) 
 apt-get update &&
-apt-get -y install schedtool git make gcc autoconf automake &&
+apt-get -y install schedtool git make gcc autoconf automake python3 &&
 cd "$SCRIPT_DIR"/ananicy &&
 make -j4 install &&
 systemctl daemon-reload &&
