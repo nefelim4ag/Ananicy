@@ -44,14 +44,17 @@ install_deps(){
 
 set_autostart(){
   local SERVICE_NAME=ananicy   
+  local LOCAL_STATUS=0
   if [ -n "$SYSTEMCTL" ]; then
     # use systemctl to autostart ananicy
     systemctl daemon-reload &&
     systemctl enable "$SERVICE_NAME" &&
     systemctl start "$SERVICE_NAME" 
+    LOCAL_STATUS=$(($LOCAL_STATUS+$?))
   else
     # TODO, create SYS V INIT script
   fi  
+  return $LOCAL_STATUS
 }
 
 check_distro
