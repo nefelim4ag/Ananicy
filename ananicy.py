@@ -704,22 +704,25 @@ def main(argv):
     if len(argv) < 2:
         help()
 
-    if argv[1] == "start":
-        daemon = Ananicy()
-        daemon.run()
+    try:
+        if argv[1] == "start":
+            daemon = Ananicy()
+            daemon.run()
 
-    if argv[1] == "dump":
-        daemon = Ananicy(daemon=False)
-        if len(argv) < 3:
-            help()
-        if argv[2] == "rules":
-            daemon.dump_rules()
-        if argv[2] == "types":
-            daemon.dump_types()
-        if argv[2] == "cgroups":
-            daemon.dump_cgroups()
-        if argv[2] == "proc":
-            daemon.dump_proc()
+        if argv[1] == "dump":
+            daemon = Ananicy(daemon=False)
+            if len(argv) < 3:
+                help()
+            if argv[2] == "rules":
+                daemon.dump_rules()
+            if argv[2] == "types":
+                daemon.dump_types()
+            if argv[2] == "cgroups":
+                daemon.dump_cgroups()
+            if argv[2] == "proc":
+                daemon.dump_proc()
+    except PermissionError as e:
+        print("You are root?: {}".format(e))
 
 
 if __name__ == '__main__':
