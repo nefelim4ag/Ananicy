@@ -61,10 +61,16 @@ class TPID():
 
     @property
     def cmdline(self):
-        _cmdline = open(self.prefix + "/cmdline").readline()
-        _cmdline = _cmdline.rstrip('\x00')
-        _cmdline = _cmdline.replace('\u0000', ' ')
-        return _cmdline.split()
+        # read command line
+        with open(self.prefix + '/cmdline', mode='rb') as cmdline_file:
+            _cmdline = cmdline_file.read()
+        # remove null character from end
+        if len(_cmdline) > 0 and _cmdline[-1] == 0:
+            _cmdline = _cmdline[:-1]
+        # split on null characters
+        _cmdline = _cmdline.split(b'\x00')
+        # convert arguments from bytes to strings
+        return tuple(arg.decode() for arg in _cmdline)
 
     def __ionice_cmd(self, tpid):
         ret = subprocess.run(["ionice", "-p", str(tpid)], check=True,
