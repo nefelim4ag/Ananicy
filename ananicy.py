@@ -41,16 +41,18 @@ class TPID():
 
     @property
     def oom_score_adj(self):
-        _oom_score_adj = open(self.__oom_score_adj, 'r').readline()
-        return int(_oom_score_adj.rstrip())
+        with open(self.__oom_score_adj, 'r') as _oom_score_adj_file:
+            return int(_oom_score_adj_file.readline().rstrip())
 
-    def set_oom_score_adj(self, oom_score_adj):
-        with open(self.__oom_score_adj, 'w') as fd:
-            fd.write(str(oom_score_adj))
+    @oom_score_adj.setter
+    def oom_score_adj(self, oom_score_adj):
+        with open(self.__oom_score_adj, 'w') as _oom_score_adj_file:
+            _oom_score_adj_file.write(str(oom_score_adj))
 
     @property
     def stat(self):
-        return open(self.prefix + "/stat").readline().rstrip()
+        with open(self.prefix + "/stat") as _stat_file:
+            return _stat_file.readline().rstrip()
 
     @property
     def nice(self):
@@ -185,7 +187,8 @@ class CgroupController:
 
     def add_pid(self, pid):
         try:
-            open(self.files["tasks"], 'w').write(str(pid))
+            with open(self.files["tasks"], 'w') as _tasks_file:
+                _tasks_file.write(str(pid))
         except OSError:
             pass
 
@@ -287,31 +290,31 @@ class Ananicy:
             return False
 
     def load_config(self):
-        lines = open(self.config_dir + "ananicy.conf").readlines()
-        for line in lines:
-            line = self.__strip_line(line)
-            for col in line.rsplit():
-                if "check_freq=" in col:
-                    check_freq = self.__get_val(col)
-                    self.check_freq = float(check_freq)
-                if "cgroup_load=" in col:
-                    self.verbose["cgroup_load"] = self.__YN(self.__get_val(col))
-                if "type_load=" in col:
-                    self.verbose["type_load"] = self.__YN(self.__get_val(col))
-                if "rule_load=" in col:
-                    self.verbose["rule_load"] = self.__YN(self.__get_val(col))
-                if "apply_nice=" in col:
-                    self.verbose["apply_nice"] = self.__YN(self.__get_val(col))
-                if "apply_ioclass=" in col:
-                    self.verbose["apply_ioclass"] = self.__YN(self.__get_val(col))
-                if "apply_ionice=" in col:
-                    self.verbose["apply_ionice"] = self.__YN(self.__get_val(col))
-                if "apply_sched=" in col:
-                    self.verbose["apply_sched"] = self.__YN(self.__get_val(col))
-                if "apply_oom_score_adj=" in col:
-                    self.verbose["apply_oom_score_adj"] = self.__YN(self.__get_val(col))
-                if "apply_cgroup=" in col:
-                    self.verbose["apply_cgroup"] = self.__YN(self.__get_val(col))
+        with open(self.config_dir + "ananicy.conf") as _config_file:
+            for line in _config_file:
+                line = self.__strip_line(line)
+                for col in line.rsplit():
+                    if "check_freq=" in col:
+                        check_freq = self.__get_val(col)
+                        self.check_freq = float(check_freq)
+                    if "cgroup_load=" in col:
+                        self.verbose["cgroup_load"] = self.__YN(self.__get_val(col))
+                    if "type_load=" in col:
+                        self.verbose["type_load"] = self.__YN(self.__get_val(col))
+                    if "rule_load=" in col:
+                        self.verbose["rule_load"] = self.__YN(self.__get_val(col))
+                    if "apply_nice=" in col:
+                        self.verbose["apply_nice"] = self.__YN(self.__get_val(col))
+                    if "apply_ioclass=" in col:
+                        self.verbose["apply_ioclass"] = self.__YN(self.__get_val(col))
+                    if "apply_ionice=" in col:
+                        self.verbose["apply_ionice"] = self.__YN(self.__get_val(col))
+                    if "apply_sched=" in col:
+                        self.verbose["apply_sched"] = self.__YN(self.__get_val(col))
+                    if "apply_oom_score_adj=" in col:
+                        self.verbose["apply_oom_score_adj"] = self.__YN(self.__get_val(col))
+                    if "apply_cgroup=" in col:
+                        self.verbose["apply_cgroup"] = self.__YN(self.__get_val(col))
 
     def load_cgroups(self):
         files = self.find_files(self.config_dir, '.*\\.cgroups')
@@ -319,16 +322,17 @@ class Ananicy:
             if self.verbose["cgroup_load"]:
                 print("Load cgroup:", file)
             line_number = 1
-            for line in open(file).readlines():
-                try:
-                    self.get_cgroup_info(line)
-                except Failure as e:
-                    str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
-                    print(str, flush=True)
-                except json.decoder.JSONDecodeError as e:
-                    str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
-                    print(str, flush=True)
-                line_number += 1
+            with open(file) as _cgroups_file:
+                for line in _cgroups_file:
+                    try:
+                        self.get_cgroup_info(line)
+                    except Failure as e:
+                        str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                        print(str, flush=True)
+                    except json.decoder.JSONDecodeError as e:
+                        str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                        print(str, flush=True)
+                    line_number += 1
 
     def get_cgroup_info(self, line):
         line = self.__strip_line(line)
@@ -371,16 +375,17 @@ class Ananicy:
             if self.verbose["type_load"]:
                 print("Load types:", file)
             line_number = 1
-            for line in open(file).readlines():
-                try:
-                    self.get_type_info(line)
-                except Failure as e:
-                    str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
-                    print(str, flush=True)
-                except json.decoder.JSONDecodeError as e:
-                    str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
-                    print(str, flush=True)
-                line_number += 1
+            with open(file) as _types_file:
+                for line in _types_file:
+                    try:
+                        self.get_type_info(line)
+                    except Failure as e:
+                        str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                        print(str, flush=True)
+                    except json.decoder.JSONDecodeError as e:
+                        str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                        print(str, flush=True)
+                    line_number += 1
 
     def get_rule_info(self, line):
         line = self.__strip_line(line)
@@ -424,16 +429,17 @@ class Ananicy:
             if self.verbose["rule_load"]:
                 print("Load rules:", file)
             line_number = 1
-            for line in open(file).readlines():
-                try:
-                    self.get_rule_info(line)
-                except Failure as e:
-                    str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
-                    print(str, flush=True)
-                except json.decoder.JSONDecodeError as e:
-                    str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
-                    print(str, flush=True)
-                line_number += 1
+            with open(file) as _rules_file:
+                for line in _rules_file:
+                    try:
+                        self.get_rule_info(line)
+                    except Failure as e:
+                        str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                        print(str, flush=True)
+                    except json.decoder.JSONDecodeError as e:
+                        str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                        print(str, flush=True)
+                    line_number += 1
 
         if len(self.rules) == 0:
             raise Failure("No rules loaded")
@@ -575,7 +581,7 @@ class Ananicy:
         p_tpid = self.proc[tpid]
         c_oom_score_adj = p_tpid.oom_score_adj
         if c_oom_score_adj != oom_score_adj:
-            self.set_oom_score_adj(tpid, oom_score_adj)
+            p_tpid.oom_score_adj = oom_score_adj
             msg = "oom_score_adj: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid,
                                                              c_oom_score_adj, oom_score_adj)
             if self.verbose["apply_oom_score_adj"]:
