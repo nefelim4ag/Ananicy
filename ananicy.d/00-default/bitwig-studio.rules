@@ -1,0 +1,3 @@
+# Digital Audio Workstation: https://www.bitwig.com/en/bitwig-studio.html
+{ "name": "bitwig-studio",      "type": "LowLatency_RT" }
+{ "name": "BitwigStudioEngine", "type": "LowLatency_RT" }

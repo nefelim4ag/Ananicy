@@ -1,0 +1,2 @@
+# Alarm scheduler: https://github.com/shaggytwodope/alarm-clock
+{ "name": "alarm-clock", "type": "BG_CPUIO" }

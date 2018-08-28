@@ -1,0 +1,2 @@
+# A rule for GNU R, a language for statistical computing and graphics
+{ "name": "R", "type": "BG_CPUIO" }

@@ -1,0 +1,2 @@
+# http://fluxbox.org/
+{ "name": "fluxbox", "type": "LowLatency_RT" }

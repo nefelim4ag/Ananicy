@@ -1,0 +1,2 @@
+# Sound editor: http://www.audacityteam.org/
+{ "name": "audacity", "type": "LowLatency_RT" }

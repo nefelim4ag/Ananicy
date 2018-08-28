@@ -1,0 +1,2 @@
+# Image and document viewer: https://github.com/linuxmint/xviewer
+{ "name": "xviewer", "type": "Doc-View" }

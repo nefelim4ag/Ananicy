@@ -1,0 +1,3 @@
+# http://www.sopcast.com
+{ "name": "sopcast-player", "type": "Player-Video" }
+{ "name": "sopcast-player.py", "type": "Player-Video" }

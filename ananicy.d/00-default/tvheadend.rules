@@ -1,0 +1,2 @@
+# TVHeadend streaming server: https://tvheadend.org/
+{ "name": "tvheadend", "type": "Player-Video" }

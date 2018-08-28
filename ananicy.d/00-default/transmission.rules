@@ -1,0 +1,7 @@
+# Torrent client: https://www.transmissionbt.com
+{ "name": "transgui",            "type": "BG_CPUIO" }
+{ "name": "transmission-cli",    "type": "BG_CPUIO" }
+{ "name": "transmission-daemon", "type": "BG_CPUIO" }
+{ "name": "transmission-gtk",    "type": "BG_CPUIO" }
+{ "name": "transmission-qt",     "type": "BG_CPUIO" }
+{ "name": "transmission-remote", "type": "BG_CPUIO" }

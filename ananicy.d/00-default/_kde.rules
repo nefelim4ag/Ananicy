@@ -1,0 +1,10 @@
+################################################################################S
+# https://community.kde.org/Baloo
+# Baloo is the file indexing and file search framework for KDE.
+{ "name": "baloo_file", "type": "BG_CPUIO" }
+
+{ "name": "krunner",      "type": "LowLatency_RT" }
+{ "name": "kwin_x11",     "type": "LowLatency_RT" }
+{ "name": "plasmashell",  "nice": -1 }
+
+{ "name": "kdeconnectd",  "type": "BG_CPUIO" }

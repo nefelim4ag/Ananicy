@@ -1,0 +1,33 @@
+# Type: Game
+# Use more CPU time if possible
+# Games do not always need more IO, but in most cases can be hungry for CPU
+{ "type": "Game", "nice": -5, "ioclass": "best-effort" }
+
+# Type: Player Audio/Video
+# Try to add more CPU power to decrease latency/lags
+# Try to add real time io for avoiding lags
+{ "type": "Player-Audio", "nice": -3, "ioclass": "realtime" }
+{ "type": "Player-Video", "nice": -3,  "ioclass": "realtime" }
+
+# Must have more CPU/IO time, but not so much as other apps
+{ "type": "Image-View", "nice":-3 }
+{ "type": "Doc-View",   "nice":-3 }
+
+# Type: Low Latency Realtime Apps
+# In general case not so heavy, but must not lag
+{ "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
+
+# Type: BackGround CPU/IO Load
+# Background CPU/IO it's needed, but it must be as silent as possible
+{ "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
+
+# Type: Heavy CPU Load
+# It must work fast enough but must not create so much noise
+{ "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
+
+# Type: Chat
+{"type": "Chat", "nice": -1, "ioclass": "best-effort", "ionice": 7 }
+
+# Type: Adj OOM Score
+{ "type": "OOM_KILL", "oom_score_adj":  1000 }
+{ "type": "OOM_NO_KILL", "oom_score_adj": -1000 }

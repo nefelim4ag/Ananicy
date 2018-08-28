@@ -1,0 +1,2 @@
+# https://github.com/chjj/compton
+{ "name": "compton", "type": "LowLatency_RT" }

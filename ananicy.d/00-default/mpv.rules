@@ -1,0 +1,2 @@
+# Video player: https://mpv.io/
+{ "name": "mpv", "type": "Player-Video" }

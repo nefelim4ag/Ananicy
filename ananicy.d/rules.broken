@@ -1,0 +1,20 @@
+# Broken rules for Ananicy 2.X
+
+NAME="^[[:alnum:]/]*python. [[:alnum:]/]*virt-manager" TYPE=LowLatency_RT
+
+NAME='xfce4/panel/wrapper-'     TYPE=LowLatency_RT
+
+# https://smuxi.im/
+NAME='^[[:alnum:]/]*mono.*smuxi' TYPE=CHAT
+
+# https://i3wm.org
+# https://github.com/vivien/i3blocks
+NAME='/i3'           TYPE=LowLatency_RT
+NAME='/i3-bar'       TYPE=LowLatency_RT
+NAME='/i3-blocks'    TYPE=LowLatency_RT
+
+# Possible gcc?
+NAME=cc1 TYPE=HEAVY_CPU
+
+# Firefox?
+NAME="Web Content" TYPE=DOC_VIEW

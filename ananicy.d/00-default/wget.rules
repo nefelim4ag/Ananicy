@@ -1,0 +1,2 @@
+# https://www.gnu.org/software/wget
+{ "name": "wget", "type": "BG_CPUIO" }

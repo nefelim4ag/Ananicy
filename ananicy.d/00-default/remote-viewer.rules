@@ -1,0 +1,3 @@
+# A rule for the simple desktop client for SPICE and VNC servers.
+# Supposedly used to control virtual machines.
+{ "name": "remote-viewer", "type": "LowLatency_RT" }

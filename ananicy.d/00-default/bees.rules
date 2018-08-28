@@ -1,0 +1,2 @@
+# https://github.com/Zygo/bees
+{ "name": "bees", "type": "BG_CPUIO", "oom_score_adj": 1000 }

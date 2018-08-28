@@ -1,0 +1,2 @@
+# Official MEGA.nz client: https://github.com/meganz/MEGAsync
+{ "name": "megasync", "type": "BG_CPUIO" }

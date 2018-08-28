@@ -1,0 +1,2 @@
+# psensor - graphical hardware temperature monitor: https://wpitchoune.net/psensor/
+{ "name": "psensor", "type": "BG_CPUIO" }

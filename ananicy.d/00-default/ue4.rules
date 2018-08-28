@@ -1,0 +1,5 @@
+# unreal engine 4: https://www.unrealengine.com
+{ "name": "UE4Editor", "type": "BG_CPUIO" }
+{ "name": "ShaderCompileWorker", "type": "BG_CPUIO" }
+{ "name": "UnrealLightmass", "type": "BG_CPUIO" }
+{ "name": "UnrealPak", "type": "BG_CPUIO" }

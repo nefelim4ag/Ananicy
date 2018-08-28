@@ -1,0 +1,4 @@
+# rstudio itself
+{ "name": "rstudio", "type": "LowLatency_RT" }
+# its rsession
+{ "name": "rsession", "type": "BG_CPUIO" }

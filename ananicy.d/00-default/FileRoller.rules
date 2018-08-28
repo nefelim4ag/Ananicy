@@ -1,0 +1,2 @@
+# https://wiki.gnome.org/Apps/FileRoller
+{ "name": "file-roller", "type": "BG_CPUIO" }

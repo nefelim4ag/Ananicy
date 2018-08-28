@@ -1,0 +1,2 @@
+# GNOME image viewer: https://wiki.gnome.org/Apps/EyeOfGnome/
+{ "name": "eog", "type": "Image-View" } 

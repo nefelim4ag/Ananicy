@@ -1,0 +1,2 @@
+# Video player: http://www.videolan.org/vlc/index.html
+{ "name": "vlc", "type": "Player-Video" }

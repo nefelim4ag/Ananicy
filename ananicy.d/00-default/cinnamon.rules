@@ -1,0 +1,7 @@
+# Cinnamon Desktop http://developer.linuxmint.com/
+# Includes Cinnamon-Settings-Daemon plugins
+{ "name": "cinnamon",			"type": "LowLatency_RT" }
+{ "name": "cinnamon-session",		"type": "LowLatency_RT" }
+{ "name": "cinnamon-killer-daemon",	"type": "LowLatency_RT" }
+{ "name": "cinnamon-launcher",		"type": "LowLatency_RT" }
+{ "name": "cinnamon-screensaver",	"type": "BG_CPUIO" }

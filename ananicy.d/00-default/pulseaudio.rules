@@ -1,0 +1,1 @@
+{ "name": "pulseaudio", "type": "LowLatency_RT", "nice": -11, "sched": "rr" }

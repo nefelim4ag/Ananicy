@@ -1,0 +1,20 @@
+[Unit]
+Description=Ananicy - ANother Auto NICe daemon
+After=local-fs.target
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/ananicy start
+Nice=19
+SuccessExitStatus=143
+OOMScoreAdjust=-999
+Restart=always
+CPUAccounting=true
+MemoryHigh=16M
+MemoryMax=64M
+ProtectSystem=true
+ProtectHome=true
+PrivateTmp=yes
+
+[Install]
+WantedBy=local-fs.target

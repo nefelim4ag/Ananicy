@@ -1,0 +1,2 @@
+# A document viewer: https://wiki.gnome.org/Apps/Evince
+{ "name": "evince", "type": "Doc-View" }

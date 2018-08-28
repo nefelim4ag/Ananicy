@@ -1,0 +1,2 @@
+# Tools for deduping file systems: https://github.com/markfasheh/duperemove
+{ "name": "duperemove", "type": "BG_CPUIO" }

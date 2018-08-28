@@ -1,0 +1,2 @@
+# A digital DJ interface: http://www.mixxx.org/
+{ "name": "mixxx", "type": "LowLatency_RT" }

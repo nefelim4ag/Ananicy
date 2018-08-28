@@ -1,0 +1,2 @@
+# Tox client: https://github.com/qTox/qTox
+{ "name": "qtox", "type": "Chat" }

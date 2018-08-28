@@ -1,0 +1,2 @@
+# Music player: https://www.musicpd.org/
+{ "name": "mpd", "type": "Player-Audio" }

@@ -1,0 +1,3 @@
+# ImageMagick - image viewing/manipulation program: https://imagemagick.org
+{ "name": "convert", "type": "Heavy_CPU" }
+{ "name": "montage", "type": "Heavy_CPU" }

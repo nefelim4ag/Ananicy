@@ -1,0 +1,7 @@
+# https://worldofwarships.eu/
+# The Launcher is the application that downloads and applies the updates.
+# It regularely interrupts other processes' (e.g. Browsers, Image Viewers, Music Players, ...) IO operations
+# which causes hangs and interruptions. THis is the reason for sheduling it with such a low priority.
+{ "name": "WoWSLauncher.exe", "type": "BG_CPUIO" }
+# That's the actual command of the game (the argument vector that is displayed in top and htop is different).
+{ "name": "worldofwarships", "type": "Game" }

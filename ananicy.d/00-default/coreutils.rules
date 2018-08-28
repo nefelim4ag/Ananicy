@@ -1,0 +1,24 @@
+# Some rules for computationally or IO expensive tools from the GNU coreutils
+{ "name": "cat",       "type": "BG_CPUIO" }
+{ "name": "cksum",     "type": "BG_CPUIO" }
+{ "name": "comm",      "type": "BG_CPUIO" }
+{ "name": "dd",        "type": "BG_CPUIO" }
+{ "name": "df",        "type": "BG_CPUIO" }
+{ "name": "du",        "type": "BG_CPUIO" }
+{ "name": "install",   "type": "BG_CPUIO" }
+{ "name": "join",      "type": "BG_CPUIO" }
+{ "name": "md5sum",    "type": "BG_CPUIO" }
+{ "name": "mkdir",     "type": "BG_CPUIO" }
+{ "name": "mv",        "type": "BG_CPUIO" }
+{ "name": "rm",        "type": "BG_CPUIO" }
+{ "name": "rmdir",     "type": "BG_CPUIO" }
+{ "name": "sha1sum",   "type": "BG_CPUIO" }
+{ "name": "sha256sum", "type": "BG_CPUIO" }
+{ "name": "sha384sum", "type": "BG_CPUIO" }
+{ "name": "sha512sum", "type": "BG_CPUIO" }
+{ "name": "shred",     "type": "BG_CPUIO" }
+{ "name": "sort",      "type": "BG_CPUIO" }
+{ "name": "sum",       "type": "BG_CPUIO" }
+{ "name": "tac",       "type": "BG_CPUIO" }
+{ "name": "tee",       "type": "BG_CPUIO" }
+{ "name": "wc",        "type": "BG_CPUIO" }
