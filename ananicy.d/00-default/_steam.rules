@@ -42,3 +42,6 @@
 
 # http://store.steampowered.com/app/233130
 { "name": "ShadowWarrior.bin.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/394360
+{ "name": "hoi4", "type": "Game"}
