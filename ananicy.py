@@ -52,7 +52,12 @@ class TPID():
     @property
     def stat(self):
         with open(self.prefix + "/stat") as _stat_file:
-            return _stat_file.readline().rstrip()
+            return _stat_file.readline().strip()
+
+    @property
+    def stat_name(self):
+        with open(self.prefix + "/status") as _status_file:
+            return _status_file.readline().split()[1]
 
     @property
     def nice(self):
@@ -629,9 +634,13 @@ class Ananicy:
         pe = self.proc.get(tpid)
         if not os.path.exists("/proc/{}/task/{}".format(pe.pid, pe.tpid)):
             return
+
         rule = self.rules.get(pe.cmd)
         if not rule:
+            rule = self.rules.get(pe.stat_name)
+        if not rule:
             return
+
         try:
             if rule.get("nice"):
                 self.renice(tpid, rule["nice"])
@@ -647,6 +656,7 @@ class Ananicy:
             return
         except FileNotFoundError:
             return
+
         cgroup = rule.get("cgroup")
         if cgroup:
             cgroup_ctrl = self.cgroups[cgroup]
@@ -689,6 +699,7 @@ class Ananicy:
                     "exe": TPID_l.exe,
                     "cmd": TPID_l.cmd,
                     "stat": TPID_l.stat,
+                    "stat_name": TPID_l.stat_name,
                     "nice": TPID_l.nice,
                     "sched": TPID_l.sched,
                     "ionice": [TPID_l.ioclass, TPID_l.ionice],
