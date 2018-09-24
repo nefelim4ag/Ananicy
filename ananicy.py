@@ -552,22 +552,26 @@ class Ananicy:
     def renice_cmd(self, pid: int, nice: int):
         subprocess.run(["renice", "-n", str(nice), "-p", str(pid)], stdout=subprocess.DEVNULL)
 
-    def renice(self, tpid: int, nice: int):
+    def renice(self, tpid: int, nice: int, name: str):
         p_tpid = self.proc[tpid]
         c_nice = p_tpid.nice
+        if not name:
+            name = p_tpid.cmd
         if c_nice == nice:
             return
         self.renice_cmd(tpid, nice)
-        msg = "renice: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid, c_nice, nice)
+        msg = "renice: {}[{}/{}] {} -> {}".format(name, p_tpid.pid, tpid, c_nice, nice)
         if self.verbose["apply_nice"]:
             print(msg, flush=True)
 
     def ioclass_cmd(self, pid: int, ioclass: str):
         subprocess.run(["ionice", "-p", str(pid), "-c", ioclass], stdout=subprocess.DEVNULL)
 
-    def ioclass(self, tpid: int, ioclass: str):
+    def ioclass(self, tpid: int, ioclass: str, name: str):
         p_tpid = self.proc[tpid]
         c_ioclass = p_tpid.ioclass
+        if not name:
+            name = p_tpid.cmd
         if ioclass != c_ioclass:
             self.ioclass_cmd(tpid, ioclass)
             msg = "ioclass: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid, c_ioclass, ioclass)
@@ -577,20 +581,24 @@ class Ananicy:
     def ionice_cmd(self, pid: int, ionice: int):
         subprocess.run(["ionice", "-p", str(pid), "-n", str(ionice)], stdout=subprocess.DEVNULL)
 
-    def ionice(self, tpid, ionice):
+    def ionice(self, tpid, ionice, name: str):
         p_tpid = self.proc[tpid]
         c_ionice = p_tpid.ionice
         if c_ionice is None:
             return
+        if not name:
+            name = p_tpid.cmd
         if str(ionice) != c_ionice:
             self.ionice_cmd(tpid, ionice)
             msg = "ionice: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid, c_ionice, ionice)
             if self.verbose["apply_ionice"]:
                 print(msg, flush=True)
 
-    def oom_score_adj(self, tpid, oom_score_adj):
+    def oom_score_adj(self, tpid, oom_score_adj, name: str):
         p_tpid = self.proc[tpid]
         c_oom_score_adj = p_tpid.oom_score_adj
+        if not name:
+            name = p_tpid.cmd
         if c_oom_score_adj != oom_score_adj:
             p_tpid.oom_score_adj = oom_score_adj
             msg = "oom_score_adj: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid,
@@ -614,10 +622,12 @@ class Ananicy:
         cmd += [str(pid)]
         subprocess.run(cmd, stdout=subprocess.DEVNULL)
 
-    def sched(self, tpid, sched):
+    def sched(self, tpid, sched, name):
         p_tpid = self.proc[tpid]
         l_prio = None
         c_sched = p_tpid.sched
+        if not name:
+            name = p_tpid.cmd
         if not c_sched or c_sched == sched:
             return
         if sched == "other" and c_sched == "normal":
@@ -635,23 +645,25 @@ class Ananicy:
         if not os.path.exists("/proc/{}/task/{}".format(pe.pid, pe.tpid)):
             return
 
-        rule = self.rules.get(pe.cmd)
+        rule_name = pe.cmd
+        rule = self.rules.get(rule_name)
         if not rule:
-            rule = self.rules.get(pe.stat_name)
+            rule_name = pe.stat_name
+            rule = self.rules.get(rule_name)
         if not rule:
             return
 
         try:
             if rule.get("nice"):
-                self.renice(tpid, rule["nice"])
+                self.renice(tpid, rule["nice"], rule_name)
             if rule.get("ioclass"):
-                self.ioclass(tpid, rule["ioclass"])
+                self.ioclass(tpid, rule["ioclass"], rule_name)
             if rule.get("ionice"):
-                self.ionice(tpid, rule["ionice"])
+                self.ionice(tpid, rule["ionice"], rule_name)
             if rule.get("sched"):
-                self.sched(tpid, rule["sched"])
+                self.sched(tpid, rule["sched"], rule_name)
             if rule.get("oom_score_adj"):
-                self.oom_score_adj(tpid, rule["oom_score_adj"])
+                self.oom_score_adj(tpid, rule["oom_score_adj"], rule_name)
         except subprocess.CalledProcessError:
             return
         except FileNotFoundError:
@@ -662,7 +674,7 @@ class Ananicy:
             cgroup_ctrl = self.cgroups[cgroup]
             if not cgroup_ctrl.pid_in_cgroup(tpid):
                 cgroup_ctrl.add_pid(tpid)
-                msg = "Cgroup: {}[{}] added to {}".format(self.proc[tpid].cmd, tpid, cgroup_ctrl.name)
+                msg = "Cgroup: {}[{}] added to {}".format(rule_name, tpid, cgroup_ctrl.name)
                 if self.verbose["apply_cgroup"]:
                     print(msg)
 
