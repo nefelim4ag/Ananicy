@@ -186,7 +186,7 @@ class CgroupController:
             tasks = {}
             with open(self.files["tasks"], 'r') as fd:
                 for pid in fd.readlines():
-                    pid = int(pid.rstrip())
+                    pid = int(pid.strip())
                     tasks[pid] = True
             self.tasks = tasks
 
@@ -486,28 +486,9 @@ class Ananicy:
             pids += [pid]
         return pids
 
-    __kthreads = {}
-
-    def kthreads_update(self):
-        __kthreads = {}
-        for pid in self.__proc_get_pids():
-            try:
-                if not os.path.realpath("/proc/{}/exe".format(pid)):
-                    __kthreads[pid] = True
-            except FileNotFoundError:
-                continue
-        self.__kthreads = __kthreads
-
-    def thread_kthreads_update(self):
-        while False:
-            self.kthreads_update()
-            sleep(60)
-
     def proc_get_pids(self):
         pids = []
         for pid in self.__proc_get_pids():
-            if self.__kthreads.get(pid):
-                continue
             try:
                 if not os.path.realpath("/proc/{}/exe".format(pid)):
                     continue
@@ -679,7 +660,6 @@ class Ananicy:
                     print(msg)
 
     def run(self):
-        _thread.start_new_thread(self.thread_kthreads_update, ())
         while True:
             self.proc_map_update()
             for tpid in self.proc:
