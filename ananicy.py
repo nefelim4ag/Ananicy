@@ -683,7 +683,10 @@ class Ananicy:
         while True:
             self.proc_map_update()
             for tpid in self.proc:
-                self.process_tpid(tpid)
+                try:
+                    self.process_tpid(tpid)
+                except ProcessLookupError:
+                    pass
             sleep(self.check_freq)
 
     def dump_types(self):
