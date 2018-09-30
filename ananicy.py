@@ -620,6 +620,27 @@ class Ananicy:
         if self.verbose["apply_sched"]:
             print(msg)
 
+    def apply_rule(self, tpid, rule, rule_name):
+        if rule.get("nice"):
+            self.renice(tpid, rule["nice"], rule_name)
+        if rule.get("ioclass"):
+            self.ioclass(tpid, rule["ioclass"], rule_name)
+        if rule.get("ionice"):
+            self.ionice(tpid, rule["ionice"], rule_name)
+        if rule.get("sched"):
+            self.sched(tpid, rule["sched"], rule_name)
+        if rule.get("oom_score_adj"):
+            self.oom_score_adj(tpid, rule["oom_score_adj"], rule_name)
+
+        cgroup = rule.get("cgroup")
+        if cgroup:
+            cgroup_ctrl = self.cgroups[cgroup]
+            if not cgroup_ctrl.pid_in_cgroup(tpid):
+                cgroup_ctrl.add_pid(tpid)
+                msg = "Cgroup: {}[{}] added to {}".format(rule_name, tpid, cgroup_ctrl.name)
+                if self.verbose["apply_cgroup"]:
+                    print(msg)
+
     def process_tpid(self, tpid):
         # proc entry
         pe = self.proc.get(tpid)
@@ -635,29 +656,11 @@ class Ananicy:
             return
 
         try:
-            if rule.get("nice"):
-                self.renice(tpid, rule["nice"], rule_name)
-            if rule.get("ioclass"):
-                self.ioclass(tpid, rule["ioclass"], rule_name)
-            if rule.get("ionice"):
-                self.ionice(tpid, rule["ionice"], rule_name)
-            if rule.get("sched"):
-                self.sched(tpid, rule["sched"], rule_name)
-            if rule.get("oom_score_adj"):
-                self.oom_score_adj(tpid, rule["oom_score_adj"], rule_name)
+            self.apply_rule(tpid, rule, rule_name)
         except subprocess.CalledProcessError:
             return
         except FileNotFoundError:
             return
-
-        cgroup = rule.get("cgroup")
-        if cgroup:
-            cgroup_ctrl = self.cgroups[cgroup]
-            if not cgroup_ctrl.pid_in_cgroup(tpid):
-                cgroup_ctrl.add_pid(tpid)
-                msg = "Cgroup: {}[{}] added to {}".format(rule_name, tpid, cgroup_ctrl.name)
-                if self.verbose["apply_cgroup"]:
-                    print(msg)
 
     def run(self):
         while True:
