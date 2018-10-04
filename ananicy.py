@@ -227,11 +227,11 @@ class Ananicy:
     }
 
     def __init__(self, config_dir="/etc/ananicy.d/", daemon=True):
-        if daemon:
-            self.__check_disks_schedulers()
         self.dir_must_exits(config_dir)
         self.config_dir = config_dir
         self.load_config()
+        if daemon:
+            self.__check_disks_schedulers()
         if not daemon:
             for i in self.verbose:
                 self.verbose[i] = False
@@ -292,7 +292,10 @@ class Ananicy:
                     continue
                 if re.search('\\[bfq-mq\\]', c_sched):
                     continue
-            print("Disk {} not use cfq/bfq scheduler IOCLASS/IONICE will not work on it".format(disk), flush=True)
+
+            msg = "Disk {} not use cfq/bfq scheduler IOCLASS/IONICE will not work on it".format(disk)
+            if self.verbose["check_disks_schedulers"]:
+                print(msg, flush=True)
 
     def __YN(self, val):
         if val.lower() in ("true", "yes", "1"):
@@ -326,6 +329,8 @@ class Ananicy:
                         self.verbose["apply_oom_score_adj"] = self.__YN(self.__get_val(col))
                     if "apply_cgroup=" in col:
                         self.verbose["apply_cgroup"] = self.__YN(self.__get_val(col))
+                    if "check_disks_schedulers" in col:
+                        self.verbose["check_disks_schedulers"] = self.__YN(self.__get_val(col))
 
     def load_cgroups(self):
         files = self.find_files(self.config_dir, '.*\\.cgroups')
