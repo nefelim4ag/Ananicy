@@ -1,0 +1,2 @@
+# Recoll Desktop search tool http://www.lesbonscomptes.com/recoll/
+{ "name": "recollindex", "type": "BG_CPUIO" }
