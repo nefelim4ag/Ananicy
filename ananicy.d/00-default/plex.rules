@@ -1,2 +1,2 @@
-# Video player: http://www.videolan.org/vlc/index.html
+# Video player: https://github.com/plexinc/plex-media-player
 { "name": "plexmediaplayer", "type": "Player-Video" }
