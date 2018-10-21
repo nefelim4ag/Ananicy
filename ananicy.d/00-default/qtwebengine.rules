@@ -1,0 +1,2 @@
+# Video player: https://doc.qt.io/qt-5.11/qtwebengine-index.html
+{ "name": "QtWebEngineProcess", "type": "Player-Video" }
