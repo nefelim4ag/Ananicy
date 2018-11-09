@@ -1,0 +1,2 @@
+# Userspace thrash protector: https://github.com/tobixen/thrash-protect
+{ "name": "thrash-protect", "nice": -12, "ioclass": "realtime" }
