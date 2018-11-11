@@ -1,0 +1,4 @@
+# Vivaldi web browser. https://vivaldi.com
+{"name": "vivaldi-bin", "type": "Doc-View"}
+#vivaldi-sandbox process gets -8 nice level by default.
+#{"name": "vivaldi-sandbox"}
