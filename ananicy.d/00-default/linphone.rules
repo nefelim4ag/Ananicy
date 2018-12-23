@@ -1,0 +1,2 @@
+# rule for linphone, a SIP client. http://www.linphone.org/technical-corner/linphone/overview
+{ "name" : "linphon", "type" : "LowLatency_RT", "nice" : -15, "ioclass" : "realtime" }
