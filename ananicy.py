@@ -80,10 +80,10 @@ class TPID():
         return tuple(arg.decode() for arg in _cmdline)
 
     def __ionice_cmd(self, tpid):
-        ret = subprocess.run(["ionice", "-p", str(tpid)], check=True,
+        ret = subprocess.run(["ionice", "-p", str(tpid)],
+                             check=True,
                              stdout=subprocess.PIPE,
-                             universal_newlines=True
-                             )
+                             universal_newlines=True)
         return ret
 
     def __get_ioprop(self):
@@ -111,12 +111,18 @@ class TPID():
         return self.__ionice
 
     _scheds = {
-        0: "normal", "normal": 0,
-        1: "fifo", "fifo": 1,
-        2: "rr", "rr": 2,
-        3: "batch", "batch": 3,
-        4: "iso", "iso": 4,
-        5: "idle", "idle": 5
+        0: "normal",
+        "normal": 0,
+        1: "fifo",
+        "fifo": 1,
+        2: "rr",
+        "rr": 2,
+        3: "batch",
+        "batch": 3,
+        4: "iso",
+        "iso": 4,
+        5: "idle",
+        "idle": 5
     }
 
     @property
@@ -138,6 +144,7 @@ class CgroupController:
 
     period_us = 100000
     quota_us = 100000
+    cpu_shares = 1024
 
     files = {}
     files_mtime = {}
@@ -159,15 +166,17 @@ class CgroupController:
 
         self.quota_us = self.period_us * self.ncpu * cpuquota / 100
         self.quota_us = int(self.quota_us)
-        self.files = {
-            'tasks': self.work_path + "/tasks"
-        }
+        self.cpu_shares = self.cpu_shares * cpuquota / 100
+        self.cpu_shares = int(self.cpu_shares)
+        self.files = {'tasks': self.work_path + "/tasks"}
 
         try:
             with open(self.work_path + "/cpu.cfs_period_us", 'w') as fd:
                 fd.write(str(self.period_us))
             with open(self.work_path + "/cpu.cfs_quota_us", 'w') as fd:
                 fd.write(str(self.quota_us))
+            with open(self.work_path + "/cpu.shares", 'w') as fd:
+                fd.write(str(self.cpu_shares))
         except PermissionError as e:
             raise Failure(e)
 
@@ -181,7 +190,8 @@ class CgroupController:
             while self.files_mtime[tasks_path] == os.path.getmtime(tasks_path):
                 sleep(1)
 
-            self.files_mtime[self.files["tasks"]] = os.path.getmtime(tasks_path)
+            self.files_mtime[self.files["tasks"]] = os.path.getmtime(
+                tasks_path)
 
             tasks = {}
             with open(self.files["tasks"], 'r') as fd:
@@ -293,7 +303,8 @@ class Ananicy:
                 if re.search('\\[bfq-mq\\]', c_sched):
                     continue
 
-            msg = "Disk {} not use cfq/bfq scheduler IOCLASS/IONICE will not work on it".format(disk)
+            msg = "Disk {} not use cfq/bfq scheduler IOCLASS/IONICE will not work on it".format(
+                disk)
             if self.verbose["check_disks_schedulers"]:
                 print(msg, flush=True)
 
@@ -312,25 +323,35 @@ class Ananicy:
                         check_freq = self.__get_val(col)
                         self.check_freq = float(check_freq)
                     if "cgroup_load=" in col:
-                        self.verbose["cgroup_load"] = self.__YN(self.__get_val(col))
+                        self.verbose["cgroup_load"] = self.__YN(
+                            self.__get_val(col))
                     if "type_load=" in col:
-                        self.verbose["type_load"] = self.__YN(self.__get_val(col))
+                        self.verbose["type_load"] = self.__YN(
+                            self.__get_val(col))
                     if "rule_load=" in col:
-                        self.verbose["rule_load"] = self.__YN(self.__get_val(col))
+                        self.verbose["rule_load"] = self.__YN(
+                            self.__get_val(col))
                     if "apply_nice=" in col:
-                        self.verbose["apply_nice"] = self.__YN(self.__get_val(col))
+                        self.verbose["apply_nice"] = self.__YN(
+                            self.__get_val(col))
                     if "apply_ioclass=" in col:
-                        self.verbose["apply_ioclass"] = self.__YN(self.__get_val(col))
+                        self.verbose["apply_ioclass"] = self.__YN(
+                            self.__get_val(col))
                     if "apply_ionice=" in col:
-                        self.verbose["apply_ionice"] = self.__YN(self.__get_val(col))
+                        self.verbose["apply_ionice"] = self.__YN(
+                            self.__get_val(col))
                     if "apply_sched=" in col:
-                        self.verbose["apply_sched"] = self.__YN(self.__get_val(col))
+                        self.verbose["apply_sched"] = self.__YN(
+                            self.__get_val(col))
                     if "apply_oom_score_adj=" in col:
-                        self.verbose["apply_oom_score_adj"] = self.__YN(self.__get_val(col))
+                        self.verbose["apply_oom_score_adj"] = self.__YN(
+                            self.__get_val(col))
                     if "apply_cgroup=" in col:
-                        self.verbose["apply_cgroup"] = self.__YN(self.__get_val(col))
+                        self.verbose["apply_cgroup"] = self.__YN(
+                            self.__get_val(col))
                     if "check_disks_schedulers" in col:
-                        self.verbose["check_disks_schedulers"] = self.__YN(self.__get_val(col))
+                        self.verbose["check_disks_schedulers"] = self.__YN(
+                            self.__get_val(col))
 
     def load_cgroups(self):
         files = self.find_files(self.config_dir, '.*\\.cgroups')
@@ -343,10 +364,12 @@ class Ananicy:
                     try:
                         self.get_cgroup_info(line)
                     except Failure as e:
-                        str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                        str = "File: {}, Line: {}, Error: {}".format(
+                            file, line_number, e)
                         print(str, flush=True)
                     except json.decoder.JSONDecodeError as e:
-                        str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                        str = "File: {}, Line: {}, Error: {}".format(
+                            file, line_number, e)
                         print(str, flush=True)
                     line_number += 1
 
@@ -377,12 +400,18 @@ class Ananicy:
             raise Failure('Missing "type": ')
 
         self.types[type] = {
-            "nice": self.__check_nice(line.get("nice")),
-            "ioclass": line.get("ioclass"),
-            "ionice": self.__check_ionice(line.get("ionice")),
-            "sched": line.get("sched"),
-            "oom_score_adj": self.__check_oom_score_adj(line.get("oom_score_adj")),
-            "cgroup": line.get("cgroup")
+            "nice":
+            self.__check_nice(line.get("nice")),
+            "ioclass":
+            line.get("ioclass"),
+            "ionice":
+            self.__check_ionice(line.get("ionice")),
+            "sched":
+            line.get("sched"),
+            "oom_score_adj":
+            self.__check_oom_score_adj(line.get("oom_score_adj")),
+            "cgroup":
+            line.get("cgroup")
         }
 
     def load_types(self):
@@ -396,10 +425,12 @@ class Ananicy:
                     try:
                         self.get_type_info(line)
                     except Failure as e:
-                        str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                        str = "File: {}, Line: {}, Error: {}".format(
+                            file, line_number, e)
                         print(str, flush=True)
                     except json.decoder.JSONDecodeError as e:
-                        str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                        str = "File: {}, Line: {}, Error: {}".format(
+                            file, line_number, e)
                         print(str, flush=True)
                     line_number += 1
 
@@ -418,7 +449,8 @@ class Ananicy:
             if not self.types.get(type):
                 raise Failure('"type": "{}" not defined'.format(type))
             type = self.types[type]
-            for attr in ("nice", "ioclass", "ionice", "sched", "oom_score_adj", "cgroup"):
+            for attr in ("nice", "ioclass", "ionice", "sched", "oom_score_adj",
+                         "cgroup"):
                 tmp = type.get(attr)
                 if not tmp:
                     continue
@@ -430,13 +462,20 @@ class Ananicy:
             cgroup = None
 
         self.rules[name] = {
-            "nice": self.__check_nice(line.get("nice")),
-            "ioclass": line.get("ioclass"),
-            "ionice": self.__check_ionice(line.get("ionice")),
-            "sched": line.get("sched"),
-            "oom_score_adj": self.__check_oom_score_adj(line.get("oom_score_adj")),
-            "type": line.get("type"),
-            "cgroup": cgroup
+            "nice":
+            self.__check_nice(line.get("nice")),
+            "ioclass":
+            line.get("ioclass"),
+            "ionice":
+            self.__check_ionice(line.get("ionice")),
+            "sched":
+            line.get("sched"),
+            "oom_score_adj":
+            self.__check_oom_score_adj(line.get("oom_score_adj")),
+            "type":
+            line.get("type"),
+            "cgroup":
+            cgroup
         }
 
     def load_rules(self):
@@ -450,10 +489,12 @@ class Ananicy:
                     try:
                         self.get_rule_info(line)
                     except Failure as e:
-                        str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                        str = "File: {}, Line: {}, Error: {}".format(
+                            file, line_number, e)
                         print(str, flush=True)
                     except json.decoder.JSONDecodeError as e:
-                        str = "File: {}, Line: {}, Error: {}".format(file, line_number, e)
+                        str = "File: {}, Line: {}, Error: {}".format(
+                            file, line_number, e)
                         print(str, flush=True)
                     line_number += 1
 
@@ -497,7 +538,8 @@ class Ananicy:
             try:
                 if not os.path.realpath("/proc/{}/exe".format(pid)):
                     continue
-                mtime = os.path.getmtime("/proc/{}".format(pid)) + self.check_freq
+                mtime = os.path.getmtime(
+                    "/proc/{}".format(pid)) + self.check_freq
                 if mtime > time.time():
                     continue
             except FileNotFoundError:
@@ -536,7 +578,10 @@ class Ananicy:
         self.proc = proc
 
     def renice_cmd(self, pid: int, nice: int):
-        subprocess.run(["renice", "-n", str(nice), "-p", str(pid)], stdout=subprocess.DEVNULL)
+        subprocess.run(
+            ["renice", "-n", str(nice), "-p",
+             str(pid)],
+            stdout=subprocess.DEVNULL)
 
     def renice(self, tpid: int, nice: int, name: str):
         p_tpid = self.proc[tpid]
@@ -546,12 +591,15 @@ class Ananicy:
         if c_nice == nice:
             return
         self.renice_cmd(tpid, nice)
-        msg = "renice: {}[{}/{}] {} -> {}".format(name, p_tpid.pid, tpid, c_nice, nice)
+        msg = "renice: {}[{}/{}] {} -> {}".format(name, p_tpid.pid, tpid,
+                                                  c_nice, nice)
         if self.verbose["apply_nice"]:
             print(msg, flush=True)
 
     def ioclass_cmd(self, pid: int, ioclass: str):
-        subprocess.run(["ionice", "-p", str(pid), "-c", ioclass], stdout=subprocess.DEVNULL)
+        subprocess.run(
+            ["ionice", "-p", str(pid), "-c", ioclass],
+            stdout=subprocess.DEVNULL)
 
     def ioclass(self, tpid: int, ioclass: str, name: str):
         p_tpid = self.proc[tpid]
@@ -560,12 +608,16 @@ class Ananicy:
             name = p_tpid.cmd
         if ioclass != c_ioclass:
             self.ioclass_cmd(tpid, ioclass)
-            msg = "ioclass: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid, c_ioclass, ioclass)
+            msg = "ioclass: {}[{}/{}] {} -> {}".format(
+                p_tpid.cmd, p_tpid.pid, tpid, c_ioclass, ioclass)
             if self.verbose["apply_ioclass"]:
                 print(msg, flush=True)
 
     def ionice_cmd(self, pid: int, ionice: int):
-        subprocess.run(["ionice", "-p", str(pid), "-n", str(ionice)], stdout=subprocess.DEVNULL)
+        subprocess.run(
+            ["ionice", "-p", str(pid), "-n",
+             str(ionice)],
+            stdout=subprocess.DEVNULL)
 
     def ionice(self, tpid, ionice, name: str):
         p_tpid = self.proc[tpid]
@@ -576,7 +628,8 @@ class Ananicy:
             name = p_tpid.cmd
         if str(ionice) != c_ionice:
             self.ionice_cmd(tpid, ionice)
-            msg = "ionice: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid, c_ionice, ionice)
+            msg = "ionice: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid,
+                                                      tpid, c_ionice, ionice)
             if self.verbose["apply_ionice"]:
                 print(msg, flush=True)
 
@@ -587,14 +640,15 @@ class Ananicy:
             name = p_tpid.cmd
         if c_oom_score_adj != oom_score_adj:
             p_tpid.oom_score_adj = oom_score_adj
-            msg = "oom_score_adj: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid,
-                                                             c_oom_score_adj, oom_score_adj)
+            msg = "oom_score_adj: {}[{}/{}] {} -> {}".format(
+                p_tpid.cmd, p_tpid.pid, tpid, c_oom_score_adj, oom_score_adj)
             if self.verbose["apply_oom_score_adj"]:
                 print(msg, flush=True)
 
     def sched_cmd(self, pid: int, sched: str, l_prio: int = None):
         arg_map = {
-            'other': '-N', 'normal': '-N',
+            'other': '-N',
+            'normal': '-N',
             'rr': '-R',
             'fifo': '-F',
             'batch': '-B',
@@ -621,7 +675,8 @@ class Ananicy:
         if sched == "rr" or sched == "fifo":
             l_prio = 1
         self.sched_cmd(p_tpid.tpid, sched, l_prio)
-        msg = "sched: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid, c_sched, sched)
+        msg = "sched: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid,
+                                                 c_sched, sched)
         if self.verbose["apply_sched"]:
             print(msg)
 
@@ -642,7 +697,8 @@ class Ananicy:
             cgroup_ctrl = self.cgroups[cgroup]
             if not cgroup_ctrl.pid_in_cgroup(tpid):
                 cgroup_ctrl.add_pid(tpid)
-                msg = "Cgroup: {}[{}] added to {}".format(rule_name, tpid, cgroup_ctrl.name)
+                msg = "Cgroup: {}[{}] added to {}".format(
+                    rule_name, tpid, cgroup_ctrl.name)
                 if self.verbose["apply_cgroup"]:
                     print(msg)
 
@@ -716,12 +772,14 @@ class Ananicy:
 
 
 def help():
-    print("Usage: ananicy [options]\n",
-          "  start         Run script\n",
-          "  dump rules    Generate and print rules cache to stdout\n",
-          "  dump types    Generate and print types cache to stdout\n",
-          "  dump cgroups  Generate and print cgroups cache to stdout\n",
-          "  dump proc     Generate and print proc map cache to stdout", flush=True)
+    print(
+        "Usage: ananicy [options]\n",
+        "  start         Run script\n",
+        "  dump rules    Generate and print rules cache to stdout\n",
+        "  dump types    Generate and print types cache to stdout\n",
+        "  dump cgroups  Generate and print cgroups cache to stdout\n",
+        "  dump proc     Generate and print proc map cache to stdout",
+        flush=True)
     exit(0)
 
 
