@@ -1,0 +1,5 @@
+# Unison
+{ "name": "unison", "type": "BG_CPUIO" } 
+{ "name": "unison-gtk", "type": "BG_CPUIO" } 
+{ "name": "unison-2.48.3", "type": "BG_CPUIO" } 
+{ "name": "unison-2.48.3-gtk", "type": "BG_CPUIO" } 

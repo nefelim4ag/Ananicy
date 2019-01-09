@@ -1,0 +1,3 @@
+# PackageManager
+{ "name": "packaged", "type": "BG_CPUIO" }
+{ "name": "packagemanagerd", "type": "BG_CPUIO" }

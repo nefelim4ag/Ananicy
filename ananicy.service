@@ -8,12 +8,12 @@ ExecStart=/usr/bin/ananicy start
 Nice=19
 SuccessExitStatus=143
 OOMScoreAdjust=-999
-Restart=always
+Restart=on-failure
 CPUAccounting=true
-MemoryHigh=16M
-MemoryMax=64M
+#MemoryHigh=16M
+#MemoryMax=64M
 ProtectSystem=true
-ProtectHome=true
+#ProtectHome=true
 PrivateTmp=yes
 
 [Install]
