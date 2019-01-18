@@ -1,0 +1,3 @@
+## Rule for lightdm display manager, starts the Xorg server
+
+{ "name" : "lightdm", "ioclass" : "realtime", "ionice" : 4, "oom_score_adj": -1000 }
