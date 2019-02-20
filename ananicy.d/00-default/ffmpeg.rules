@@ -1,2 +1,2 @@
 # ffmpeg - audio and video converter: https://www.ffmpeg.org/
-{ "name": "ffmpeg", "type": "Heavy_CPU" }
+{ "name": "ffmpeg", "type": "LowLatency_RT" }

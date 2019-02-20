@@ -1,0 +1,3 @@
+# Syncthing client: https://syncthing.net/
+{ "name": "syncthing", "type": "BG_CPUIO" }
+{ "name": "syncthing-gtk", "type": "BG_CPUIO" }
