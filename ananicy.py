@@ -596,42 +596,40 @@ class Ananicy:
         if self.verbose["apply_nice"]:
             print(msg, flush=True)
 
-    def ioclass_cmd(self, pid: int, ioclass: str):
-        subprocess.run(
-            ["ionice", "-p", str(pid), "-c", ioclass],
-            stdout=subprocess.DEVNULL)
-
-    def ioclass(self, tpid: int, ioclass: str, name: str):
+    def ionice(self, tpid, ioclass, ionice, name: str):
         p_tpid = self.proc[tpid]
-        c_ioclass = p_tpid.ioclass
         if not name:
             name = p_tpid.cmd
-        if ioclass != c_ioclass:
-            self.ioclass_cmd(tpid, ioclass)
+        args = []
+        msg_ioclass = False
+        msg_ionice = False
+        if ionice is not None:
+            c_ionice = p_tpid.ionice
+            if c_ionice is not None and str(ionice) != c_ionice:
+                if ioclass is not None:
+                    args.extend(("-c", str(ioclass)))
+                    c_ioclass = p_tpid.ioclass
+                    if c_ioclass is not None and str(ioclass) != c_ioclass:
+                        msg_ioclass = True
+                args.extend(("-n", str(ionice)))
+                msg_ionice = True
+        if not args and ioclass is not None:
+            c_ioclass = p_tpid.ioclass
+            if c_ioclass is not None and str(ioclass) != c_ioclass:
+                args.extend(("-c", str(ioclass)))
+                msg_ioclass = True
+        if args:
+            subprocess.run(
+                ["ionice", "-p", str(tpid), *args],
+                stdout=subprocess.DEVNULL)
+        if msg_ioclass and self.verbose["apply_ioclass"]:
             msg = "ioclass: {}[{}/{}] {} -> {}".format(
                 p_tpid.cmd, p_tpid.pid, tpid, c_ioclass, ioclass)
-            if self.verbose["apply_ioclass"]:
-                print(msg, flush=True)
-
-    def ionice_cmd(self, pid: int, ionice: int):
-        subprocess.run(
-            ["ionice", "-p", str(pid), "-n",
-             str(ionice)],
-            stdout=subprocess.DEVNULL)
-
-    def ionice(self, tpid, ionice, name: str):
-        p_tpid = self.proc[tpid]
-        c_ionice = p_tpid.ionice
-        if c_ionice is None:
-            return
-        if not name:
-            name = p_tpid.cmd
-        if str(ionice) != c_ionice:
-            self.ionice_cmd(tpid, ionice)
-            msg = "ionice: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid,
-                                                      tpid, c_ionice, ionice)
-            if self.verbose["apply_ionice"]:
-                print(msg, flush=True)
+            print(msg, flush=True)
+        if msg_ionice and self.verbose["apply_ionice"]:
+            msg = "ionice: {}[{}/{}] {} -> {}".format(
+                p_tpid.cmd, p_tpid.pid, tpid, c_ionice, ionice)
+            print(msg, flush=True)
 
     def oom_score_adj(self, tpid, oom_score_adj, name: str):
         p_tpid = self.proc[tpid]
@@ -683,10 +681,9 @@ class Ananicy:
     def apply_rule(self, tpid, rule, rule_name):
         if rule.get("nice"):
             self.renice(tpid, rule["nice"], rule_name)
-        if rule.get("ioclass"):
-            self.ioclass(tpid, rule["ioclass"], rule_name)
-        if rule.get("ionice"):
-            self.ionice(tpid, rule["ionice"], rule_name)
+        if rule.get("ioclass") or rule.get("ionice"):
+            self.ionice(tpid, rule.get("ioclass"), rule.get("ionice"),
+                        rule_name)
         if rule.get("sched"):
             self.sched(tpid, rule["sched"], rule_name)
         if rule.get("oom_score_adj"):
