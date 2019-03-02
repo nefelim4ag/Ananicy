@@ -7,11 +7,11 @@
 # Try to add more CPU power to decrease latency/lags
 # Try to add real time io for avoiding lags
 { "type": "Player-Audio", "nice": -3, "ioclass": "realtime" }
-{ "type": "Player-Video", "nice": -3,  "ioclass": "realtime" }
+{ "type": "Player-Video", "nice": -3, "ioclass": "realtime" }
 
 # Must have more CPU/IO time, but not so much as other apps
-{ "type": "Image-View", "nice":-3 }
-{ "type": "Doc-View",   "nice":-3 }
+{ "type": "Image-View", "nice": -3 }
+{ "type": "Doc-View",   "nice": -3 }
 
 # Type: Low Latency Realtime Apps
 # In general case not so heavy, but must not lag
@@ -29,5 +29,5 @@
 {"type": "Chat", "nice": -1, "ioclass": "best-effort", "ionice": 7 }
 
 # Type: Adj OOM Score
-{ "type": "OOM_KILL", "oom_score_adj":  1000 }
+{ "type": "OOM_KILL", "oom_score_adj": 1000 }
 { "type": "OOM_NO_KILL", "oom_score_adj": -1000 }
