@@ -61,10 +61,7 @@ class TPID():
 
     @property
     def nice(self):
-        if not self._stat:
-            m = re.search('\\) . .*', self.stat)
-            self._stat = m.group(0).rsplit()
-        return int(self._stat[17])
+        return os.getpriority(os.PRIO_PROCESS, self.tpid)
 
     @property
     def cmdline(self):
@@ -400,18 +397,13 @@ class Ananicy:
             raise Failure('Missing "type": ')
 
         self.types[type] = {
-            "nice":
-            self.__check_nice(line.get("nice")),
-            "ioclass":
-            line.get("ioclass"),
-            "ionice":
-            self.__check_ionice(line.get("ionice")),
-            "sched":
-            line.get("sched"),
-            "oom_score_adj":
-            self.__check_oom_score_adj(line.get("oom_score_adj")),
-            "cgroup":
-            line.get("cgroup")
+            "nice": self.__check_nice(line.get("nice")),
+            "ioclass": line.get("ioclass"),
+            "ionice": self.__check_ionice(line.get("ionice")),
+            "sched": line.get("sched"),
+            "oom_score_adj": self.__check_oom_score_adj(
+                line.get("oom_score_adj")),
+            "cgroup": line.get("cgroup")
         }
 
     def load_types(self):
@@ -462,20 +454,14 @@ class Ananicy:
             cgroup = None
 
         self.rules[name] = {
-            "nice":
-            self.__check_nice(line.get("nice")),
-            "ioclass":
-            line.get("ioclass"),
-            "ionice":
-            self.__check_ionice(line.get("ionice")),
-            "sched":
-            line.get("sched"),
-            "oom_score_adj":
-            self.__check_oom_score_adj(line.get("oom_score_adj")),
-            "type":
-            line.get("type"),
-            "cgroup":
-            cgroup
+            "nice": self.__check_nice(line.get("nice")),
+            "ioclass": line.get("ioclass"),
+            "ionice": self.__check_ionice(line.get("ionice")),
+            "sched": line.get("sched"),
+            "oom_score_adj": self.__check_oom_score_adj(
+                line.get("oom_score_adj")),
+            "type": line.get("type"),
+            "cgroup": cgroup
         }
 
     def load_rules(self):
@@ -590,6 +576,7 @@ class Ananicy:
             name = p_tpid.cmd
         if c_nice == nice:
             return
+        os.setpriority(os.PRIO_PROCESS, tpid, nice)
         self.renice_cmd(tpid, nice)
         msg = "renice: {}[{}/{}] {} -> {}".format(name, p_tpid.pid, tpid,
                                                   c_nice, nice)
