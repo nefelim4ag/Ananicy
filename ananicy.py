@@ -8,11 +8,22 @@ import subprocess
 import json
 import _thread
 
+from enum import Enum, unique
 from time import sleep
 
 
 class Failure(Exception):
     pass
+
+
+@unique
+class ProcessSchedulingPolicy(Enum):
+    NORMAL = 0
+    FIFO = 1
+    RR = 2
+    BATCH = 3
+    ISO = 4
+    IDLE = 5
 
 
 class TPID:
@@ -104,28 +115,13 @@ class TPID:
             self.__get_ioprop()
         return self.__ionice
 
-    _scheds = {
-        0: "normal",
-        "normal": 0,
-        1: "fifo",
-        "fifo": 1,
-        2: "rr",
-        "rr": 2,
-        3: "batch",
-        "batch": 3,
-        4: "iso",
-        "iso": 4,
-        5: "idle",
-        "idle": 5
-    }
-
     @property
     def sched(self):
         if not self._stat:
             m = re.search('\\) . .*', self.stat)
             self._stat = m.group(0).rsplit()
         _sched = int(self._stat[39])
-        return self._scheds.get(_sched)
+        return ProcessSchedulingPolicy(_sched).name.lower()
 
 
 class CgroupController:
