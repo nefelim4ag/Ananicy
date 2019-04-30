@@ -15,15 +15,7 @@ class Failure(Exception):
     pass
 
 
-class TPID():
-    pid = 0
-    tpid = 0
-    exe = None
-    _stat = None
-    __cmd = None
-    __ionice = None
-    __ioclass = None
-    __oom_score_adj = None
+class TPID:
 
     def __init__(self, pid: int, tpid: int):
         self.pid = pid
@@ -31,6 +23,12 @@ class TPID():
         self.prefix = "/proc/{}/task/{}/".format(pid, tpid)
         self.exe = os.path.realpath("/proc/{}/exe".format(pid))
         self.__oom_score_adj = self.prefix + "/oom_score_adj"
+
+        self._stat = None
+        self.__cmd = None
+        self.__ionice = None
+        self.__ioclass = None
+        self.__oom_score_adj = None
 
     @property
     def cmd(self):
