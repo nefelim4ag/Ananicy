@@ -28,7 +28,6 @@ class TPID:
         self.__cmd = None
         self.__ionice = None
         self.__ioclass = None
-        self.__oom_score_adj = None
 
     @property
     def cmd(self):
