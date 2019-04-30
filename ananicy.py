@@ -194,36 +194,33 @@ class CgroupController:
 
 
 class Ananicy:
-    config_dir = None
-    cgroups = {}
-    types = {}
-    rules = {}
-
-    proc = {}
-
-    check_freq = 5
-
-    verbose = {
-        "cgroup_load": True,
-        "type_load": True,
-        "rule_load": True,
-        "apply_nice": True,
-        "apply_ioclass": True,
-        "apply_ionice": True,
-        "apply_sched": True,
-        "apply_oom_score_adj": True,
-        "apply_cgroup": True
-    }
-
     def __init__(self, config_dir="/etc/ananicy.d/", daemon=True):
         self.dir_must_exits(config_dir)
         self.config_dir = config_dir
+        self.cgroups = {}
+        self.types = {}
+        self.rules = {}
+        self.proc = {}
+        self.check_freq = 5
+        self.verbose = {
+            "cgroup_load": True,
+            "type_load": True,
+            "rule_load": True,
+            "apply_nice": True,
+            "apply_ioclass": True,
+            "apply_ionice": True,
+            "apply_sched": True,
+            "apply_oom_score_adj": True,
+            "apply_cgroup": True
+        }
+
         self.load_config()
         if daemon:
             self.__check_disks_schedulers()
-        if not daemon:
+        else:
             for i in self.verbose:
                 self.verbose[i] = False
+
         self.load_cgroups()
         self.load_types()
         self.load_rules()
@@ -238,25 +235,25 @@ class Ananicy:
 
     def __get_val(self, col):
         tmp = col.split('=')
-        if len(tmp) < 1:
+        if not tmp:
             return ""
         return tmp[1].rstrip('"')
 
     def __check_nice(self, nice):
         if nice:
-            if nice > 19 or nice < -20:
+            if not -20 <= nice <= 19:
                 raise Failure("Nice must be in range -20..19")
         return nice
 
     def __check_ionice(self, ionice):
         if ionice:
-            if ionice > 7 or ionice < 0:
+            if not 0 <= ionice <= 7:
                 raise Failure("IOnice/IOprio allowed only in range 0-7")
         return ionice
 
     def __check_oom_score_adj(self, adj):
         if adj:
-            if adj < -1000 or adj > 1000:
+            if not -1000 <= adj <= 1000:
                 raise Failure("OOM_SCORE_ADJ must be in range -1000..1000")
         return adj
 
@@ -288,10 +285,7 @@ class Ananicy:
                 print(msg, flush=True)
 
     def __YN(self, val):
-        if val.lower() in ("true", "yes", "1"):
-            return True
-        else:
-            return False
+        return val.lower() in ("true", "yes", "1")
 
     def load_config(self):
         with open(self.config_dir + "ananicy.conf") as _config_file:
@@ -337,9 +331,8 @@ class Ananicy:
         for file in files:
             if self.verbose["cgroup_load"]:
                 print("Load cgroup:", file)
-            line_number = 1
             with open(file) as _cgroups_file:
-                for line in _cgroups_file:
+                for line_number, line in enumerate(_cgroups_file, start=1):
                     try:
                         self.get_cgroup_info(line)
                     except Failure as e:
@@ -350,7 +343,6 @@ class Ananicy:
                         str = "File: {}, Line: {}, Error: {}".format(
                             file, line_number, e)
                         print(str, flush=True)
-                    line_number += 1
 
     def get_cgroup_info(self, line):
         line = self.__strip_line(line)
@@ -374,11 +366,11 @@ class Ananicy:
             return
 
         line = json.loads(line, parse_int=int)
-        type = line.get("type")
-        if type == "":
+        _type = line.get("type")
+        if not _type:
             raise Failure('Missing "type": ')
 
-        self.types[type] = {
+        self.types[_type] = {
             "nice": self.__check_nice(line.get("nice")),
             "ioclass": line.get("ioclass"),
             "ionice": self.__check_ionice(line.get("ionice")),
@@ -393,20 +385,18 @@ class Ananicy:
         for file in type_files:
             if self.verbose["type_load"]:
                 print("Load types:", file)
-            line_number = 1
             with open(file) as _types_file:
-                for line in _types_file:
+                for line_number, line in enumerate(_types_file, start=1):
                     try:
                         self.get_type_info(line)
                     except Failure as e:
-                        str = "File: {}, Line: {}, Error: {}".format(
+                        out = "File: {}, Line: {}, Error: {}".format(
                             file, line_number, e)
-                        print(str, flush=True)
+                        print(out, flush=True)
                     except json.decoder.JSONDecodeError as e:
-                        str = "File: {}, Line: {}, Error: {}".format(
+                        out = "File: {}, Line: {}, Error: {}".format(
                             file, line_number, e)
-                        print(str, flush=True)
-                    line_number += 1
+                        print(out, flush=True)
 
     def get_rule_info(self, line):
         line = self.__strip_line(line)
@@ -418,14 +408,14 @@ class Ananicy:
         if name == "":
             raise Failure('Missing "name": ')
 
-        type = line.get("type")
-        if type:
-            if not self.types.get(type):
-                raise Failure('"type": "{}" not defined'.format(type))
-            type = self.types[type]
+        _type = line.get("type")
+        if _type:
+            if not self.types.get(_type):
+                raise Failure('"type": "{}" not defined'.format(_type))
+            _type = self.types[_type]
             for attr in ("nice", "ioclass", "ionice", "sched", "oom_score_adj",
                          "cgroup"):
-                tmp = type.get(attr)
+                tmp = _type.get(attr)
                 if not tmp:
                     continue
                 if not line.get(attr):
@@ -451,22 +441,20 @@ class Ananicy:
         for file in rule_files:
             if self.verbose["rule_load"]:
                 print("Load rules:", file)
-            line_number = 1
             with open(file) as _rules_file:
-                for line in _rules_file:
+                for line_number, line in enumerate(_rules_file, start=1):
                     try:
                         self.get_rule_info(line)
                     except Failure as e:
-                        str = "File: {}, Line: {}, Error: {}".format(
+                        out = "File: {}, Line: {}, Error: {}".format(
                             file, line_number, e)
-                        print(str, flush=True)
+                        print(out, flush=True)
                     except json.decoder.JSONDecodeError as e:
-                        str = "File: {}, Line: {}, Error: {}".format(
+                        out = "File: {}, Line: {}, Error: {}".format(
                             file, line_number, e)
-                        print(str, flush=True)
-                    line_number += 1
+                        print(out, flush=True)
 
-        if len(self.rules) == 0:
+        if not self.rules:
             raise Failure("No rules loaded")
 
     def dir_must_exits(self, path):
@@ -475,17 +463,17 @@ class Ananicy:
 
     def find_files(self, path, name_mask):
         files = []
-        entryes = os.listdir(path)
-        if len(entryes) == 0:
+        entries = os.listdir(path)
+        if not entries:
             return files
-        for entry_name in entryes:
+        for entry_name in entries:
             entry_path = path + "/" + entry_name
             if os.path.isdir(entry_path):
                 files += self.find_files(entry_path, name_mask)
             if os.path.isfile(entry_path):
                 if re.search(name_mask, entry_name):
                     realpath = os.path.realpath(entry_path)
-                    files += [realpath]
+                    files.append(realpath)
         return files
 
     def __proc_get_pids(self):
@@ -497,7 +485,7 @@ class Ananicy:
                 continue
             if not os.path.isdir("/proc/{}".format(pid)):
                 continue
-            pids += [pid]
+            pids.append(pid)
         return pids
 
     def proc_get_pids(self):
@@ -512,7 +500,7 @@ class Ananicy:
                     continue
             except FileNotFoundError:
                 continue
-            pids += [pid]
+            pids.append(pid)
         return pids
 
     def pid_get_tpid(self, pid):
@@ -532,7 +520,7 @@ class Ananicy:
             if mtime > time.time():
                 continue
 
-            tpids += [tpid]
+            tpids.append(tpid)
         return tpids
 
     def proc_map_update(self):
@@ -659,14 +647,16 @@ class Ananicy:
             self.oom_score_adj(tpid, rule["oom_score_adj"], rule_name)
 
         cgroup = rule.get("cgroup")
-        if cgroup:
-            cgroup_ctrl = self.cgroups[cgroup]
-            if not cgroup_ctrl.pid_in_cgroup(tpid):
-                cgroup_ctrl.add_pid(tpid)
-                msg = "Cgroup: {}[{}] added to {}".format(
-                    rule_name, tpid, cgroup_ctrl.name)
-                if self.verbose["apply_cgroup"]:
-                    print(msg)
+        if not cgroup:
+            return
+
+        cgroup_ctrl = self.cgroups[cgroup]
+        if not cgroup_ctrl.pid_in_cgroup(tpid):
+            cgroup_ctrl.add_pid(tpid)
+            msg = "Cgroup: {}[{}] added to {}".format(
+                rule_name, tpid, cgroup_ctrl.name)
+            if self.verbose["apply_cgroup"]:
+                print(msg)
 
     def process_tpid(self, tpid):
         # proc entry
@@ -703,10 +693,9 @@ class Ananicy:
         print(json.dumps(self.types, indent=4), flush=True)
 
     def dump_cgroups(self):
-        cgroups_dict = {}
-        for cgroup in self.cgroups:
-            cgroups_dict[cgroup] = self.cgroups[cgroup].__dict__
-
+        cgroups_dict = {
+            cgroup: self.cgroups[cgroup].__dict__ for cgroup in self.cgroups
+        }
         print(json.dumps(cgroups_dict, indent=4), flush=True)
 
     def dump_rules(self):
