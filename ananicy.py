@@ -130,44 +130,31 @@ class TPID:
 
 
 class CgroupController:
-    cgroup_fs = "/sys/fs/cgroup/"
-    type = "cpu"
-    name = ""
-    work_path = ""
-
-    ncpu = 1
-
-    period_us = 100000
-    quota_us = 100000
-    cpu_shares = 1024
-
-    files = {}
-    files_mtime = {}
-    tasks = {}
+    PERIOD_US = 100000
+    CGROUP_FS = "/sys/fs/cgroup/"
+    TYPE = "cpu"
 
     def __init__(self, name, cpuquota):
-        self.ncpu = os.cpu_count()
-        self.name = name
-        self.work_path = self.cgroup_fs + self.type + "/" + self.name
-
-        if not os.path.exists(self.cgroup_fs):
+        if not os.path.exists(self.CGROUP_FS):
             raise Failure("cgroup fs not mounted")
 
-        if not os.path.exists(self.cgroup_fs + self.type):
-            raise Failure("cgroup fs: {} missing".format(self.type))
+        if not os.path.exists(self.CGROUP_FS + self.TYPE):
+            raise Failure("cgroup fs: {} missing".format(self.TYPE))
 
+        self.name = name
+        self.work_path = self.CGROUP_FS + self.TYPE + "/" + self.name
         if not os.path.exists(self.work_path):
             os.makedirs(self.work_path)
 
-        self.quota_us = self.period_us * self.ncpu * cpuquota / 100
-        self.quota_us = int(self.quota_us)
-        self.cpu_shares = self.cpu_shares * cpuquota / 100
-        self.cpu_shares = int(self.cpu_shares)
+        self.ncpu = os.cpu_count()
+        self.quota_us = self.PERIOD_US * self.ncpu * cpuquota // 100
+        self.cpu_shares = 1024 * cpuquota // 100
+        self.tasks = dict()
         self.files = {'tasks': self.work_path + "/tasks"}
 
         try:
             with open(self.work_path + "/cpu.cfs_period_us", 'w') as fd:
-                fd.write(str(self.period_us))
+                fd.write(str(self.PERIOD_US))
             with open(self.work_path + "/cpu.cfs_quota_us", 'w') as fd:
                 fd.write(str(self.quota_us))
             with open(self.work_path + "/cpu.shares", 'w') as fd:
@@ -175,7 +162,7 @@ class CgroupController:
         except PermissionError as e:
             raise Failure(e)
 
-        self.files_mtime[self.files["tasks"]] = 0
+        self.files_mtime = {self.files["tasks"]: 0.0}
 
         _thread.start_new_thread(self.__tread_update_tasks, ())
 
@@ -196,10 +183,7 @@ class CgroupController:
             self.tasks = tasks
 
     def pid_in_cgroup(self, pid):
-        tasks = self.tasks
-        if tasks.get(int(pid)):
-            return True
-        return False
+        return bool(self.tasks.get(int(pid)))
 
     def add_pid(self, pid):
         try:
