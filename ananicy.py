@@ -17,13 +17,19 @@ class Failure(Exception):
 
 
 @unique
-class ProcessSchedulingPolicy(Enum):
+class ProcSchedulerPolicy(Enum):
     NORMAL = 0
     FIFO = 1
     RR = 2
     BATCH = 3
     ISO = 4
     IDLE = 5
+    DEADLINE = 6
+    OTHER = 99
+
+    @classmethod
+    def _missing_(cls, value):
+        return ProcSchedulerPolicy.OTHER
 
 
 class TPID:
@@ -121,7 +127,7 @@ class TPID:
             m = re.search('\\) . .*', self.stat)
             self._stat = m.group(0).rsplit()
         _sched = int(self._stat[39])
-        return ProcessSchedulingPolicy(_sched).name.lower()
+        return ProcSchedulerPolicy(_sched).name.lower()
 
 
 class CgroupController:
