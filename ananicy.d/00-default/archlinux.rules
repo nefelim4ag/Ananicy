@@ -2,3 +2,4 @@
 
 { "name": "mkinitcpio", "type": "BG_CPUIO" }
 { "name": "pacman", "type": "BG_CPUIO" }
+{ "name": "yaourt", "type": "BG_CPUIO" }
