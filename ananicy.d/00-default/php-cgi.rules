@@ -1,0 +1,4 @@
+{ "name": "php-cgi7.0", "type": "Heavy_CPU" }
+{ "name": "php-cgi7.1", "type": "Heavy_CPU" }
+{ "name": "php-cgi7.2", "type": "Heavy_CPU" }
+{ "name": "php-cgi7.3", "type": "Heavy_CPU" }
