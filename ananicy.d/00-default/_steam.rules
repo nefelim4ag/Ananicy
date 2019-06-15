@@ -3,8 +3,8 @@
 # Steam integrated web browser
 { "name": "steamwebhelper", "type": "BG_CPUIO" }
 
-# http://store.steampowered.com/app/413850
-{ "name": "csgo_linux", "type": "Game"}
+# https://store.steampowered.com/app/730
+{ "name": "csgo_linux64", "type": "Game"}
  # http://store.steampowered.com/app/355180
 { "name": "cure_linux", "type": "Game"}
 # http://store.steampowered.com/app/570
