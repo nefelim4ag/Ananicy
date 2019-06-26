@@ -136,6 +136,13 @@ class TPID:
         _sched = int(self._stat[39])
         return ProcSchedulerPolicy(_sched).name.lower()
 
+    @property
+    def rtprio(self):
+        if not self._stat:
+            m = re.search('\\) . .*', self.stat)
+            self._stat = m.group(0).rsplit()
+        return int(self._stat[38])
+
 
 class CgroupController:
     PERIOD_US = 100000
@@ -258,6 +265,12 @@ class Ananicy:
             if not 0 <= ionice <= 7:
                 raise Failure("IOnice/IOprio allowed only in range 0-7")
         return ionice
+
+    def __check_rtprio(self, rtprio):
+        if rtprio:
+            if not 1 <= rtprio <= 99:
+                raise Failure("RTprio allowed only in range 1-99")
+        return rtprio
 
     def __check_oom_score_adj(self, adj):
         if adj:
@@ -383,6 +396,7 @@ class Ananicy:
             "ioclass": line.get("ioclass"),
             "ionice": self.__check_ionice(line.get("ionice")),
             "sched": line.get("sched"),
+            "rtprio": self.__check_rtprio(line.get("rtprio")),
             "oom_score_adj": self.__check_oom_score_adj(
                 line.get("oom_score_adj")),
             "cgroup": line.get("cgroup")
@@ -421,8 +435,8 @@ class Ananicy:
             if not self.types.get(_type):
                 raise Failure('"type": "{}" not defined'.format(_type))
             _type = self.types[_type]
-            for attr in ("nice", "ioclass", "ionice", "sched", "oom_score_adj",
-                         "cgroup"):
+            for attr in ("nice", "ioclass", "ionice", "sched", "rtprio",
+                         "oom_score_adj", "cgroup"):
                 tmp = _type.get(attr)
                 if not tmp:
                     continue
@@ -438,6 +452,7 @@ class Ananicy:
             "ioclass": line.get("ioclass"),
             "ionice": self.__check_ionice(line.get("ionice")),
             "sched": line.get("sched"),
+            "rtprio": self.__check_rtprio(line.get("rtprio")),
             "oom_score_adj": self.__check_oom_score_adj(
                 line.get("oom_score_adj")),
             "type": line.get("type"),
@@ -625,18 +640,20 @@ class Ananicy:
         cmd += [str(pid)]
         subprocess.run(cmd, stdout=subprocess.DEVNULL)
 
-    def sched(self, tpid, sched, name):
+    def sched(self, tpid, sched, rtprio, name):
         p_tpid = self.proc[tpid]
         l_prio = None
         c_sched = p_tpid.sched
+        c_rtprio = p_tpid.rtprio
         if not name:
             name = p_tpid.cmd
-        if not c_sched or c_sched == sched:
+        if not c_sched or (c_sched == sched
+                           and (rtprio is None or c_rtprio == rtprio)):
             return
         if sched == "other" and c_sched == "normal":
             return
         if sched == "rr" or sched == "fifo":
-            l_prio = 1
+            l_prio = rtprio or 1
         self.sched_cmd(p_tpid.tpid, sched, l_prio)
         msg = "sched: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid,
                                                  c_sched, sched)
@@ -650,7 +667,7 @@ class Ananicy:
             self.ionice(tpid, rule.get("ioclass"), rule.get("ionice"),
                         rule_name)
         if rule.get("sched"):
-            self.sched(tpid, rule["sched"], rule_name)
+            self.sched(tpid, rule["sched"], rule["rtprio"], rule_name)
         if rule.get("oom_score_adj"):
             self.oom_score_adj(tpid, rule["oom_score_adj"], rule_name)
 
@@ -724,6 +741,7 @@ class Ananicy:
                     "stat_name": TPID_l.stat_name,
                     "nice": TPID_l.nice,
                     "sched": TPID_l.sched,
+                    "rtprio": TPID_l.rtprio,
                     "ionice": [TPID_l.ioclass, TPID_l.ionice],
                     "oom_score_adj": TPID_l.oom_score_adj,
                     "cmdline": TPID_l.cmdline,
