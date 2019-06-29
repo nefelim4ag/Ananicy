@@ -503,7 +503,7 @@ class Ananicy:
                     "/proc/{}".format(pid)) + self.check_freq
                 if mtime > time.time():
                     continue
-            except FileNotFoundError:
+            except (FileNotFoundError, ProcessLookupError):
                 continue
             pids.append(pid)
         return pids
