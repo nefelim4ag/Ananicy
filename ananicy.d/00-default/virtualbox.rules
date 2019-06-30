@@ -1,0 +1,12 @@
+{ "name": "VBox*", "type": "Heavy_CPU" }
+{ "name": "VirtualBox", "type": "Heavy_CPU" }
+{ "name": "VBoxService", "type": "Heavy_CPU" }
+{ "name": "VBoxSDL", "type": "Heavy_CPU" }
+{ "name": "VBoxManage", "type": "Heavy_CPU" }
+{ "name": "VBoxHeadless", "type": "Heavy_CPU" }
+{ "name": "VBoxControl", "type": "Heavy_CPU" }
+{ "name": "VBoxClient", "type": "Heavy_CPU" }
+{ "name": "VBoxBalloonCtrl", "type": "Heavy_CPU" }
+{ "name": "VBoxSVC", "type": "Heavy_CPU" }
+{ "name": "iprt-VBoxWQueue", "type": "Heavy_CPU" }
+{ "name": "VBoxSVC", "type": "Heavy_CPU" }
