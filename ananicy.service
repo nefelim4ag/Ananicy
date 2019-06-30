@@ -8,6 +8,7 @@ ExecStart=/usr/bin/ananicy start
 Nice=19
 SuccessExitStatus=143
 OOMScoreAdjust=-999
+TimeoutStartSec=15
 Restart=always
 CPUAccounting=true
 MemoryHigh=16M
