@@ -1,0 +1,5 @@
+{ "name": "tracker",           "type": "BG_CPUIO" }
+{ "name": "tracker-store",           "type": "BG_CPUIO" }
+{ "name": "tracker-miner",           "type": "BG_CPUIO" }
+
+
