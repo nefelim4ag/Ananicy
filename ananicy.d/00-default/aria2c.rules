@@ -1,2 +1,3 @@
 # aria2 - lightweight download utility: https://aria2.github.io/
-{ "name": "aria2c", "type": "BG_CPUIO" }
+# { "name": "aria2c", "type": "BG_CPUIO" }
+ { "name": "aria2c", "type": "Heavy_CPU" }

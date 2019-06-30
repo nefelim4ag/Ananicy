@@ -1,1 +1,2 @@
-{ "name": "rsync", "type": "BG_CPUIO" }
+# { "name": "rsync", "type": "BG_CPUIO" }
+  { "name": "rsync", "type": "Heavy_CPU" }
