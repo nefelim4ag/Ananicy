@@ -1,0 +1,6 @@
+  { "name": "apt", "type": "Heavy_CPU" }
+  { "name": "apt-get", "type": "Heavy_CPU" }
+  { "name": "apt-cacher-ng", "type": "Heavy_CPU" }
+  { "name": "aptitude", "type": "Heavy_CPU" }
+  { "name": "dpkg", "type": "Heavy_CPU" }
+  { "name": "synaptic", "type": "Heavy_CPU" }
