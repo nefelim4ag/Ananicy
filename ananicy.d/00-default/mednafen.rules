@@ -1,0 +1,3 @@
+################################################################################
+# Rules for mednafen emulator https://mednafen.github.io/
+{ "name": "mednafen", "type": "Game"}
