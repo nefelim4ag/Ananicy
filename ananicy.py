@@ -71,7 +71,11 @@ class TPID:
     @property
     def stat_name(self):
         with open(self.prefix + "/status") as _status_file:
-            return _status_file.readline().split()[1]
+            name_line = _status_file.readline()
+            line_list = name_line.split()
+            if line_list:
+                return line_list[1]
+            return ""
 
     @property
     def nice(self):
@@ -499,7 +503,7 @@ class Ananicy:
                     "/proc/{}".format(pid)) + self.check_freq
                 if mtime > time.time():
                     continue
-            except FileNotFoundError:
+            except (FileNotFoundError, ProcessLookupError):
                 continue
             pids.append(pid)
         return pids
