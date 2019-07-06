@@ -71,10 +71,13 @@ class TPID:
     @property
     def stat_name(self):
         with open(self.prefix + "/status") as _status_file:
-            name_line = _status_file.readline()
-            line_list = name_line.split()
-            if line_list:
-                return line_list[1]
+            try:
+                name_line = _status_file.readline()
+                line_list = name_line.split()
+                if line_list:
+                    return line_list[1]
+            except UnicodeDecodeError:
+                pass
             return ""
 
     @property
