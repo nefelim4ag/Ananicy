@@ -76,7 +76,7 @@ class TPID:
                 line_list = name_line.split()
                 if line_list:
                     return line_list[1]
-            except UnicodeDecodeError:
+            except (UnicodeDecodeError, IndexError):
                 pass
             return ""
 
