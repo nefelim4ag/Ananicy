@@ -817,7 +817,7 @@ def help():
         "  dump types     Generate and print types cache to stdout\n",
         "  dump cgroups   Generate and print cgroups cache to stdout\n",
         "  dump proc      Generate and print proc map cache to stdout\n",
-        "  dump autogroup Generate and print proc map cache to stdout",
+        "  dump autogroup Generate and print autogroup tree",
         flush=True)
     exit(0)
 
