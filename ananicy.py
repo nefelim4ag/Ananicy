@@ -38,6 +38,7 @@ class TPID:
         self.pid = pid
         self.tpid = tpid
         self.prefix = "/proc/{}/task/{}/".format(pid, tpid)
+        self.parent = "/proc/{}/".format(pid)
         self.exe = os.path.realpath("/proc/{}/exe".format(pid))
         self.__oom_score_adj = self.prefix + "/oom_score_adj"
 
@@ -83,6 +84,25 @@ class TPID:
     @property
     def nice(self):
         return os.getpriority(os.PRIO_PROCESS, self.tpid)
+
+    @property
+    def autogroup(self):
+        try:
+            with open(self.parent + "/autogroup", 'r') as _autogroup:
+                autogroup = _autogroup.readline().strip('/\n').split(" nice ")
+        except FileNotFoundError:
+            return None
+        group_num = int(autogroup[0].split('-')[1])
+        nice = int(autogroup[1])
+        return { "group": group_num, "nice": nice }
+
+    @autogroup.setter
+    def autogroup(self, autogroup_nice):
+        try:
+            with open(self.parent + "/autogroup", 'w') as _autogroup:
+                _autogroup.write(str(autogroup_nice))
+        except FileNotFoundError:
+            pass
 
     @property
     def cmdline(self):
@@ -740,6 +760,7 @@ class Ananicy:
                     "stat": TPID_l.stat,
                     "stat_name": TPID_l.stat_name,
                     "nice": TPID_l.nice,
+                    "autogroup": TPID_l.autogroup,
                     "sched": TPID_l.sched,
                     "rtprio": TPID_l.rtprio,
                     "ionice": [TPID_l.ioclass, TPID_l.ionice],
@@ -751,15 +772,52 @@ class Ananicy:
 
         print(json.dumps(proc_dict, indent=4), flush=True)
 
+    def dump_autogroup(self):
+        self.proc_map_update()
+        proc_autogroup = {}
+        for tpid in self.proc:
+            try:
+                TPID_l = self.proc[tpid]
+                group_num = TPID_l.autogroup["group"]
+                proc_autogroup[group_num] = {
+                    "nice": TPID_l.autogroup["nice"],
+                    "proc": {}
+                }
+            except FileNotFoundError:
+                continue
+
+        for tpid in self.proc:
+            try:
+                TPID_l = self.proc[tpid]
+                group_num = TPID_l.autogroup["group"]
+                proc_autogroup[group_num]["proc"][tpid] = {
+                    "pid": TPID_l.pid,
+                    "tpid": TPID_l.tpid,
+                    "exe": TPID_l.exe,
+                    "cmd": TPID_l.cmd,
+                    "stat": TPID_l.stat,
+                    "stat_name": TPID_l.stat_name,
+                    "nice": TPID_l.nice,
+                    "sched": TPID_l.sched,
+                    "ionice": [TPID_l.ioclass, TPID_l.ionice],
+                    "oom_score_adj": TPID_l.oom_score_adj,
+                    "cmdline": TPID_l.cmdline,
+                }
+            except FileNotFoundError:
+                continue
+
+        print(json.dumps(proc_autogroup, indent=4), flush=True)
+
 
 def help():
     print(
         "Usage: ananicy [options]\n",
-        "  start         Run script\n",
-        "  dump rules    Generate and print rules cache to stdout\n",
-        "  dump types    Generate and print types cache to stdout\n",
-        "  dump cgroups  Generate and print cgroups cache to stdout\n",
-        "  dump proc     Generate and print proc map cache to stdout",
+        "  start          Run script\n",
+        "  dump rules     Generate and print rules cache to stdout\n",
+        "  dump types     Generate and print types cache to stdout\n",
+        "  dump cgroups   Generate and print cgroups cache to stdout\n",
+        "  dump proc      Generate and print proc map cache to stdout\n",
+        "  dump autogroup Generate and print proc map cache to stdout",
         flush=True)
     exit(0)
 
@@ -786,6 +844,8 @@ def main(argv):
                 daemon.dump_cgroups()
             if argv[2] == "proc":
                 daemon.dump_proc()
+            if argv[2] == "autogroup":
+                daemon.dump_autogroup()
     except PermissionError as e:
         print("You are root?: {}".format(e))
 
