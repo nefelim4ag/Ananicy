@@ -4,7 +4,9 @@ After=local-fs.target
 
 [Service]
 Type=notify
+ExecStartPre=/sbin/sysctl kernel.sched_autogroup_enabled=0
 ExecStart=/usr/bin/ananicy start
+ExecStopPost=/sbin/sysctl kernel.sched_autogroup_enabled=1
 Nice=19
 SuccessExitStatus=143
 OOMScoreAdjust=-999
