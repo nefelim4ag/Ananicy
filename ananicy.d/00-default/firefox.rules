@@ -1,2 +1,4 @@
 # https://www.mozilla.org/firefox/
 { "name": "firefox", "type":"Doc-View" }
+# Icecat
+{ "name": "icecat", "type":"Doc-View" }
