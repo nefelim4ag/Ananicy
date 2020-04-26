@@ -1,0 +1,2 @@
+# Boinc client https://boinc.berkeley.edu/
+{ "name": "boinc", "type": "Heavy_CPU" }

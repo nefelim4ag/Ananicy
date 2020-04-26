@@ -1,0 +1,2 @@
+# Folding@home client https://foldingathome.org/
+{ "name": "FAHClient", "type": "Heavy_CPU" }
