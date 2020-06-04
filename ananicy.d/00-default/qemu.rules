@@ -1,0 +1,2 @@
+#Fast Processor Emulator https://www.qemu.org/
+{ "name": "qemu-system-x86_64", "type": "Heavy_CPU" }
