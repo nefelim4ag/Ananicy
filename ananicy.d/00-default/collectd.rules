@@ -1,0 +1,2 @@
+# The system statistics collection daemon: https://collectd.org/
+{ "name": "collectd", "type": "BG_CPUIO" }

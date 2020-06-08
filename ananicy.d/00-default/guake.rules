@@ -1,0 +1,2 @@
+# Guake dropdown terminal: https://github.com/Guake/guake
+{ "name": "guake", "type": "Doc-View" }
