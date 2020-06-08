@@ -1,0 +1,3 @@
+# Open-source printing system: https://www.cups.org/
+{ "name": "cupsd", "type": "BG_CPUIO" }
+{ "name": "cups-browsed", "type": "BG_CPUIO" }
