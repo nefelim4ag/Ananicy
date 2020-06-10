@@ -1,4 +1,5 @@
 # Chromium Web Browser: https://www.chromium.org
 { "name": "chromium", "type": "Doc-View" }
+{ "name": "chromium-browser", "type": "Doc-View" }
 { "name": "nacl_helper", "type": "Doc-View" }
 { "name": "chrome-sandbox", "type": "Doc-View" }
