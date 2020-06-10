@@ -10,6 +10,8 @@
 { "name": "cure_linux", "type": "Game"}
 # http://store.steampowered.com/app/570
 { "name": "dota2", "type": "Game"}
+# https://store.steampowered.com/app/70
+{ "name": "hl_linux", "type": "Game"}
 # http://store.steampowered.com/app/440
 { "name": "hl2_linux", "type": "Game"}
 # http://store.steampowered.com/app/4920/Natural_Selection_2/
@@ -43,3 +45,6 @@
 
 # https://store.steampowered.com/app/394360
 { "name": "hoi4", "type": "Game"}
+
+# https://store.steampowered.com/app/225840
+{ "name": "svencoop_linux", "type": "Game"}
