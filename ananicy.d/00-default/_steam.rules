@@ -34,7 +34,8 @@
 { "name": "SaintsRow4.i386", "type": "Game"}
 # http://store.steampowered.com/app/203160
 { "name": "TombRaider", "type": "Game"}
-
+# https://store.steampowered.com/app/750920/
+{ "name": "ShadowOfTheTombRaider", "type": "Game"}
 # http://store.steampowered.com/app/301520
 { "name": "Robocraft.x86_64", "type": "Game"}
 
