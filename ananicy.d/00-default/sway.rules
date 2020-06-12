@@ -1,0 +1,2 @@
+# https://swaywm.org/
+{ "name": "sway", "type": "LowLatency_RT" }
