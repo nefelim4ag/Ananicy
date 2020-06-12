@@ -2,5 +2,6 @@
 { "name": "firefox", "type":"Doc-View" }
 { "name": "firefox-bin", "type":"Doc-View" }
 { "name": "firefox-esr", "type":"Doc-View" }
+{ "name": "firefox-nightly", "type":"Doc-View" }
 # Icecat
 { "name": "icecat", "type":"Doc-View" }
