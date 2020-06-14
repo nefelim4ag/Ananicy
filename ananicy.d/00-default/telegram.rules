@@ -1,2 +1,3 @@
 # https://desktop.telegram.org/
 { "name": "telegram-desktop", "type": "Chat" }
+{ "name": "telegram-desktop.bin", "type": "Chat" }
