@@ -1,0 +1,2 @@
+# https://gitlab.freedesktop.org/wayland/weston/
+{ "name": "weston", "type": "LowLatency_RT" }
