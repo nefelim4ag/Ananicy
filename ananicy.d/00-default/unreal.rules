@@ -1,0 +1,11 @@
+# www.oldunreal.com
+# unreal 98
+{ "name": "unreal-bin", "type": "Game"}
+{ "name": "unreal-bin-x86", "type": "Game"}
+
+{ "name": "UnrealLinux.bin", "type": "Game"}
+{ "name": "UnrealXLinux.bin", "type": "Game"}
+
+# unreal tournament 99: game of the year - ut99 - utgoty
+{ "name": "ut-bin", "type": "Game"}
+{ "name": "ut-bin-x86", "type": "Game"}
