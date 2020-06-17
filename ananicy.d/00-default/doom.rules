@@ -1,0 +1,5 @@
+# chocolate doom: https://www.chocolate-doom.org/wiki/index.php/Chocolate_Doom
+{ "name": "chocolate-doom", "type": "Game"}
+# zdoom: https://zdoom.org/index
+{ "name": "zdoom", "type": "Game"}
+{ "name": "gzdoom", "type": "Game"}
