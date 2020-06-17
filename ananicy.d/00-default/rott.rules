@@ -1,0 +1,5 @@
+# rottexptr: https://github.com/LTCHIPS/rottexpr
+{ "name": "rottexpr", "type": "Game"}
+{ "name": "rottexpr-git", "type": "Game"}
+
+{ "name": "rott", "type": "Game"}
