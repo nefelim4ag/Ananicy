@@ -1,0 +1,7 @@
+# yamagi-quake2
+{ "name": "yamagi-quake2", "type": "Game"}
+{ "name": "yamagi-quake2-git", "type": "Game"}
+
+# vkquake2
+{ "name": "vkquake2", "type": "Game"}
+{ "name": "vkquake2-git", "type": "Game"}
