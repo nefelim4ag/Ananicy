@@ -1,0 +1,2 @@
+# ClamAV Daemon
+{ "name": "clamd", "type": "BG_CPUIO" }
