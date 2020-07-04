@@ -6,3 +6,5 @@
 { "name": "firefox.real", "type":"Doc-View" }
 # Icecat
 { "name": "icecat", "type":"Doc-View" }
+# Firefox Nightly (https://wiki.mozilla.org/Nightly)
+ { "name": "firefox-nightly", "type":"Doc-View" } 
