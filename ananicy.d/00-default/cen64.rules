@@ -1,0 +1,3 @@
+# https://github.com/n64dev/cen64
+{ "name": "cen64", "type": "Game"}
+{ "name": "cen64-qt", "type": "Game"}
