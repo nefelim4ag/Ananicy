@@ -1,0 +1,4 @@
+# Calibre ebook library organiser: https://calibre-ebook.com/
+{ "name": "calibre", "type": "Doc-View" }
+{ "name": "ebook-viewer", "type": "Doc-View" }
+{ "name": "lrfviewer", "type": "Doc-View" }

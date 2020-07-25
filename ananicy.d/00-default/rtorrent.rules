@@ -1,0 +1,2 @@
+# rtorrent: https://github.com/rakshasa/rtorrent
+{ "name": "rtorrent", "type": "BG_CPUIO" }

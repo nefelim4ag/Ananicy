@@ -1,0 +1,2 @@
+# Music player: https://cmus.github.io/
+{ "name": "cmus", "type": "Player-Audio" }

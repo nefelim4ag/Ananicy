@@ -1,0 +1,2 @@
+# htop process browser: https://hisham.hm/htop/
+{ "name": "htop", "type": "BG_CPUIO" }

@@ -2,5 +2,7 @@
 { "name": "firefox", "type":"Doc-View" }
 { "name": "firefox-bin", "type":"Doc-View" }
 { "name": "firefox-esr", "type":"Doc-View" }
+# Tor browser
+{ "name": "firefox.real", "type":"Doc-View" }
 # Icecat
 { "name": "icecat", "type":"Doc-View" }

@@ -1,3 +1,4 @@
 # https://www.sublimetext.com
 { "name": "subl3", "type": "Doc-View" }
+{ "name": "sublime_text", "type": "Doc-View" }
 { "name": "plugin_host", "type": "Doc-View" }
