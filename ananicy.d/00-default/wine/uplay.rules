@@ -1,0 +1,5 @@
+#Uplay is a Digital distribution, digital rights management, multiplayer and communications service developed by Ubisoft https://uplay.ubisoft.com/
+
+{"name": "upc.exe", "type": "BG_CPUIO"}
+{"name": "UbisoftGameLaun", "type": "BG_CPUIO"}
+{"name": "UplayWebCore.ex", "type": "BG_CPUIO"}
