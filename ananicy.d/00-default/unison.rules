@@ -1,0 +1,2 @@
+#unison file synchronization
+{ "name": "unison", "type": "BG_CPUIO" }
