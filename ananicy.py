@@ -827,6 +827,9 @@ def main(argv):
     if len(argv) < 2:
         help()
 
+    os.environ["LANG"] = ""
+    os.environ["LANGUAGE "] = ""
+
     try:
         if argv[1] == "start":
             daemon = Ananicy()
