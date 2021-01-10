@@ -1,2 +1,4 @@
 # https://github.com/chjj/compton
+# https://github.com/yshui/picom
 { "name": "compton", "type": "LowLatency_RT" }
+{ "name": "picom", "type": "LowLatency_RT" }
