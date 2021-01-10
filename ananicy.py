@@ -828,7 +828,7 @@ def main(argv):
         help()
 
     os.environ["LANG"] = ""
-    os.environ["LANGUAGE "] = ""
+    os.environ["LANGUAGE"] = ""
 
     try:
         if argv[1] == "start":
