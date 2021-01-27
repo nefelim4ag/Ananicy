@@ -14,8 +14,10 @@
 { "name": "hl_linux", "type": "Game"}
 # http://store.steampowered.com/app/440
 { "name": "hl2_linux", "type": "Game"}
-# http://store.steampowered.com/app/4920/Natural_Selection_2/
+# http://store.steampowered.com/app/4920
 { "name": "ns2_linux", "type": "Game"}
+# https://store.steampowered.com/app/620
+{ "name": "portal2_linux", "type": "Game"}
 
 # http://store.steampowered.com/app/233250
 { "name": "PA", "type": "Game"}
@@ -49,3 +51,146 @@
 
 # https://store.steampowered.com/app/225840
 { "name": "svencoop_linux", "type": "Game"}
+
+# https://store.steampowered.com/app/57300/
+{ "name": "Amnesia.bin.x86_64", "type": "Game"}
+
+# https://store.steampowered.com/app/22828
+{ "name": "BaldursGate", "type": "Game"}
+
+# https://store.steampowered.com/app/257350/
+{ "name": "BaldursGateII", "type": "Game"}
+
+# https://store.steampowered.com/app/362890/
+{ "name": "bms_linux", "type": "Game"}
+
+# https://store.steampowered.com/app/474210
+{ "name": "Butcher", "type": "Game"}
+
+# https://store.steampowered.com/app/330020/
+{ "name": "ChildrenOfMorta", "type": "Game"}
+
+# https://store.steampowered.com/app/368340/
+{ "name": "CrossCode", "type": "Game"}
+
+# https://store.steampowered.com/app/373420/
+{ "name": "EoCApp", "type": "Game"}
+
+# https://store.steampowered.com/app/383930 (AND OTHER DOORWAYS GAMES)
+{ "name": "Doorways.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/311690
+{ "name": "EtG.x86_64", "type": "Game"}
+
+# https://store.steampowered.com/app/265930
+{ "name": "GoatGame", "type": "Game"}
+
+# https://store.steampowered.com/app/316790
+{ "name": "GrimFandango", "type": "Game"}
+
+# https://store.steampowered.com/app/341940
+{ "name": "Hatred-Linux-Shipping", "type": "Game"}
+
+# https://store.steampowered.com/app/677120
+{ "name": "HWR", "type": "Game"}
+
+# https://store.steampowered.com/app/219150
+{ "name": "Hotline", "type": "Game"}
+
+# https://store.steampowered.com/app/274170
+{ "name": "HotlineMiami2", "type": "Game"}
+
+# https://store.steampowered.com/app/257850
+{ "name": "HyperLightDrifter", "type": "Game"}
+
+# https://store.steampowered.com/app/562860
+{ "name": "fury.bin", "type": "Game"}
+
+# https://store.steampowered.com/app/391720
+{ "name": "LOF", "type": "Game"}
+
+# https://store.steampowered.com/app/361300
+{ "name": "Mother Russia Bleeds.x86_64", "type": "Game"}
+
+# https://store.steampowered.com/app/704450
+{ "name": "nwmain-linux", "type": "Game"}
+
+# https://store.steampowered.com/app/238320
+{ "name": "OLGame.x86_64", "type": "Game"}
+
+# https://store.steampowered.com/app/239030
+{ "name": "PapersPlease", "type": "Game"}
+
+# https://store.steampowered.com/app/356570
+{ "name": "PartyHardGame.x86_64", "type": "Game"}
+
+# https://store.steampowered.com/app/466300
+{ "name": "Torment", "type": "Game"}
+
+# https://store.steampowered.com/app/559210
+{ "name": "Rakuen.amd64", "type": "Game"}
+
+# https://store.steampowered.com/app/564310
+{ "name": "Sam2017", "type": "Game"}
+
+# https://store.steampowered.com/app/294440
+{ "name": "Shadowgate.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/278460
+{ "name": "Skyborn.amd64", "type": "Game"}
+
+# https://store.steampowered.com/app/405820
+{ "name": "TurokEx", "type": "Game"}
+
+# https://store.steampowered.com/app/405830
+{ "name": "Turok2Ex", "type": "Game"}
+
+# https://store.steampowered.com/app/391540
+# https://store.steampowered.com/app/447530
+# https://store.steampowered.com/app/491040
+{ "name": "runner", "type": "Game"}
+
+# https://store.steampowered.com/app/259130
+{ "name": "wasteland", "type": "Game"}
+
+# https://store.steampowered.com/app/240760
+{ "name": "WL2", "type": "Game"}
+
+# https://store.steampowered.com/app/233550
+{ "name": "AnotherWorld-amd64", "type": "Game"}
+
+# https://store.steampowered.com/app/274520
+{ "name": "Darkwood.x86_64", "type": "Game"}
+
+# https://store.steampowered.com/app/495280
+{ "name": "Disgaea2SteamOS", "type": "Game"}
+
+# https://store.steampowered.com/app/219740
+# https://store.steampowered.com/app/322330
+{ "name": "dontstarve_steam", "type": "Game"}
+
+# https://store.steampowered.com/app/321800
+{ "name": "IcewindDale", "type": "Game"}
+
+# https://store.steampowered.com/app/232770
+{ "name": "postal1", "type": "Game"}
+
+# https://store.steampowered.com/app/401680
+{ "name": "PostalREDUX-Linux-Shipping", "type": "Game"}
+
+# https://store.steampowered.com/app/211820
+{ "name": "starbound", "type": "Game"}
+
+# https://store.steampowered.com/app/223470
+# https://store.steampowered.com/app/360960
+{ "name": "postal2-bin", "type": "Game"}
+{ "name": "paradiselost-bin", "type": "Game"}
+
+# https://store.steampowered.com/app/300550
+{ "name": "Dragonfall", "type": "Game"}
+
+# https://store.steampowered.com/app/346940
+{ "name": "SRHK", "type": "Game"}
+
+# https://store.steampowered.com/app/963450
+{ "name": "TheEternalCastle", "type": "Game"}
