@@ -1,2 +1,5 @@
 # https://store.steampowered.com/app/7670
 { "name": "Bioshock.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/409710
+{ "name": "BioshockHD.exe", "type": "Game"}
