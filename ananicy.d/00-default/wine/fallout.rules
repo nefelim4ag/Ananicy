@@ -13,3 +13,9 @@
 
 # https://store.steampowered.com/app/22380
 { "name": "FalloutNV.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/377160
+{ "name": "Fallout4.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/1151340
+{ "name": "Fallout76.exe", "type": "Game"}
