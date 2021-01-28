@@ -1,0 +1,17 @@
+# https://store.steampowered.com/app/214870/Painkiller_Hell__Damnation/
+{ "name": "PKHDGame-Win32-Shipping.ex", "type": "Game"}
+
+# https://store.steampowered.com/app/39530/Painkiller_Black_Edition/
+{ "name": "Painkiller.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/3270/Painkiller_Overdose/
+{ "name": "Overdose.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/206760/Painkiller_Recurring_Evil/
+{ "name": "RecurringEvil.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/65560/Painkiller_Redemption/
+{ "name": "Redemption.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/39560/Painkiller_Resurrection/
+{ "name": "Resurrection.exe", "type": "Game"}
