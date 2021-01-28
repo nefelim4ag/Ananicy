@@ -219,3 +219,7 @@
 
 # https://store.steampowered.com/app/96200
 { "name": "steelstorm64", "type": "Game"}
+
+# https://store.steampowered.com/app/250900
+{ "name": "isaac.i386", "type": "Game"}
+{ "name": "isaac.x64", "type": "Game"}
