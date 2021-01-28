@@ -1,0 +1,80 @@
+# https://store.steampowered.com/app/32440/LEGO_Star_Wars__The_Complete_Saga/
+{ "name": "LEGOStarWarsSaga.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/32510/LEGO_Star_Wars_III__The_Clone_Wars/
+{ "name": "LEGOCloneWars.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/438640/LEGO_STAR_WARS_The_Force_Awakens/
+{ "name": "LEGOSWTFA.exe", "type": "Game"}
+{ "name": "LEGOSWTFA_DX11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/647830/LEGO_Marvel_Super_Heroes_2/
+{ "name": "LEGOMARVEL2.exe", "type": "Game"}
+{ "name": "LEGOMARVEL2_DX11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/829110/LEGO_DC_SuperVillains/
+{ "name": "LEGO DC Super-villains_DX11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/249130/LEGO_Marvel_Super_Heroes/
+{ "name": "LEGOMARVEL.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/311770/LEGO_Pirates_of_the_Caribbean_The_Video_Game/
+{ "name": "LEGOPirates.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/214510/LEGO_The_Lord_of_the_Rings/
+{ "name": "LEGOLOTR.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/21130/LEGO_Harry_Potter_Years_14/
+{ "name": "LEGOHarryPotter.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/204120/LEGO_Harry_Potter_Years_57/
+{ "name": "harry2.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/313690/LEGO_Batman_3_Beyond_Gotham/
+{ "name": "LEGOBatman3.exe", "type": "Game"}
+{ "name": "LEGOBatman3_DX11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/332310/LEGO_Worlds/
+{ "name": "LEGO_Worlds.exe", "type": "Game"}
+{ "name": "LEGO_Worlds_DX11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/405310/LEGO_MARVELs_Avengers/
+{ "name": "LEGOMARVELAvengers.exe", "type": "Game"}
+{ "name": "LEGOMARVELAvengers_DX11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/352400/LEGO_Jurassic_World/
+{ "name": "LEGOJurassicWorld.exe", "type": "Game"}
+{ "name": "LEGOJurassicWorld_DX11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/285160/LEGO_The_Hobbit/
+{ "name": "LEGOHobbit.exe", "type": "Game"}
+{ "name": "LEGOHobbit_DX11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/32330/LEGO_Indiana_Jones_The_Original_Adventures/
+{ "name": "LEGOIndy.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/578330/LEGO_City_Undercover/
+{ "name": "LEGOLCUR_DX11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/21000/LEGO_Batman_The_Videogame/
+{ "name": "LEGOBatman.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/818320/LEGO_The_Incredibles/
+{ "name": "LEGO The Incredibles.exe", "type": "Game"}
+{ "name": "LEGO The Incredibles_DX11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/640590/The_LEGO_NINJAGO_Movie_Video_Game/
+{ "name": "LEGONINJAGO.exe", "type": "Game"}
+{ "name": "LEGONINJAGO_DX11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/32450/LEGO_Indiana_Jones_2_The_Adventure_Continues/
+{ "name": "LEGOIndy2.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/213330/LEGO_Batman_2_DC_Super_Heroes/
+{ "name": "LEGOBatman2.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/267530/The_LEGO_Movie__Videogame/
+{ "name": "LEGOEMMET.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/881320/The_LEGO_Movie_2_Videogame/
+{ "name": "LEGO The LEGO Movie 2_DX11.exe", "type": "Game"}
