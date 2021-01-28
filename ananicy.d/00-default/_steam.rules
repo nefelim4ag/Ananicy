@@ -232,3 +232,7 @@
 
 # https://store.steampowered.com/app/236870
 { "name": "HitmanPro", "type": "Game"}
+
+# https://store.steampowered.com/app/231160
+{ "name": "TheSwapper.bin.x86_64", "type": "Game"}
+{ "name": "TheSwapper.bin.x86", "type": "Game"}
