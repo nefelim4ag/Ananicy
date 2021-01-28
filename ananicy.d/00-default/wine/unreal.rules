@@ -1,0 +1,14 @@
+# https://store.steampowered.com/app/13250/Unreal_Gold/
+{ "name": "Unreal.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/13240/Unreal_Tournament_Game_of_the_Year_Edition/
+{ "name": "UnrealTournament.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/13230/Unreal_Tournament_2004_Editors_Choice_Edition/
+{ "name": "UT2004.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/13200/Unreal_2_The_Awakening/
+{ "name": "Unreal2.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/13210/Unreal_Tournament_3_Black/
+{ "name": "UT3.exe", "type": "Game"}
