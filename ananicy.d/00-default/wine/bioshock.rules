@@ -1,0 +1,14 @@
+# https://store.steampowered.com/app/7670
+{ "name": "Bioshock.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/409710
+{ "name": "BioshockHD.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/8850
+{ "name": "Bioshock2.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/409720
+{ "name": "Bioshock2HD.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/8870
+{ "name": "BioShockInfinite.exe", "type": "Game"}
