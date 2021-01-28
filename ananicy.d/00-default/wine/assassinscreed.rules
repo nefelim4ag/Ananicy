@@ -1,0 +1,38 @@
+# https://store.steampowered.com/app/15100
+{ "name": "AssassinsCreed_Dx9.exe", "type": "Game"}
+{ "name": "AssassinsCreed_Dx10.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/33230
+{ "name": "AssassinsCreedIIGame.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/48190
+{ "name": "ACBSP.exe", "type": "Game"}
+{ "name": "ACBMP.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/201870
+{ "name": "ACRMP.exe", "type": "Game"}
+{ "name": "ACRPR.exe", "type": "Game"}
+{ "name": "ACRSP.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/911400
+{ "name": "AC3SP.exe", "type": "Game"}
+{ "name": "AC3MP.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/242050
+{ "name": "AC4BFMP.exe", "type": "Game"}
+{ "name": "AC4BFSP.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/311560
+{ "name": "ACC.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/289650
+{ "name": "ACU.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/368500
+{ "name": "ACS.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/582160
+{ "name": "ACOrigins.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/812140
+{ "name": "ACOdyssey.exe", "type": "Game"}
