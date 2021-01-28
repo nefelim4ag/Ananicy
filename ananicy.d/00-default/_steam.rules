@@ -229,3 +229,6 @@
 
 # https://store.steampowered.com/app/278930
 { "name": "GiganticArmy.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/236870
+{ "name": "HitmanPro", "type": "Game"}
