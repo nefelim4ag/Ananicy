@@ -1,0 +1,6 @@
+# https://store.steampowered.com/app/3730/Aliens_versus_Predator_Classic_2000/
+{ "name": "AvP_Classic.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/10680/Aliens_vs_Predator/
+{ "name": "AvP.exe", "type": "Game"}
+{ "name": "AvP_DX11.exe", "type": "Game"}
