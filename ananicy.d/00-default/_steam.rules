@@ -194,3 +194,28 @@
 
 # https://store.steampowered.com/app/963450
 { "name": "TheEternalCastle", "type": "Game"}
+
+# https://store.steampowered.com/app/401360
+{ "name": "TheAquaticAdventureOfTheLastHuman", "type": "Game"}
+
+# https://store.steampowered.com/app/332200
+{ "name": "AxiomVerge.bin.x86_64", "type": "Game"}
+{ "name": "AxiomVerge.bin.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/200900
+{ "name": "CaveStory+", "type": "Game"}
+
+# https://store.steampowered.com/app/247080
+{ "name": "NecroDancer", "type": "Game"}
+
+# https://store.steampowered.com/app/668980
+{ "name": "ForsakenEx", "type": "Game"}
+
+# https://store.steampowered.com/app/262260
+{ "name": "jng_gold", "type": "Game"}
+
+# https://store.steampowered.com/app/250760
+{ "name": "ShovelKnight", "type": "Game"}
+
+# https://store.steampowered.com/app/96200
+{ "name": "steelstorm64", "type": "Game"}
