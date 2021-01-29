@@ -148,6 +148,8 @@
 # https://store.steampowered.com/app/391540
 # https://store.steampowered.com/app/447530
 # https://store.steampowered.com/app/491040
+# https://store.steampowered.com/app/242680
+# https://store.steampowered.com/app/643880
 { "name": "runner", "type": "Game"}
 
 # https://store.steampowered.com/app/259130
@@ -236,3 +238,53 @@
 # https://store.steampowered.com/app/231160
 { "name": "TheSwapper.bin.x86_64", "type": "Game"}
 { "name": "TheSwapper.bin.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/49520
+{ "name": "Borderlands2", "type": "Game"}
+
+# https://store.steampowered.com/app/261640
+{ "name": "BorderlandsPreSequel", "type": "Game"}
+
+# https://store.steampowered.com/app/286690
+# https://store.steampowered.com/app/287390
+{ "name": "metro", "type": "Game"}
+
+# https://store.steampowered.com/app/218620
+{ "name": "payday2_release", "type": "Game"}
+
+# https://store.steampowered.com/app/22180
+# https://store.steampowered.com/app/22120
+# https://store.steampowered.com/app/22140
+{ "name": "penumbra", "type": "Game"}
+{ "name": "blackplague", "type": "Game"}
+{ "name": "requiem", "type": "Game"}
+
+# https://store.steampowered.com/app/286220
+{ "name": "pshd", "type": "Game"}
+
+# https://store.steampowered.com/app/282140
+{ "name": "Soma.bin.x86_64", "type": "Game"}
+{ "name": "Soma_NoSteam.bin.x86_64", "type": "Game"}
+
+# https://store.steampowered.com/app/291650
+# https://store.steampowered.com/app/560130
+{ "name": "PillarsOfEternity", "type": "Game"}
+{ "name": "PillarsOfEternityII", "type": "Game"}
+
+# https://store.steampowered.com/app/368620
+{ "name": "Timespinner", "type": "Game"}
+
+# https://store.steampowered.com/app/200710
+{ "name": "Torchlight2.bin.x86_64", "type": "Game"}
+{ "name": "Torchlight2.bin.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/272270
+{ "name": "TidesOfNumenera", "type": "Game"}
+
+# https://store.steampowered.com/app/35700
+# https://store.steampowered.com/app/35720
+# https://store.steampowered.com/app/319910
+{ "name": "trine1_linux_32bit", "type": "Game"}
+{ "name": "trine2_linux_32bit", "type": "Game"}
+{ "name": "trine3_linux_64bit", "type": "Game"}
+
