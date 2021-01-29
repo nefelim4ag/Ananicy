@@ -1,0 +1,9 @@
+# https://store.steampowered.com/app/891170/The_Witch__The_66_Mushrooms/
+{ "name": "player.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/1042670/Orangeblood/
+{ "name": "Game.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/1018010/Castlevania_Anniversary_Collection/
+# https://store.steampowered.com/app/1257360/Bloodstained_Curse_of_the_Moon_2/
+{ "name": "game.exe", "type": "Game"}
