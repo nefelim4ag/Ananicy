@@ -1,0 +1,22 @@
+# https://store.steampowered.com/app/579180/Ys_VIII_Lacrimosa_of_DANA
+{ "name": "ys8.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/587110/Ys_Memories_of_Celceta
+{ "name": "Ysc_dx11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/587100/Ys_SEVEN
+{ "name": "Ys7.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/207350/Ys_Origin
+{ "name": "yso_win.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/223810/Ys_I__II_Chronicles
+{ "name": "ys1plus.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/207320/Ys_The_Oath_in_Felghana
+{ "name": "ysf_win.exe", "type": "Game"}
+{ "name": "ysf_win_dx9.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/312540/Ys_VI_The_Ark_of_Napishtim
+{ "name": "ys6_win.exe", "type": "Game"}
+{ "name": "ys6_win_dx9.exe", "type": "Game"}
