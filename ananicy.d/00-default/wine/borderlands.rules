@@ -1,0 +1,14 @@
+# https://store.steampowered.com/app/397540/Borderlands_3/
+{ "name": "Borderlands3.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/49520/Borderlands_2/
+{ "name": "Borderlands2.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/261640/Borderlands_The_PreSequel/
+{ "name": "BorderlandsPreSequel.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/8980/Borderlands_Game_of_the_Year/
+{ "name": "Borderlands.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/729040/Borderlands_Game_of_the_Year_Enhanced/
+{ "name": "BorderlandsGOTY.exe", "type": "Game"}
