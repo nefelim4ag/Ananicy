@@ -1,0 +1,6 @@
+# https://store.steampowered.com/app/20900
+# https://store.steampowered.com/app/20920
+# https://store.steampowered.com/app/292030
+{ "name": "witcher.exe", "type": "Game"}
+{ "name": "witcher2.exe", "type": "Game"} 
+{ "name": "witcher3.exe", "type": "Game"}
