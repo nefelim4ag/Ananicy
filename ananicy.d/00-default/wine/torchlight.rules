@@ -1,0 +1,9 @@
+# https://store.steampowered.com/app/41500
+{ "name": "Torchlight.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/200710
+{ "name": "Torchlight2.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/1030210
+{ "name": "Frontiers.exe", "type": "Game"}
+{ "name": "Frontiers-Win64-Shipping.exe", "type": "Game"}
