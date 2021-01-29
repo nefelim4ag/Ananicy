@@ -1,0 +1,14 @@
+# https://store.steampowered.com/app/3810/BloodRayne_Legacy/
+{ "name": "rayne.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/3820/BloodRayne_2_Legacy/
+{ "name": "br2.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/281220/BloodRayne_Betrayal/
+{ "name": "bloodrayne.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/1373510/BloodRayne_Terminal_Cut/
+{ "name": "rayne1.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/1373550/BloodRayne_2_Terminal_Cut/
+{ "name": "rayne2.exe", "type": "Game"}
