@@ -1,3 +1,10 @@
 # https://store.steampowered.com/app/211600
 { "name": "THIEF.EXE", "type": "Game"}
 { "name": "THIEF_no_ddfix.EXE", "type": "Game"}
+
+# https://store.steampowered.com/app/239160
+{ "name": "Shipping-ThiefGame.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/211740
+{ "name": "thief2.exe", "type": "Game"}
+{ "name": "thief2_no_ddfix.exe", "type": "Game"}
