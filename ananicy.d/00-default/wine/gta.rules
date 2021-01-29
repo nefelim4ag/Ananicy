@@ -1,0 +1,20 @@
+# https://store.steampowered.com/app/271590/Grand_Theft_Auto_V/
+{ "name": "GTA5.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/12210/Grand_Theft_Auto_IV_The_Complete_Edition/
+{ "name": "GTAIV.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/12120/Grand_Theft_Auto_San_Andreas/
+{ "name": "gta-sa.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/12110/Grand_Theft_Auto_Vice_City/
+{ "name": "gta-vc.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/12100/Grand_Theft_Auto_III
+{ "name": "gta3.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/12180/Grand_Theft_Auto_2
+{ "name": "gta2.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/12170/Grand_Theft_Auto
+{ "name": "Grand Theft Auto.exe", "type": "Game"}
