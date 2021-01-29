@@ -19,6 +19,11 @@
 # https://store.steampowered.com/app/620
 { "name": "portal2_linux", "type": "Game"}
 
+### Common bin names
+# https://store.steampowered.com/app/200510
+{ "name": "game.x86_64", "type": "Game"}
+{ "name": "game.x86", "type": "Game"}
+
 # http://store.steampowered.com/app/233250
 { "name": "PA", "type": "Game"}
 # PA UI
@@ -299,6 +304,16 @@
 { "name": "witcher2", "type": "Game"}
 
 # https://store.steampowered.com/app/268500
-# https://store.steampowered.com/app/200510
-{ "name": "game.x86_64", "type": "Game"}
 { "name": "XCOM2", "type": "Game"}
+
+# https://store.steampowered.com/app/349690
+{ "name": "ArmedSeven.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/312840
+{ "name": "Fahrenheit", "type": "Game"}
+
+# https://store.steampowered.com/app/230700
+{ "name": "LaMulana.bin.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/404100
+{ "name": "SteelStrider.x86", "type": "Game"}
