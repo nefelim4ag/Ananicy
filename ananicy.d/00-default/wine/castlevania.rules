@@ -6,6 +6,3 @@
 
 # https://store.steampowered.com/app/282530/Castlevania_Lords_of_Shadow__Mirror_of_Fate_HD/
 { "name": "CMOF.exe", "type": "Game"}
-
-# https://store.steampowered.com/app/1018010/Castlevania_Anniversary_Collection/
-{ "name": "game.exe", "type": "Game"}
