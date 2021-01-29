@@ -288,3 +288,17 @@
 { "name": "trine2_linux_32bit", "type": "Game"}
 { "name": "trine3_linux_64bit", "type": "Game"}
 
+# https://store.steampowered.com/app/362960
+{ "name": "Tyranny.x86_64", "type": "Game"}
+{ "name": "Tyranny.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/70300
+{ "name": "VVVVVV", "type": "Game"}
+
+# https://store.steampowered.com/app/20920
+{ "name": "witcher2", "type": "Game"}
+
+# https://store.steampowered.com/app/268500
+# https://store.steampowered.com/app/200510
+{ "name": "game.x86_64", "type": "Game"}
+{ "name": "XCOM2", "type": "Game"}
