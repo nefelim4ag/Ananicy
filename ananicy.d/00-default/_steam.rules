@@ -148,6 +148,8 @@
 # https://store.steampowered.com/app/391540
 # https://store.steampowered.com/app/447530
 # https://store.steampowered.com/app/491040
+# https://store.steampowered.com/app/242680
+# https://store.steampowered.com/app/643880
 { "name": "runner", "type": "Game"}
 
 # https://store.steampowered.com/app/259130
@@ -194,3 +196,109 @@
 
 # https://store.steampowered.com/app/963450
 { "name": "TheEternalCastle", "type": "Game"}
+
+# https://store.steampowered.com/app/401360
+{ "name": "TheAquaticAdventureOfTheLastHuman", "type": "Game"}
+
+# https://store.steampowered.com/app/332200
+{ "name": "AxiomVerge.bin.x86_64", "type": "Game"}
+{ "name": "AxiomVerge.bin.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/200900
+{ "name": "CaveStory+", "type": "Game"}
+
+# https://store.steampowered.com/app/247080
+{ "name": "NecroDancer", "type": "Game"}
+
+# https://store.steampowered.com/app/668980
+{ "name": "ForsakenEx", "type": "Game"}
+
+# https://store.steampowered.com/app/262260
+{ "name": "jng_gold", "type": "Game"}
+
+# https://store.steampowered.com/app/250760
+{ "name": "ShovelKnight", "type": "Game"}
+
+# https://store.steampowered.com/app/96200
+{ "name": "steelstorm64", "type": "Game"}
+
+# https://store.steampowered.com/app/250900
+{ "name": "isaac.i386", "type": "Game"}
+{ "name": "isaac.x64", "type": "Game"}
+
+# https://store.steampowered.com/app/105600
+{ "name": "Terraria.bin.x86_64", "type": "Game"}
+
+# https://store.steampowered.com/app/278930
+{ "name": "GiganticArmy.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/236870
+{ "name": "HitmanPro", "type": "Game"}
+
+# https://store.steampowered.com/app/231160
+{ "name": "TheSwapper.bin.x86_64", "type": "Game"}
+{ "name": "TheSwapper.bin.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/49520
+{ "name": "Borderlands2", "type": "Game"}
+
+# https://store.steampowered.com/app/261640
+{ "name": "BorderlandsPreSequel", "type": "Game"}
+
+# https://store.steampowered.com/app/286690
+# https://store.steampowered.com/app/287390
+{ "name": "metro", "type": "Game"}
+
+# https://store.steampowered.com/app/218620
+{ "name": "payday2_release", "type": "Game"}
+
+# https://store.steampowered.com/app/22180
+# https://store.steampowered.com/app/22120
+# https://store.steampowered.com/app/22140
+{ "name": "penumbra", "type": "Game"}
+{ "name": "blackplague", "type": "Game"}
+{ "name": "requiem", "type": "Game"}
+
+# https://store.steampowered.com/app/286220
+{ "name": "pshd", "type": "Game"}
+
+# https://store.steampowered.com/app/282140
+{ "name": "Soma.bin.x86_64", "type": "Game"}
+{ "name": "Soma_NoSteam.bin.x86_64", "type": "Game"}
+
+# https://store.steampowered.com/app/291650
+# https://store.steampowered.com/app/560130
+{ "name": "PillarsOfEternity", "type": "Game"}
+{ "name": "PillarsOfEternityII", "type": "Game"}
+
+# https://store.steampowered.com/app/368620
+{ "name": "Timespinner", "type": "Game"}
+
+# https://store.steampowered.com/app/200710
+{ "name": "Torchlight2.bin.x86_64", "type": "Game"}
+{ "name": "Torchlight2.bin.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/272270
+{ "name": "TidesOfNumenera", "type": "Game"}
+
+# https://store.steampowered.com/app/35700
+# https://store.steampowered.com/app/35720
+# https://store.steampowered.com/app/319910
+{ "name": "trine1_linux_32bit", "type": "Game"}
+{ "name": "trine2_linux_32bit", "type": "Game"}
+{ "name": "trine3_linux_64bit", "type": "Game"}
+
+# https://store.steampowered.com/app/362960
+{ "name": "Tyranny.x86_64", "type": "Game"}
+{ "name": "Tyranny.x86", "type": "Game"}
+
+# https://store.steampowered.com/app/70300
+{ "name": "VVVVVV", "type": "Game"}
+
+# https://store.steampowered.com/app/20920
+{ "name": "witcher2", "type": "Game"}
+
+# https://store.steampowered.com/app/268500
+# https://store.steampowered.com/app/200510
+{ "name": "game.x86_64", "type": "Game"}
+{ "name": "XCOM2", "type": "Game"}
