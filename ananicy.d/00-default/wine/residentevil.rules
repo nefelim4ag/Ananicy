@@ -1,0 +1,32 @@
+# https://store.steampowered.com/app/418370/Resident_Evil_7_Biohazard
+{ "name": "re7.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/883710/Resident_Evil_2
+{ "name": "re2.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/952060/Resident_Evil_3
+{ "name": "re3.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/254700/Resident_Evil_4
+{ "name": "bio4.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/221040/Resident_Evil_6
+{ "name": "BH6.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/21690/Resident_Evil_5
+{ "name": "re5dx9.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/339340/Resident_Evil_0
+{ "name": "re0hd.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/287290/Resident_Evil_Revelations_2
+{ "name": "rerev2.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/304240/Resident_Evil
+{ "name": "bhd.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/222480/Resident_Evil_Revelations
+{ "name": "rerev.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/209100/Resident_Evil_Operation_Raccoon_City
+{ "name": "RaccoonCity.exe", "type": "Game"}
