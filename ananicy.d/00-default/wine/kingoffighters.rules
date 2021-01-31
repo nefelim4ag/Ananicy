@@ -1,0 +1,15 @@
+# https://store.steampowered.com/app/222940/THE_KING_OF_FIGHTERS_XIII_STEAM_EDITION
+{ "name": "kofxiii.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/571260/THE_KING_OF_FIGHTERS_XIV_STEAM_EDITION
+{ "name": "kofxiv.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/222440/THE_KING_OF_FIGHTERS_2002_UNLIMITED_MATCH
+{ "name": "KingOfFighters2002UM.exe", "type": "Game"}
+{ "name": "KingOfFighters2002UM_x64.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/222420/THE_KING_OF_FIGHTERS_98_ULTIMATE_MATCH_FINAL_EDITION
+{ "name": "KingOfFighters98UM.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/702120/THE_KING_OF_FIGHTERS_97_GLOBAL_MATCH
+{ "name": "KOF97.exe", "type": "Game"}
