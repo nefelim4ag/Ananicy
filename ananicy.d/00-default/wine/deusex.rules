@@ -1,2 +1,5 @@
 # https://store.steampowered.com/app/6910
 { "name": "DeusEx.exe", "type": "Game"}
+
+# https://www.kentie.net/article/dxguide/
+{ "name": "deusex.exe", "type": "Game"}
