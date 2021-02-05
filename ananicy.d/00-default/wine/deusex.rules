@@ -3,3 +3,16 @@
 
 # https://www.kentie.net/article/dxguide/
 { "name": "deusex.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/397550
+{ "name": "Revision.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/337000
+{ "name": "DXMD.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/238010
+{ "name": "DXHRDC.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/6920
+{ "name": "DX2Main.exe", "type": "Game"}
+{ "name": "dx2.exe", "type": "Game"}
