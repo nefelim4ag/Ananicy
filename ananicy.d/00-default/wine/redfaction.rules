@@ -1,0 +1,17 @@
+# https://store.steampowered.com/app/20530
+# https://github.com/rafalh/dashfaction
+{ "name": "RF.exe", "type": "Game"}
+{ "name": "RF_120na.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/20550
+{ "name": "rf2.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/55110
+{ "name": "RedFactionArmageddon.exe", "type": "Game"}
+{ "name": "RedFactionArmageddon_DX11.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/667720
+{ "name": "rfg.exe", "type": "Game"}
+
+# https://store.steampowered.com/app/20500
+{ "name": "RFG.exe", "type": "Game"}
