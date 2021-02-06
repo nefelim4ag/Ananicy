@@ -3,3 +3,5 @@
 
 # rott: http://icculus.org/rott/
 { "name": "rott", "type": "Game"}
+{ "name": "rott-registered", "type": "Game"}
+{ "name": "rott-shareware", "type": "Game"}
