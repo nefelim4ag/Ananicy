@@ -1,0 +1,5 @@
+# https://github.com/iortcw/iortcw
+{ "name": "iowolfmp.x86_64", "type": "Game"}
+{ "name": "iowolfsp.x86_64", "type": "Game"}
+{ "name": "iortcw-mp", "type": "Game"}
+{ "name": "iortcw-sp", "type": "Game"}
