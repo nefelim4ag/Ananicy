@@ -1,0 +1,4 @@
+# https://github.com/etlegacy/etlegacy
+{ "name": "et", "type": "Game"}
+{ "name": "et.x86", "type": "Game"}
+{ "name": "etl", "type": "Game"}
