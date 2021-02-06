@@ -1,5 +1,8 @@
 # tyrquake: https://disenchant.net/tyrquake/
-{ "name": "tyrquake", "type": "Game"}
+{ "name": "tyr-quake", "type": "Game"}
+{ "name": "tyr-glquake", "type": "Game"}
+{ "name": "tyr-qwcl", "type": "Game"}
+{ "name": "tyr-glqwcl", "type": "Game"}
 
 # vkquake: https://github.com/Novum/vkQuake
 { "name": "vkquake", "type": "Game"}
