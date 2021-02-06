@@ -24,6 +24,13 @@
 { "name": "game.x86_64", "type": "Game"}
 { "name": "game.x86", "type": "Game"}
 
+# https://store.steampowered.com/app/391540
+# https://store.steampowered.com/app/447530
+# https://store.steampowered.com/app/491040
+# https://store.steampowered.com/app/242680
+# https://store.steampowered.com/app/643880
+{ "name": "runner", "type": "Game"}
+
 # http://store.steampowered.com/app/233250
 { "name": "PA", "type": "Game"}
 # PA UI
@@ -149,13 +156,6 @@
 
 # https://store.steampowered.com/app/405830
 { "name": "Turok2Ex", "type": "Game"}
-
-# https://store.steampowered.com/app/391540
-# https://store.steampowered.com/app/447530
-# https://store.steampowered.com/app/491040
-# https://store.steampowered.com/app/242680
-# https://store.steampowered.com/app/643880
-{ "name": "runner", "type": "Game"}
 
 # https://store.steampowered.com/app/259130
 { "name": "wasteland", "type": "Game"}
