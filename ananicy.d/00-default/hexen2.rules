@@ -1,0 +1,5 @@
+# http://uhexen2.sourceforge.net/
+{ "name": "glhexen2", "type": "Game"}
+{ "name": "hexen2", "type": "Game"}
+{ "name": "glhwcl", "type": "Game"}
+{ "name": "hwcl", "type": "Game"}
