@@ -1,6 +1,5 @@
 # rottexptr: https://github.com/LTCHIPS/rottexpr
 { "name": "rottexpr", "type": "Game"}
-{ "name": "rottexpr-git", "type": "Game"}
 
 # rott: http://icculus.org/rott/
 { "name": "rott", "type": "Game"}
