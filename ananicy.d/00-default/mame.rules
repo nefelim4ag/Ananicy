@@ -1,2 +1,5 @@
 # https://www.mamedev.org/
 { "name": "mame", "type": "Game"}
+
+# https://sdlmame.wallyweek.org/
+{ "name": "sdlmame", "type": "Game"}
