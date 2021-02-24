@@ -1,0 +1,2 @@
+# A fully integrated 3D graphics creation suite: https://www.blender.org/
+{ "name": "blender", "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
