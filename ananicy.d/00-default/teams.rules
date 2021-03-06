@@ -1,2 +1,2 @@
 # Teams: https://teams.microsoft.com/downloads#allDevicesSection
-{ "name": "teams", "type": "LowLatency_RT" }
+{ "name": "teams", "type": "Chat" }
