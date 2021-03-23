@@ -1,0 +1,2 @@
+# Thermal monitoring and controlling daemon: https://wiki.debian.org/thermald
+{ "name": "thermald", "type": "BG_CPUIO" }
