@@ -1,0 +1,3 @@
+# DisplayLink multi-monitor dock driver: https://github.com/DisplayLink/evdi
+
+{ "name": "DisplayLinkManager", "type": "LowLatency_RT" }
