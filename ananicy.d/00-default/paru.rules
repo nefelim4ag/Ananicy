@@ -1,0 +1,3 @@
+# paru - Feature packed AUR helper
+
+{ "name": "paru", "type": "BG_CPUIO" }
