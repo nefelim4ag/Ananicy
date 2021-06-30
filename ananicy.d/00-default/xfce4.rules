@@ -1,6 +1,12 @@
-{ "name": "xfwm4",           "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }
+{ "name": "xfwm4",           "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 1 }
 { "name": "xfsettingsd",     "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }
 { "name": "xfce4-session",   "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }
 { "name": "xfconfd",         "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }
 { "name": "xfce4-appfinder", "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }
 { "name": "xfce4-notifyd",   "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }
+{ "name": "xfdesktop",   "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }
+# Screenshot utility
+{ "name": "xfce4-screenshooter", "type":"Doc-View"  }
+# Thunar is a modern file manager for the Xfce Desktop Environment.
+# Need more tests with BG_CPUIO
+{ "name": "thunar", "type":"BG_CPUIO" }

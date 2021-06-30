@@ -17,3 +17,5 @@
 { "name": "librewolf-bin", "type":"Doc-View" } 
 { "name": "librewolf-nightly", "type":"Doc-View" } 
 
+# https://www.palemoon.org
+{ "name": "palemoon", "type":"Doc-View" }

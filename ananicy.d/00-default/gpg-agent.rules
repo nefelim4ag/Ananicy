@@ -1,0 +1,2 @@
+# ssh
+{ "name": "gpg-agent", "type": "BG_CPUIO" }

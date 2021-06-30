@@ -1,2 +1,3 @@
 # Plank dock: https://launchpad.net/plank
-{ "name": "plank", "type": "BG_CPUIO" }
+# dock should work fast as part of realiable desktop
+{ "name": "plank", "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }

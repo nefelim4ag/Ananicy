@@ -3,3 +3,4 @@
 { "name": "chrome-sandbox", "type": "Doc-View" }
 { "name": "chromium-snapshot", "type": "Doc-View" }
 { "name": "chromium-snapshot-bin", "type": "Doc-View" }
+{ "name": "crashpad_handler", "type": "BG_CPUIO" }

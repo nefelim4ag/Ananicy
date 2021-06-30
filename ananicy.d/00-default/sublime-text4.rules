@@ -1,0 +1,4 @@
+# This intended to work in bg
+# https://stackoverflow.com/questions/66203541/what-is-the-purpose-of-plugin-host-service-in-sublime-text-3
+{ "name": "plugin_host-3.8", "type": "BG_CPUIO" }
+{ "name": "plugin_host-3.3", "type": "BG_CPUIO" }
