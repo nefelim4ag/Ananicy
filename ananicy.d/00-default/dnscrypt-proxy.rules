@@ -1,2 +1,2 @@
 # https://github.com/DNSCrypt/dnscrypt-proxy
-{ "name": "dnscrypt-proxy",   "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 5 }
+{ "name": "dnscrypt-proxy",   "type": "LowLatency_RT", "nice": -8, "ioclass" : "realtime", "ionice" : 5 }
