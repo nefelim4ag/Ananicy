@@ -1,17 +1,15 @@
 # Ananicy
 
 ## Description
-Ananicy (ANother Auto NICe daemon) — is a shell daemon created to manage processes' [IO](http://linux.die.net/man/1/ionice) and [CPU](http://linux.die.net/man/1/nice) priorities, with community-driven set of rules for popular applications (anyone may add his own rule via github's [pull request](https://help.github.com/articles/using-pull-requests/) mechanism).
-
-I think it's only for desktop usage.
+Ananicy (ANother Auto NICe daemon) — is a shell daemon created to manage processes' [IO](http://linux.die.net/man/1/ionice) and [CPU](http://linux.die.net/man/1/nice) priorities, with community-driven set of rules for popular applications (anyone may add his own rule via github's [pull request](https://help.github.com/articles/using-pull-requests/) mechanism). It's mainly for desktop usage.
 
 I just wanted a tool for auto set programs nice in my system, i.e.:
-* Why do I have a lags, while compiling kernel and playing a game?
+* Why do I have lags, while compiling kernel and playing games?
 * Why does dropbox client eat all my IO?
 * Why does torrent/dc client make my laptop run slower?
 * ...
 
-Use ananicy to fix this problems!
+Use ananicy to fix these problems!
 
 ## Versions
 ```
