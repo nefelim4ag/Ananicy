@@ -1,0 +1,3 @@
+## Rule for Xwayland server, runs the graphical desktop.
+
+{ "name" : "Xwayland", "type" : "LowLatency_RT", "ionice" : 1}
