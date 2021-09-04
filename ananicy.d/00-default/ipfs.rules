@@ -1,0 +1,3 @@
+# ipfs cli and desktop
+{ "name": "ipfs", "type": "BG_CPUIO" }
+{ "name": "ipfs-desktop", "type": "BG_CPUIO" }
