@@ -8,8 +8,25 @@ import subprocess
 import json
 import _thread
 
-from enum import Enum, unique
+from enum import Enum, unique, Flag, auto
 from time import sleep
+
+
+def is_simple_proc_pid(pid):
+    if not os.path.isdir("/proc/{}".format(pid)):
+        return False
+    try:
+        if not os.path.realpath("/proc/{}/exe".format(pid)):
+            return False
+    except FileNotFoundError as err:
+        return False
+    return True
+
+
+def print_verbose_msg(msg, verbose_opts, key):
+    if key in verbose_opts:
+        if verbose_opts[key]:
+            print(msg)
 
 
 class Failure(Exception):
@@ -34,7 +51,19 @@ class ProcSchedulerPolicy(Enum):
 
 class TPID:
 
-    def __init__(self, pid: int, tpid: int):
+    class State(Flag):
+        """ Flag set if corresponding rule
+        have been applied
+        """
+        NICE          = auto()
+        IOCLASS       = auto()
+        SCHED         = auto()
+        OOM_SCORE_ADJ = auto()
+        CGROUP        = auto()
+        ALLSET        = NICE | IOCLASS | SCHED | OOM_SCORE_ADJ | CGROUP
+
+    def __init__(self, pid: int, tpid: int, verbose_opts={}):
+        self.verbose_opts = verbose_opts
         self.pid = pid
         self.tpid = tpid
         self.prefix = "/proc/{}/task/{}/".format(pid, tpid)
@@ -46,6 +75,16 @@ class TPID:
         self.__cmd = None
         self.__ionice = None
         self.__ioclass = None
+        self.__cgroups = []
+
+        self.__state = TPID.State(0)
+
+    def exists(self):
+        return os.path.exists("/proc/{}/task/{}".format(self.pid, self.tpid))
+
+    @property
+    def state(self):
+        return self.__state
 
     @property
     def cmd(self):
@@ -59,10 +98,13 @@ class TPID:
         with open(self.__oom_score_adj, 'r') as _oom_score_adj_file:
             return int(_oom_score_adj_file.readline().rstrip())
 
-    @oom_score_adj.setter
     def oom_score_adj(self, oom_score_adj):
         with open(self.__oom_score_adj, 'w') as _oom_score_adj_file:
             _oom_score_adj_file.write(str(oom_score_adj))
+            msg = "oom_score_adj: {}[{}/{}] -> {}".format(
+                self.cmd, self.pid, self.tpid, oom_score_adj)
+            print_verbose_msg(msg, self.verbose_opts, "apply_oom_score_adj")
+            return True
 
     @property
     def stat(self):
@@ -85,6 +127,18 @@ class TPID:
     def nice(self):
         return os.getpriority(os.PRIO_PROCESS, self.tpid)
 
+    def nice(self, nice: int):
+        os.setpriority(os.PRIO_PROCESS, self.tpid, nice)
+        msg = "renice: {}[{}/{}] -> {}".format(self.cmd, self.pid, self.tpid, nice)
+        print_verbose_msg(msg, self.verbose_opts, "apply_nice")
+        retcode = subprocess.run(
+            ["renice", "-n", str(nice), "-p",
+             str(self.pid)],
+            stdout=subprocess.DEVNULL).returncode
+        if retcode != 0:
+            raise Failure()
+        return True
+
     @property
     def autogroup(self):
         try:
@@ -92,8 +146,11 @@ class TPID:
                 autogroup = _autogroup.readline().strip('/\n').split(" nice ")
         except FileNotFoundError:
             return None
-        group_num = int(autogroup[0].split('-')[1])
-        nice = int(autogroup[1])
+        try:
+            group_num = int(autogroup[0].split('-')[1])
+            nice = int(autogroup[1])
+        except:
+            return None
         return { "group": group_num, "nice": nice }
 
     @autogroup.setter
@@ -137,16 +194,35 @@ class TPID:
             self.__ionice = None
 
     @property
+    def ionice(self):
+        if not self.__ionice:
+            self.__get_ioprop()
+        return self.__ionice
+
+    @property
     def ioclass(self):
         if not self.__ioclass:
             self.__get_ioprop()
         return self.__ioclass
 
-    @property
-    def ionice(self):
-        if not self.__ionice:
-            self.__get_ioprop()
-        return self.__ionice
+    def ioclass(self, ioclass, ionice):
+        args = []
+        if ionice is not None:
+            args.extend(("-n", str(ionice)))
+            msg = "ionice: {}[{}/{}] -> {}".format(
+                    self.cmd, self.pid, self.tpid, ionice)
+            print_verbose_msg(msg, self.verbose_opts, "apply_ionice")
+        if ioclass is not None:
+            args.extend(("-c", str(ioclass)))
+            msg = "ioclass: {}[{}/{}] -> {}".format(
+                    self.cmd, self.pid, self.tpid, ioclass)
+            print_verbose_msg(msg, self.verbose_opts, "apply_ioclass")
+        retcode = subprocess.run(
+            ["ionice", "-p", str(self.tpid), *args],
+            stdout=subprocess.DEVNULL).returncode
+        if retcode != 0:
+            raise Failure()
+        return True
 
     @property
     def sched(self):
@@ -156,6 +232,34 @@ class TPID:
         _sched = int(self._stat[39])
         return ProcSchedulerPolicy(_sched).name.lower()
 
+    def sched(self, sched, rtprio):
+        arg_map = {
+            'other': '-N',
+            'normal': '-N',
+            'rr': '-R',
+            'fifo': '-F',
+            'batch': '-B',
+            'iso': '-I',
+            'idle': '-D'
+        }
+        sched_arg = arg_map[sched]
+        l_prio = None
+        if sched == "other" and c_sched == "normal":
+            return True
+        if sched == "rr" or sched == "fifo":
+            l_prio = rtprio or 1
+        cmd = ["schedtool", sched_arg]
+        if l_prio:
+            cmd += ["-p", str(l_prio)]
+        cmd += [str(self.pid)]
+        msg = "sched: {}[{}/{}] -> {}".format(self.cmd, self.pid,
+                                              self.tpid, sched)
+        print_verbose_msg(msg, self.verbose_opts, "apply_sched")
+        retcode = subprocess.run(cmd, stdout=subprocess.DEVNULL).returncode
+        if retcode != 0:
+            raise Failure()
+        return True
+
     @property
     def rtprio(self):
         if not self._stat:
@@ -163,13 +267,54 @@ class TPID:
             self._stat = m.group(0).rsplit()
         return int(self._stat[38])
 
+    @property
+    def cgroups(self):
+        return self.__cgroups
+
+    def cgroups(self, cgroups):
+        self.__cgroups = cgroups
+        for cgroup in self.__cgroups:
+            cgroup.add_pid(self.tpid)
+            msg = "Cgroup: {}[{}] added to {}".format(
+                self.cmd, self.tpid, cgroup.name)
+            print_verbose_msg(msg, self.verbose_opts, "apply_cgroup")
+        return True
+
+    def apply_rules(self, rules, cgroups):
+        # Any not specified rule will be considered applied
+        if rules.get("nice"):
+            if self.nice(rules["nice"]):
+                self.__state = self.__state | TPID.State.NICE
+        else:
+            self.__state = self.__state | TPID.State.NICE
+        if rules.get("ioclass") or rules.get("ionice"):
+            if self.ioclass(rules.get("ioclass"), rules.get("ionice")):
+                self.__state = self.__state | TPID.State.IOCLASS
+        else:
+            self.__state = self.__state | TPID.State.IOCLASS
+        if rules.get("sched"):
+            if self.sched(rules["sched"], rules["rtprio"]):
+                self.__state = self.__state | TPID.State.SCHED
+        else:
+            self.__state = self.__state | TPID.State.SCHED
+        if rules.get("oom_score_adj"):
+            if self.oom_score_adj(rules["oom_score_adj"]):
+                self.__state = self.__state | TPID.State.OOM_SCORE_ADJ
+        else:
+            self.__state = self.__state | TPID.State.OOM_SCORE_ADJ
+        if rules.get("cgroup"):
+            if self.cgroups([cgroups[rules["cgroup"]]]):
+                self.__state = self.__state | TPID.State.CGROUP
+        else:
+            self.__state = self.__state | TPID.State.CGROUP
+
 
 class CgroupController:
     PERIOD_US = 100000
     CGROUP_FS = "/sys/fs/cgroup/"
     TYPE = "cpu"
 
-    def __init__(self, name, cpuquota):
+    def __init__(self, name, cpuquota, update_thread=False):
         if not os.path.exists(self.CGROUP_FS):
             raise Failure("cgroup fs not mounted")
 
@@ -199,7 +344,8 @@ class CgroupController:
 
         self.files_mtime = {self.files["tasks"]: 0.0}
 
-        _thread.start_new_thread(self.__tread_update_tasks, ())
+        if update_thread:
+            _thread.start_new_thread(self.__tread_update_tasks, ())
 
     def __tread_update_tasks(self):
         tasks_path = self.files["tasks"]
@@ -519,219 +665,57 @@ class Ananicy:
                     files.append(realpath)
         return files
 
-    def __proc_get_pids(self):
-        pids = []
-        for pid in os.listdir("/proc"):
-            try:
-                pid = int(pid)
-            except ValueError:
-                continue
-            if not os.path.isdir("/proc/{}".format(pid)):
-                continue
-            pids.append(pid)
-        return pids
-
-    def proc_get_pids(self):
-        pids = []
-        for pid in self.__proc_get_pids():
-            try:
-                if not os.path.realpath("/proc/{}/exe".format(pid)):
-                    continue
-                mtime = os.path.getmtime(
-                    "/proc/{}".format(pid)) + self.check_freq
-                if mtime > time.time():
-                    continue
-            except (FileNotFoundError, ProcessLookupError):
-                continue
-            pids.append(pid)
-        return pids
-
-    def pid_get_tpid(self, pid):
-        tpids = []
-        path = "/proc/{}/task/".format(pid)
-        for tpid in os.listdir(path):
-            try:
-                tpid = int(tpid)
-            except ValueError:
-                continue
-
-            path = "/proc/{}/task/{}".format(pid, tpid)
-            try:
-                mtime = os.path.getmtime(path) + self.check_freq
-            except FileNotFoundError:
-                continue
-            if mtime > time.time():
-                continue
-
-            tpids.append(tpid)
-        return tpids
+    def __proc_tpids(self):
+        decimal_pids = filter(str.isdecimal, os.listdir("/proc"))
+        for pid in filter(is_simple_proc_pid, decimal_pids):
+            tasks_path = "/proc/{}/task/".format(pid)
+            for tpid in filter(str.isdecimal, os.listdir(tasks_path)):
+                yield TPID(int(pid), int(tpid), verbose_opts=self.verbose)
 
     def proc_map_update(self):
-        proc = {}
-        for pid in self.proc_get_pids():
-            try:
-                for tpid in self.pid_get_tpid(pid):
-                    proc[tpid] = TPID(pid, tpid)
-            except FileNotFoundError:
+        proc_found = set()
+        new_tpids = []
+        for tpid in self.__proc_tpids():
+            key = (tpid.pid, tpid.tpid, tpid.cmd)
+            proc_found.add(key)
+            if key in self.proc:
                 continue
-        self.proc = proc
+            else:
+                new_tpid = tpid
+                self.proc[key] = new_tpid
+                new_tpids.append(new_tpid)
+        exited_proc = set(self.proc.keys()) - proc_found
+        # Remove exited from map
+        for proc_key in exited_proc:
+            del self.proc[proc_key]
+        return new_tpids
 
-    def renice_cmd(self, pid: int, nice: int):
-        subprocess.run(
-            ["renice", "-n", str(nice), "-p",
-             str(pid)],
-            stdout=subprocess.DEVNULL)
-
-    def renice(self, tpid: int, nice: int, name: str):
-        p_tpid = self.proc[tpid]
-        c_nice = p_tpid.nice
-        if not name:
-            name = p_tpid.cmd
-        if c_nice == nice:
-            return
-        os.setpriority(os.PRIO_PROCESS, tpid, nice)
-        self.renice_cmd(tpid, nice)
-        msg = "renice: {}[{}/{}] {} -> {}".format(name, p_tpid.pid, tpid,
-                                                  c_nice, nice)
-        if self.verbose["apply_nice"]:
-            print(msg, flush=True)
-
-    def ionice(self, tpid, ioclass, ionice, name: str):
-        p_tpid = self.proc[tpid]
-        if not name:
-            name = p_tpid.cmd
-        args = []
-        msg_ioclass = False
-        msg_ionice = False
-        if ionice is not None:
-            c_ionice = p_tpid.ionice
-            if c_ionice is not None and str(ionice) != c_ionice:
-                if ioclass is not None:
-                    args.extend(("-c", str(ioclass)))
-                    c_ioclass = p_tpid.ioclass
-                    if c_ioclass is not None and str(ioclass) != c_ioclass:
-                        msg_ioclass = True
-                args.extend(("-n", str(ionice)))
-                msg_ionice = True
-        if not args and ioclass is not None:
-            c_ioclass = p_tpid.ioclass
-            if c_ioclass is not None and str(ioclass) != c_ioclass:
-                args.extend(("-c", str(ioclass)))
-                msg_ioclass = True
-        if args:
-            subprocess.run(
-                ["ionice", "-p", str(tpid), *args],
-                stdout=subprocess.DEVNULL)
-        if msg_ioclass and self.verbose["apply_ioclass"]:
-            msg = "ioclass: {}[{}/{}] {} -> {}".format(
-                p_tpid.cmd, p_tpid.pid, tpid, c_ioclass, ioclass)
-            print(msg, flush=True)
-        if msg_ionice and self.verbose["apply_ionice"]:
-            msg = "ionice: {}[{}/{}] {} -> {}".format(
-                p_tpid.cmd, p_tpid.pid, tpid, c_ionice, ionice)
-            print(msg, flush=True)
-
-    def oom_score_adj(self, tpid, oom_score_adj, name: str):
-        p_tpid = self.proc[tpid]
-        c_oom_score_adj = p_tpid.oom_score_adj
-        if not name:
-            name = p_tpid.cmd
-        if c_oom_score_adj != oom_score_adj:
-            p_tpid.oom_score_adj = oom_score_adj
-            msg = "oom_score_adj: {}[{}/{}] {} -> {}".format(
-                p_tpid.cmd, p_tpid.pid, tpid, c_oom_score_adj, oom_score_adj)
-            if self.verbose["apply_oom_score_adj"]:
-                print(msg, flush=True)
-
-    def sched_cmd(self, pid: int, sched: str, l_prio: int = None):
-        arg_map = {
-            'other': '-N',
-            'normal': '-N',
-            'rr': '-R',
-            'fifo': '-F',
-            'batch': '-B',
-            'iso': '-I',
-            'idle': '-D'
-        }
-        sched_arg = arg_map[sched]
-        cmd = ["schedtool", sched_arg]
-        if l_prio:
-            cmd += ["-p", str(l_prio)]
-        cmd += [str(pid)]
-        subprocess.run(cmd, stdout=subprocess.DEVNULL)
-
-    def sched(self, tpid, sched, rtprio, name):
-        p_tpid = self.proc[tpid]
-        l_prio = None
-        c_sched = p_tpid.sched
-        c_rtprio = p_tpid.rtprio
-        if not name:
-            name = p_tpid.cmd
-        if not c_sched or (c_sched == sched
-                           and (rtprio is None or c_rtprio == rtprio)):
-            return
-        if sched == "other" and c_sched == "normal":
-            return
-        if sched == "rr" or sched == "fifo":
-            l_prio = rtprio or 1
-        self.sched_cmd(p_tpid.tpid, sched, l_prio)
-        msg = "sched: {}[{}/{}] {} -> {}".format(p_tpid.cmd, p_tpid.pid, tpid,
-                                                 c_sched, sched)
-        if self.verbose["apply_sched"]:
-            print(msg)
-
-    def apply_rule(self, tpid, rule, rule_name):
-        if rule.get("nice"):
-            self.renice(tpid, rule["nice"], rule_name)
-        if rule.get("ioclass") or rule.get("ionice"):
-            self.ionice(tpid, rule.get("ioclass"), rule.get("ionice"),
-                        rule_name)
-        if rule.get("sched"):
-            self.sched(tpid, rule["sched"], rule["rtprio"], rule_name)
-        if rule.get("oom_score_adj"):
-            self.oom_score_adj(tpid, rule["oom_score_adj"], rule_name)
-
-        cgroup = rule.get("cgroup")
-        if not cgroup:
-            return
-
-        cgroup_ctrl = self.cgroups[cgroup]
-        if not cgroup_ctrl.pid_in_cgroup(tpid):
-            cgroup_ctrl.add_pid(tpid)
-            msg = "Cgroup: {}[{}] added to {}".format(
-                rule_name, tpid, cgroup_ctrl.name)
-            if self.verbose["apply_cgroup"]:
-                print(msg)
-
-    def process_tpid(self, tpid):
-        # proc entry
-        pe = self.proc.get(tpid)
-        if not os.path.exists("/proc/{}/task/{}".format(pe.pid, pe.tpid)):
-            return
-
-        rule_name = pe.cmd
+    def get_tpid_rule(self, tpid: TPID):
+        rule_name = tpid.cmd
         rule = self.rules.get(rule_name)
         if not rule:
-            rule_name = pe.stat_name
+            rule_name = tpid.stat_name
             rule = self.rules.get(rule_name)
+        return rule
+
+    def process_tpid(self, tpid):
+        if not tpid.exists():
+            return
+        rule = self.get_tpid_rule(tpid)
         if not rule:
             return
-
-        try:
-            self.apply_rule(tpid, rule, rule_name)
-        except subprocess.CalledProcessError:
-            return
-        except FileNotFoundError:
-            return
+        tpid.apply_rules(rule, self.cgroups)
+        if tpid.state != TPID.State.ALLSET:
+            print("Warn: Not all rules were applied on {}[{}/{}] = {}".format(tpid.cmd, tpid.pid, tpid.tpid, tpid.state))
 
     def run(self):
         while True:
-            self.proc_map_update()
-            for tpid in self.proc:
+            # proc_map_update returns only new found processes
+            for tpid in self.proc_map_update():
                 try:
                     self.process_tpid(tpid)
-                except ProcessLookupError:
-                    pass
+                except Exception as exc:
+                    print("Error: {}".format(exc))
             sleep(self.check_freq)
 
     def dump_types(self):
