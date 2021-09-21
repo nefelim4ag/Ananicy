@@ -1,10 +1,10 @@
 # Ananicy
 
 ## Description
-Ananicy (ANother Auto NICe daemon) — is a shell daemon created to manage processes' [IO](http://linux.die.net/man/1/ionice) and [CPU](http://linux.die.net/man/1/nice) priorities, with community-driven set of rules for popular applications (anyone may add his own rule via github's [pull request](https://help.github.com/articles/using-pull-requests/) mechanism). It's mainly for desktop usage.
+Ananicy (ANother Auto NICe daemon) — is a shell daemon created to manage processes' [IO](http://linux.die.net/man/1/ionice) and [CPU](http://linux.die.net/man/1/nice) priorities, with community-driven set of rules for popular applications (anyone may add their own rule via github's [pull request](https://help.github.com/articles/using-pull-requests/) mechanism). It's mainly for desktop usage.
 
 I just wanted a tool for auto set programs nice in my system, i.e.:
-* Why do I have lags, while compiling kernel and playing games?
+* Why do I get lag, while compiling kernel and playing games?
 * Why does dropbox client eat all my IO?
 * Why does torrent/dc client make my laptop run slower?
 * ...
@@ -43,29 +43,29 @@ $ sudo systemctl enable ananicy
 $ sudo systemctl start ananicy
 ```
 ## Configuration
-Rules files should be placed under /etc/ananicy.d/ directory and have *.rules extension.
-Inside .rules file every process is described on a separate line, general syntax is described below:
+Rules files should be placed under `/etc/ananicy.d/` directory and have `*.rules` extension.
+Inside .rules file every process is described on a separate line. General syntax is described below:
 
 ```
 { "name": "gcc", "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
 ```
 
-All fields except 'name' are optional.
+All fields except `name` are optional.
 
-'name' used for match processes by exec bin name
+`name` used for match processes by exec bin name
 ```
 ~ basename $(sudo realpath /proc/1/exe)
 systemd
 ```
 
-Currently match by other things, not supported.
+Currently matching by other things is not supported.
 
-You can check what Ananicy see, by:
+You can check what Ananicy sees, by:
 ```
 ananicy dump proc
 ```
 
-Ananicy load all rules in ram while starting, so to apply rules, you must restart service.
+Ananicy loads all rules in ram while starting, so to apply rules, you must restart the service.
 
 Available ionice values:
 ```
@@ -73,19 +73,19 @@ $ man ionice
 ```
 
 ## Simple rules for writing rules
-CFQ IO Scheduller also use 'nice' for internal scheduling, so it's mean processes with same IO class and IO priority, but with different nicceness will take advantages of 'nice' also for IO.
+CFQ IO Scheduller also uses `nice` for internal scheduling, so it's mean processes with same IO class and IO priority, but with different nicceness will take advantages of `nice` also for IO.
 
-1. Try don't chage 'nice' of system wide process like initrd.
-2. Please try use full process name (or name with ^$ symbols like NAME=^full_name$)
-3. When writing rule - try use only 'nice', it must be enough in most cases.
+1. Avoid changing `nice` of system wide process like initrd.
+2. Please try to use full process name (or name with `^$` symbols like `NAME=^full_name$`)
+3. When writing rule - try to only use `nice`, it must be enough in most cases.
 4. Don't try set to high priority! Niceness can fix some performance problems, but can't give you more.
-Example: pulseaudio uses 'nice' -11 by default, if you set other cpu hungry task, with 'nice' {-20..-12} you can catch a sound glitches.
-5. For CPU hungry backround task like compiling, just use NICE=19.
+Example: pulseaudio uses `nice` -11 by default, if you set other cpu hungry task, with `nice` {-20..-12} you can catch a sound glitches.
+5. For CPU hungry backround task like compiling, just use `NICE=19`.
 
 About IO priority:
 
-1. It's usefull use '{"ioclass": "idle"}' for IO hungry background tasks like: file indexers, Cloud Clients, Backups and etc.
-2. It's not cool set realtime to all tasks. The  RT  scheduling  class is given first access to the disk, regardless of what else is going on in the system.  Thus the RT class needs to be used with some care, as it can starve other processes. So try use ioclass first.
+1. It's useful to use `{"ioclass": "idle"}` for IO hungry background tasks like: file indexers, Cloud Clients, Backups and etc.
+2. It's not cool to set realtime to all tasks. The RT scheduling class is given first access to the disk, regardless of what else is going on in the system.  Thus the RT class needs to be used with some care, as it can starve other processes. So try to use ioclass first.
 
 ## Debugging
 Get ananicy output with journalctl:
