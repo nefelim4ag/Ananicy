@@ -1,0 +1,2 @@
+# Update checker for Linux Mint: https://github.com/linuxmint/mintupdate
+{ "name": "mintUpdate", "type": "BG_CPUIO" }

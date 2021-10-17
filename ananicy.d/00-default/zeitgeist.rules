@@ -1,0 +1,2 @@
+# Desktop Activity Logging: https://zeitgeist.freedesktop.org/
+{ "name": "zeitgeist-datahub", "type": "BG_CPUIO" }

@@ -1,0 +1,2 @@
+# RNG daemon developed to check and feed random data from hardware device to kernel entropy pool: https://github.com/nhorman/rng-tools
+{ "name": "rngd", "type": "BG_CPUIO" }

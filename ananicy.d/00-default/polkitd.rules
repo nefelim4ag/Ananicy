@@ -1,0 +1,2 @@
+# Provides an organized way for non-privileged processes to communicate with privileged ones: https://gitlab.freedesktop.org/polkit/polkit/
+{ "name": "polkitd", "type": "BG_CPUIO" }
