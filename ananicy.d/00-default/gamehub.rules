@@ -1,0 +1,2 @@
+# Unified games launcher: https://github.com/tkashkin/GameHub
+{ "name": "com.github.tkashkin.gamehub", "type": "BG_CPUIO" }
