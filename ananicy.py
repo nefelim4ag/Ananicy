@@ -68,7 +68,11 @@ class TPID:
         self.tpid = tpid
         self.prefix = "/proc/{}/task/{}/".format(pid, tpid)
         self.parent = "/proc/{}/".format(pid)
-        self.exe = os.path.realpath("/proc/{}/exe".format(pid))
+        self.exe = "/proc/{}/exe".format(pid)
+        try:
+            self.exe = os.path.realpath("/proc/{}/exe".format(pid))
+        except:
+            pass
         self.__oom_score_adj = self.prefix + "/oom_score_adj"
 
         self._stat = None
@@ -710,12 +714,12 @@ class Ananicy:
 
     def run(self):
         while True:
-            # proc_map_update returns only new found processes
-            for tpid in self.proc_map_update():
-                try:
-                    self.process_tpid(tpid)
-                except Exception as exc:
-                    print("Error: {}".format(exc))
+            try:
+                # proc_map_update returns only new found processes
+                for tpid in self.proc_map_update():
+                        self.process_tpid(tpid)
+            except Exception as exc:
+                print("Error: {}".format(exc))
             sleep(self.check_freq)
 
     def dump_types(self):
