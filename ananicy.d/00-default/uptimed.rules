@@ -1,0 +1,2 @@
+# Uptime statistics gathering daemon: https://github.com/rpodgorny/uptimed
+{ "name": "uptimed", "type": "BG_CPUIO" }
