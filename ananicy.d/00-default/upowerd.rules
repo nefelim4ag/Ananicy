@@ -1,0 +1,2 @@
+# Power management and statistics gathering daemon: https://gitlab.freedesktop.org/upower/upower
+{ "name": "upowerd", "type": "BG_CPUIO" }
