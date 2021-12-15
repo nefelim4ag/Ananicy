@@ -3,6 +3,8 @@
 #{ "name": "steam", "type": "BG_CPUIO" }
 # Steam integrated web browser
 { "name": "steamwebhelper", "type": "BG_CPUIO" }
+# Steam in home streaming
+{ "name": "streaming_client", "type": "Game" }
 
 # https://store.steampowered.com/app/730
 { "name": "csgo_linux64", "type": "Game"}
