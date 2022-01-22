@@ -1,0 +1,3 @@
+# https://kodi.tv/
+{ "name": "kodi", "type": "Player-Video" }
+{ "name": "kodi-standalone", "type": "Player-Video" }

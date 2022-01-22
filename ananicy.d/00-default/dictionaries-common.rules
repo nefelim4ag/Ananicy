@@ -1,0 +1,11 @@
+{ "name": "aspell-autobuildhash", "type": "BG_CPUIO" }
+{ "name": "ispell-autobuildhash", "type": "BG_CPUIO" }
+{ "name": "remove-default-ispell", "type": "BG_CPUIO" }
+{ "name": "remove-default-wordlist", "type": "BG_CPUIO" }
+{ "name": "select-default-ispell", "type": "BG_CPUIO" }
+{ "name": "select-default-wordlist", "type": "BG_CPUIO" }
+{ "name": "update-default-aspell", "type": "BG_CPUIO" }
+{ "name": "update-default-ispell", "type": "BG_CPUIO" }
+{ "name": "update-default-wordlist", "type": "BG_CPUIO" }
+{ "name": "update-dictcommon-aspell", "type": "BG_CPUIO" }
+{ "name": "update-dictcommon-hunspell", "type": "BG_CPUIO" }

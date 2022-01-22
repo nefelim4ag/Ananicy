@@ -2,3 +2,4 @@
 { "name": "calibre", "type": "Doc-View" }
 { "name": "ebook-viewer", "type": "Doc-View" }
 { "name": "lrfviewer", "type": "Doc-View" }
+{ "name": "ebook-convert", "type": "BG_CPUIO" }

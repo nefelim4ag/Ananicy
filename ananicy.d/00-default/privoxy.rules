@@ -1,0 +1,2 @@
+# https://www.privoxy.org/
+{ "name": "privoxy", "type": "Service" }

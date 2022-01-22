@@ -1,0 +1,5 @@
+# https://pipewire.org/
+{ "name": "pipewire", "type": "RT_AV" }
+{ "name": "pipewire-pulse", "type": "RT_AV" }
+{ "name": "pipewire-media-session", "type": "RT_AV" }
+{ "name": "pw-jack", "type": "RT_AV" }

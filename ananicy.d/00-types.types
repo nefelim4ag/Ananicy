@@ -17,6 +17,9 @@
 # In general case not so heavy, but must not lag
 { "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
 
+# Type: Realtime audio/video
+{ "type": "RT_AV", "ioclass": "realtime", "nice": -11, "sched": "rr" }
+
 # Type: BackGround CPU/IO Load
 # Background CPU/IO it's needed, but it must be as silent as possible
 { "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
@@ -25,9 +28,22 @@
 # It must work fast enough but must not create so much noise
 { "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
 
+# Type: Service
+{ "type": "Service", "nice": 10, "ioclass": "best-effort", "ionice": 6 }
+
+# Type: Realtime services
+{ "type": "Service_RT", "nice": -5, "ioclass": "realtime" }
+
+# Type: Essential
+{ "type": "Essential", "nice": -10, "ioclass": "realtime", "oom_score_adj": -1000 }
+
 # Type: Chat
 {"type": "Chat", "nice": -1, "ioclass": "best-effort", "ionice": 7 }
 
 # Type: Adj OOM Score
 { "type": "OOM_KILL", "oom_score_adj": 1000 }
 { "type": "OOM_NO_KILL", "oom_score_adj": -1000 }
+
+# Virtual machines and containers
+{ "type": "Container", "nice": 5, "ioclass": "best-effort", "ionice": 5 }
+{ "type": "Virtual_Machine", "nice": 5, "ioclass": "best-effort", "ionice": 5 }

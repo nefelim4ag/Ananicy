@@ -1,0 +1,2 @@
+# https://pagure.io/mlocate
+{ "name": "updatedb.mlocate", "type": "BG_CPUIO" }

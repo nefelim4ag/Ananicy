@@ -1,0 +1,4 @@
+# https://pip.pypa.io/
+{"name": "pip", "type": "BG_CPUIO" }
+# https://pypa.github.io/pipx/
+{"name": "pipx", "type": "BG_CPUIO"}

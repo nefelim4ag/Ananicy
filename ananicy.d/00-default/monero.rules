@@ -1,0 +1,15 @@
+# https://www.getmonero.org/
+{ "name": "monerod", "type": "BG_CPUIO" }
+{ "name": "monero-blockchain-ancestry", "type": "BG_CPUIO" }
+{ "name": "monero-blockchain-depth", "type": "BG_CPUIO" }
+{ "name": "monero-blockchain-export", "type": "BG_CPUIO" }
+{ "name": "monero-blockchain-mark-spent-outputs", "type": "BG_CPUIO" }
+{ "name": "monero-blockchain-prune", "type": "BG_CPUIO" }
+{ "name": "monero-blockchain-prune-known-spent-data", "type": "BG_CPUIO" }
+{ "name": "monero-blockchain-stats", "type": "BG_CPUIO" }
+{ "name": "monero-blockchain-usage", "type": "BG_CPUIO" }
+{ "name": "monero-gen-ssl-cert", "type": "BG_CPUIO" }
+{ "name": "monero-gen-trusted-multisig", "type": "BG_CPUIO" }
+{ "name": "monero-wallet-cli", "type": "BG_CPUIO" }
+{ "name": "monero-wallet-gui", "type": "BG_CPUIO" }
+{ "name": "monero-wallet-rpc", "type": "BG_CPUIO" }

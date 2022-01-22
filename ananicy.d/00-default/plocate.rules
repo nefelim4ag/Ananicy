@@ -1,0 +1,3 @@
+# https://plocate.sesse.net/
+{ "name": "plocate-build", "type": "BG_CPUIO" }
+{ "name": "updatedb.plocate", "type": "BG_CPUIO" }

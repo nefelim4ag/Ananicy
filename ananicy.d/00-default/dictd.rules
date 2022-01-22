@@ -1,0 +1,3 @@
+# https://dict.org
+# https://sourceforge.net/projects/dict/
+{ "name": "dictd", "type": "Service" }

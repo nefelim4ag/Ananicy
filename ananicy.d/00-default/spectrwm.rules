@@ -1,2 +1,2 @@
 # https://github.com/conformal/spectrwm
-{ "name": "spectrwm", "type": "LowLatency_RT" }
+{ "name": "spectrwm", "type": "Essential" }

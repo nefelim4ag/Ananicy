@@ -1,0 +1,3 @@
+# https://github.com/Whonix/tb-updater
+{ "name": "update-torbrowser", "type": "BG_CPUIO" }
+{ "name": "update-i2pbrowser", "type": "BG_CPUIO" }

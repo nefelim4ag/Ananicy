@@ -1,0 +1,2 @@
+# https://chrony.tuxfamily.org/
+{ "name": "chronyd", "type": "BG_CPUIO" }

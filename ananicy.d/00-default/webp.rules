@@ -1,0 +1,8 @@
+# https://developers.google.com/speed/webp/
+{ "name": "cwebp", "type": "BG_CPUIO" }
+{ "name": "dwebp", "type": "BG_CPUIO" }
+{ "name": "gif2webp", "type": "BG_CPUIO" }
+{ "name": "img2webp", "type": "BG_CPUIO" }
+{ "name": "webpmux", "type": "BG_CPUIO" }
+{ "name": "webpinfo", "type": "BG_CPUIO" }
+{ "name": "vwebp", type": "Image-View" }

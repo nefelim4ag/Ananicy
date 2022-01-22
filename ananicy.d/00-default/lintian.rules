@@ -1,0 +1,12 @@
+# https://lintian.debian.org
+{ "name": "lintian", "type": "BG_CPUIO" }
+{ "name": "lintian-annotate-hints", "type": "BG_CPUIO" }
+{ "name": "lintian-explain-tags", "type": "BG_CPUIO" }
+{ "name": "lintian-info", "type": "BG_CPUIO" }
+{ "name": "spellintian", "type": "BG_CPUIO" }
+
+# https://salsa.debian.org/jelmer/lintian-brush
+{ "name": "apply-multiarch-hints", "type": "BG_CPUIO" }
+{ "name": "deb-scrub-obsolete", "type": "BG_CPUIO" }
+{ "name": "debianize", "type": "BG_CPUIO" }
+{ "name": "lintian-brush", "type": "BG_CPUIO" }
