@@ -1,0 +1,12 @@
+{ "name": "gpg", "type": "Heavy_CPU" }
+{ "name": "gpg2", "type": "Heavy_CPU" }
+{ "name": "gpgcompose", "type": "Heavy_CPU" }
+{ "name": "gpg-dearmor", "type": "Heavy_CPU" }
+{ "name": "gpgparsemail", "type": "Heavy_CPU" }
+{ "name": "gpgsm", "type": "Heavy_CPU" }
+{ "name": "gpgsplit", "type": "Heavy_CPU" }
+{ "name": "gpgtar", "type": "Heavy_CPU" }
+{ "name": "gpgv", "type": "Heavy_CPU" }
+{ "name": "gpg-wks-server", "type": "Heavy_CPU" }
+{ "name": "gpg-zip, "type": "Heavy_CPU" }
+{ "name": "gpg-agent", "type": "BG_CPUIO" }

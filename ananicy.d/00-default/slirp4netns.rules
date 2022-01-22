@@ -1,0 +1,2 @@
+# https://github.com/rootless-containers/slirp4netns
+{ "name": "slirp4netns", "type": "Container" }

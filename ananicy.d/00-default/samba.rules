@@ -1,1 +1,1 @@
-{ "name": "smbd", "type": "LowLatency_RT" }
+{ "name": "smbd", "type": "Service" }

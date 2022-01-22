@@ -1,2 +1,4 @@
 # https://code.visualstudio.com/
 { "name": "code", "type": "Doc-View" }
+# https://github.com/VSCodium/vscodium
+{ "name": "codium", "type": "Doc-View" }

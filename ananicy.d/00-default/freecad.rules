@@ -1,0 +1,2 @@
+# FreeCAD: https://www.freecadweb.org/
+{ "name": "freecad", "type": "LowLatency_RT" }

@@ -1,0 +1,2 @@
+# https://gitlab.gnome.org/GNOME/simple-scan
+{ "name": "simple-scan", "type": "Doc-View" }

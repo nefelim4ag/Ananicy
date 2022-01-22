@@ -1,0 +1,3 @@
+# http://sane-project.org/
+{ "name": "saned", "type": "BG_CPUIO" }
+

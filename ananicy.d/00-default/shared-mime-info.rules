@@ -1,0 +1,2 @@
+# https://www.freedesktop.org/wiki/Software/shared-mime-info/
+{ "name": "update-mime-database", "type": "BG_CPUIO" }

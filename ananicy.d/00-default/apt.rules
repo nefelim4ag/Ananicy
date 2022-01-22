@@ -1,0 +1,42 @@
+# https://wiki.debian.org/Teams/Apt
+{ "name": "apt", "type": "BG_CPUIO" }
+{ "name": "apt-add-repository", "type": "BG_CPUIO" }
+{ "name": "apt-cache", "type": "BG_CPUIO" }
+{ "name": "apt-cdrom", "type": "BG_CPUIO" }
+{ "name": "apt-config", "type": "BG_CPUIO" }
+{ "name": "apt-mirror", "type": "BG_CPUIO" }
+{ "name": "apt-move", "type": "BG_CPUIO" }
+{ "name": "apt-extracttemplates", "type": "BG_CPUIO" }
+{ "name": "apt-ftparchive", "type": "BG_CPUIO" }
+{ "name": "apt-get", "type": "BG_CPUIO" }
+{ "name": "apt-key", "type": "BG_CPUIO" }
+{ "name": "apt-key-install", "type": "BG_CPUIO" }
+{ "name": "apt-listchanges", "type": "BG_CPUIO" }
+{ "name": "apt-mark", "type": "BG_CPUIO" }
+{ "name": "apt-sortpkgs", "type": "BG_CPUIO" }
+{ "name": "apt-src", "type": "BG_CPUIO" }
+
+# https://salsa.debian.org/debian/apt-build
+{ "name": "apt-build", "type": "BG_CPUIO" }
+
+# https://wiki.debian.org/Aptitude
+{ "name": "aptitude", "type": "BG_CPUIO" }
+{ "name": "aptitude-curses", "type": "BG_CPUIO" }
+{ "name": "aptitude-changelog-parser", "type": "BG_CPUIO" }
+{ "name": "aptitude-create-state-bundle", "type": "BG_CPUIO" }
+{ "name": "aptitude-run-state-bundle", "type": "BG_CPUIO" }
+
+# https://salsa.debian.org/LeePen/apt-cacher
+{ "name": "apt-cacher", "type": "BG_CPUIO" }
+
+# http://www.unix-ag.uni-kl.de/~bloch/acng/
+{ "name": "apt-cacher-ng", "type": "BG_CPUIO" }
+
+# https://github.com/mvo5/apt-clone
+{ "name": "apt-clone", "type": "BG_CPUIO" }
+
+# https://salsa.debian.org/apt-team/apt-file
+{ "name": "apt-file", "type": "BG_CPUIO" }
+
+# https://rickysarraf.github.io/apt-offline/
+{ "name": "apt-offline", "type": "BG_CPUIO" }

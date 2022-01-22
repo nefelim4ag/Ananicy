@@ -1,0 +1,5 @@
+# https://www.libvirt.org
+{ "name": "libvirtd", "type": "Virtual_Machine" }
+{ "name": "virtlogd", "type": "Virtual_Machine" }
+{ "name": "virtlockd", "type": "Virtual_Machine" }
+{ "name": "virt-ssh-helper", "type": "Virtual_Machine" }

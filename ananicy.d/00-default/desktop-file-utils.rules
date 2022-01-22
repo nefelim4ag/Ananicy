@@ -1,0 +1,5 @@
+# https://www.freedesktop.org/wiki/Software/desktop-file-utils/
+{ "name": "update-desktop-database", "type": "BG_CPUIO" }
+{ "name": "desktop-file-edit", "type": "BG_CPUIO" }
+{ "name": "desktop-file-install", "type": "BG_CPUIO" }
+{ "name": "desktop-file-validate", "type": "BG_CPUIO" }

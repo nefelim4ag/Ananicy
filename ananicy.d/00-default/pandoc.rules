@@ -1,0 +1,2 @@
+# https://pandoc.org/
+{ "name": "pandoc", "type": "BG_CPUIO" }

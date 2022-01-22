@@ -1,0 +1,6 @@
+{ "name": "latex",       "type": "BG_CPUIO" }
+{ "name": "pdflatex",    "type": "BG_CPUIO" }
+{ "name": "lualatex",    "type": "BG_CPUIO" }
+{ "name": "dvilualatex", "type": "BG_CPUIO" }
+{ "name": "mptopdf",     "type": "BG_CPUIO" }
+{ "name": "xelatex",     "type": "BG_CPUIO" }

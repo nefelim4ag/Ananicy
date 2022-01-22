@@ -1,0 +1,4 @@
+# https://jami.net/
+{ "name": "jami-qt", "type": "Chat" }
+{ "name": "jami-gnome", "type": "Chat" }
+{ "name": "dring", "type": "Service" }

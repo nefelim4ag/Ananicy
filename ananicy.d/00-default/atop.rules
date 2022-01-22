@@ -1,0 +1,6 @@
+# https://www.atoptool.nl
+{ "name": "atop", "type": "BG_CPUIO" }
+{ "name": "atopacct", "type": "BG_CPUIO" }
+{ "name": "atopconvert", "type": "BG_CPUIO" }
+{ "name": "atopsar", "type": "BG_CPUIO" }
+{ "name": "atopacctd", "type": "BG_CPUIO" }

@@ -1,0 +1,3 @@
+# https://codeberg.org/dnkl/foot
+{ "name": "footclient", "type":"Doc-View" }
+{ "name": "foot", "type": "Doc-View" }
