@@ -1,0 +1,13 @@
+# https://docker.io
+{ "name": "docker", "type": "Container" }
+{ "name": "dnet", "type": "Container" }
+{ "name": "docket-init", "type": "Container" }
+{ "name": "docker-proxy", "type": "Container" }
+{ "name": "dockerd", "type": "Container" }
+{ "name": "ovrouter", "type": "Container" }
+
+# https://docs.docker.com/compose/
+{ "name": "docker-compose", "type": "Container" }
+
+# https://docs.docker.com/registry/
+{ "name": "docker-registry", "type": "BG_CPUIO" }

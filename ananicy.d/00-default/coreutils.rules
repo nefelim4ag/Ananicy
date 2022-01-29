@@ -22,3 +22,9 @@
 { "name": "tac",       "type": "BG_CPUIO" }
 { "name": "tee",       "type": "BG_CPUIO" }
 { "name": "wc",        "type": "BG_CPUIO" }
+{ "name": "cut",       "type": "BG_CPUIO" }
+{ "name": "base32",    "type": "BG_CPUIO" }
+{ "name": "base64",    "type": "BG_CPUIO" }
+{ "name": "uniq",      "type": "BG_CPUIO" }
+{ "name": "tr",        "type": "BG_CPUIO" }
+{ "name": "sha244sum", "type": "BG_CPUIO" }
