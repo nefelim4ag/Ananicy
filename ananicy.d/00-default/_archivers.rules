@@ -5,3 +5,18 @@
 { "name": "lzop",   "type": "BG_CPUIO" }
 { "name": "xz",     "type": "BG_CPUIO" }
 { "name": "zstd",   "type": "BG_CPUIO" }
+
+{ "name": "zip",    "type": "BG_CPUIO" }
+{ "name": "tar",    "type": "BG_CPUIO" }
+{ "name": "rar",    "type": "BG_CPUIO" }
+{ "name": "brotli", "type": "BG_CPUIO" }
+
+{ "name": "unzip", "type": "BG_CPUIO" }
+{ "name": "unlz4", "type": "BG_CPUIO" }
+{ "name": "unlzma", "type": "BG_CPUIO" }
+{ "name": "unxz", "type": "BG_CPUIO" }
+{ "name": "unzipsfx", "type": "BG_CPUIO" }
+{ "name": "unzstd", "type": "BG_CPUIO" }
+
+# https://theunarchiver.com/command-line
+{ "name": "unar", "type": "BG_CPUIO" }

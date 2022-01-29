@@ -1,2 +1,7 @@
 # https://www.freedesktop.org/wiki/Software/systemd/
 { "name": "systemd-timesyncd", "type": "BG_CPUIO" }
+
+{ "name": "systemd-journald", "type": "BG_CPUIO" }
+{ "name": "systemd-cryptenroll", "type": "BG_CPUIO" }
+{ "name": "systemd-dissect", "type": "BG_CPUIO" }
+{ "name": "systemd-nspawn", "type": "Container" }
