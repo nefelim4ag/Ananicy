@@ -1,3 +1,10 @@
 # ImageMagick - image viewing/manipulation program: https://imagemagick.org
 { "name": "convert", "type": "Heavy_CPU" }
 { "name": "montage", "type": "Heavy_CPU" }
+{ "name": "animate", "type": "Heavy_CPU" }
+{ "name": "composite", "type": "Heavy_CPU" }
+{ "name": "conjure", "type": "Heavy_CPU" }
+{ "name": "import", "type": "Heavy_CPU" }
+{ "name": "mogrify", "type": "Heavy_CPU" }
+{ "name": "identify", "type": "Heavy_CPU" }
+{ "name": "display", "type": "Image-View" }

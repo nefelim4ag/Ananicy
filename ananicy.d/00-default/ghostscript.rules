@@ -1,0 +1,27 @@
+# https://www.ghostscript.com/
+{ "name": "dvipdf", "type": "BG_CPUIO" }
+{ "name": "eps2eps", "type": "BG_CPUIO" }
+{ "name": "ghostscript", "type": "BG_CPUIO" }
+{ "name": "gs", "type": "BG_CPUIO" }
+{ "name": "gsbj", "type": "BG_CPUIO" }
+{ "name": "gsdj", "type": "BG_CPUIO" }
+{ "name": "gsdj500", "type": "BG_CPUIO" }
+{ "name": "gslj", "type": "BG_CPUIO" }
+{ "name": "gslp", "type": "BG_CPUIO" }
+{ "name": "gsnd", "type": "BG_CPUIO" }
+{ "name": "pdf2dsc", "type": "BG_CPUIO" }
+{ "name": "pdf2ps", "type": "BG_CPUIO" }
+{ "name": "pf2afm", "type": "BG_CPUIO" }
+{ "name": "ptbtopfa", "type": "BG_CPUIO" }
+{ "name": "pphs", "type": "BG_CPUIO" }
+{ "name": "printafm", "type": "BG_CPUIO" }
+{ "name": "ps2ascii", "type": "BG_CPUIO" }
+{ "name": "ps2epsi", "type": "BG_CPUIO" }
+{ "name": "ps2pdf", "type": "BG_CPUIO" }
+{ "name": "ps2pdf12", "type": "BG_CPUIO" }
+{ "name": "ps2pdf13", "type": "BG_CPUIO" }
+{ "name": "ps2pdf14", "type": "BG_CPUIO" }
+{ "name": "ps2pdfwr", "type": "BG_CPUIO" }
+{ "name": "ps2ps", "type": "BG_CPUIO" }
+{ "name": "ps2txt", "type": "BG_CPUIO" }
+{ "name": "update-gsfontmap", "type": "BG_CPUIO" }

@@ -1,6 +1,8 @@
-# https://www.google.com
+# https://www.google.com/chrome
 { "name": "chrome", "type": "Doc-View" }
 { "name": "nacl_helper", "type": "Doc-View" }
 { "name": "chrome-sandbox", "type": "Doc-View" }
 { "name": "google-chrome-dev", "type": "Doc-View" }
 { "name": "google-chrome-unstable", "type": "Doc-View" }
+{ "name": "chromium-snapshot", "type": "Doc-View" }
+{ "name": "chromium-snapshot-bin", "type": "Doc-View" }

@@ -1,1 +1,2 @@
 { "name": "gcc", "type": "BG_CPUIO" }
+{ "name": "cpp", "type": "BG_CPUIO" }

@@ -1,0 +1,13 @@
+{ "name": "pdfattach ", "type": "BG_CPUIO" }
+{ "name": "pdfdetach ", "type": "BG_CPUIO" }
+{ "name": "pdffonts ", "type": "BG_CPUIO" }
+{ "name": "pdfimages ", "type": "BG_CPUIO" }
+{ "name": "pdfinfo ", "type": "BG_CPUIO" }
+{ "name": "pdfseparate ", "type": "BG_CPUIO" }
+{ "name": "pdfsig ", "type": "BG_CPUIO" }
+{ "name": "pdftocairo ", "type": "BG_CPUIO" }
+{ "name": "pdftohtml ", "type": "BG_CPUIO" }
+{ "name": "pdftoppm ", "type": "BG_CPUIO" }
+{ "name": "pdftops ", "type": "BG_CPUIO" }
+{ "name": "pdftotext ", "type": "BG_CPUIO" }
+{ "name": "pdfunite ", "type": "BG_CPUIO" }
