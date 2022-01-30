@@ -1,0 +1,4 @@
+## https://www.wireguard.com/
+
+{ "name": "wg", "type": "Service_RT" }
+{ "name": "wg-quick", "type": "Service_RT" }

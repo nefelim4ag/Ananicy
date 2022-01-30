@@ -1,0 +1,5 @@
+# https://wiki.debian.org/UnattendedUpgrades
+{ "name": "unattended-upgrade", "type": "BG_CPUIO" }
+{ "name": "unattended-upgrades", "type": "BG_CPUIO" }
+{ "name": "update-motd-unattended-upgrades", "type": "BG_CPUIO" }
+{ "name": "unattended-upgrade-shutdown", "type": "BG_CPUIO" }

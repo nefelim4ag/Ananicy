@@ -1,2 +1,2 @@
-{ "name": "vmware-vmx", "type": "Heavy_CPU" }
-{ "name": "vmware", "type": "Heavy_CPU" }
+{ "name": "vmware-vmx", "type": "Virtual_Machine" }
+{ "name": "vmware", "type": "Virtual_Machine" }
