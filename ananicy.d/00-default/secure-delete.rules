@@ -1,0 +1,4 @@
+{ "name": "sdmem",    "type": "BG_CPUIO" }
+{ "name": "sdfill",   "type": "BG_CPUIO" }
+{ "name": "sdrm",     "type": "BG_CPUIO" }
+{ "name": "sswap",    "type": "BG_CPUIO" } 

@@ -1,0 +1,2 @@
+# gedit is the text editor of the GNOME desktop environment: https://wiki.gnome.org/Apps/Gedit/
+{ "name": "gedit", "type":"Doc-View" }
