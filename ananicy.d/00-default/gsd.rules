@@ -1,0 +1,14 @@
+{ "name": "gsd-usb-protection", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gsd-media-keys", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gsd-rfkill", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gsd-a11y-settings", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gsd-power", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gsd-screensaver-proxy", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gsd-color", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gsd-xsettings", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gsd-sharing", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gsd-datetime", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gsd-housekeeping", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gsd-sound", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gsd-keyboard", "type": "BG_CPUIO", "nice": -10 }
+

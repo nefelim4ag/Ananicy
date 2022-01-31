@@ -1,0 +1,7 @@
+{ "name": "gvfsd", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gvfsd-trash", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gvfsd-network", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gvfsd-http", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gvfsd-udisks2-volume-monitor", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gvfsd-goa-volume-monitor", "type": "BG_CPUIO", "nice": -10 }
+{ "name": "gvfsd-metadata", "type": "BG_CPUIO", "nice": -10 }
