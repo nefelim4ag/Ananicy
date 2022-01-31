@@ -11,3 +11,4 @@
 
 # https://docs.docker.com/registry/
 { "name": "docker-registry", "type": "BG_CPUIO" }
+{ "name": "containerd", "type": "Container" }
