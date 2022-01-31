@@ -1,2 +1,3 @@
 # https://golang.org/
 { "name": "go", "type": "BG_CPUIO" }
+{ "name": "gofmt", "type": "Heavy_CPU" }

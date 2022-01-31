@@ -1,0 +1,8 @@
+# wps
+{"name": "wps", "iocalss": "best-effort", "ionice": 7, "nice": -3, "type": "Doc-View"}
+# wpp
+{"name": "wpp", "iocalss": "best-effort", "ionice": 7, "nice": -3, "type": "Doc-View"}
+# wps's cloud sync
+{"name": "wpscloudsvr", "type": "BG_CPUIO", "nice": -15}
+# wpspdf
+{"name": "wpspdf", "type": "Doc-View", "iocalss": "best-effort", "ionice": 7, "nice": -3}

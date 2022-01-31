@@ -1,0 +1,2 @@
+{ "name": "cnf-update-db", "type": "BG_CPUIO" }
+{ "name": "update-command-not-found", "type": "BG_CPUIO" }

@@ -1,0 +1,2 @@
+# https://www.vagrantup.com/
+{ "name": "vagrant", "type": "Virtual_Machine" } 

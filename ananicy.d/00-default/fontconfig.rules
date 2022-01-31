@@ -1,0 +1,9 @@
+{ "name": "fc-cache", "type": "BG_CPUIO" }
+{ "name": "fc-cat", "type": "BG_CPUIO" }
+{ "name": "fc-conflist", "type": "BG_CPUIO" }
+{ "name": "fc-list", "type": "BG_CPUIO" }
+{ "name": "fc-match", "type": "BG_CPUIO" }
+{ "name": "fc-pattern", "type": "BG_CPUIO" }
+{ "name": "fc-query", "type": "BG_CPUIO" }
+{ "name": "fc-scan", "type": "BG_CPUIO" }
+{ "name": "fc-validate", "type": "BG_CPUIO" }

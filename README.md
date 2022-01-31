@@ -22,6 +22,7 @@ Read more about semantic versioning [here](http://semver.org/)
 
 ## Installation
 To use ananicy you must have systemd installed.
+If you use openrc, please copy the ananicy.initd to `/etc/init.d` and enable it 
 
 You can install ananicy manually by:
 ```

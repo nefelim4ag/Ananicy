@@ -1,2 +1,2 @@
 # dnsmasq DNS cache system
-{ "name": "dnsmasq", "type": "Doc-View" }
+{ "name": "dnsmasq", "Service" }

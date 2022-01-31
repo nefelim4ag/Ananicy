@@ -1,0 +1,2 @@
+{ "name": "redis-server", "type": "Service" }
+{ "name": "redis-cli", "type": "Chat" }

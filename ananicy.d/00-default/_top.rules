@@ -1,0 +1,25 @@
+{ "name": "top", "type": "BG_CPUIO" }
+{ "name": "qtop", "type": "BG_CPUIO" }
+{ "name": "itop", "type": "BG_CPUIO" }
+{ "name": "iotop", "type": "BG_CPUIO" }
+
+# htop process browser: https://hisham.hm/htop/
+{ "name": "htop", "type": "BG_CPUIO" }
+
+#  https://github.com/yadutaf/ctop
+{ "name": "ctop", "type": "BG_CPUIO" }
+
+# https://people.redhat.com/~rjones/virt-top/
+{ "name": "virt-top", "type": "BG_CPUIO" }
+
+# https://github.com/clbr/radeontop
+{ "name": "radeontop", "type": "BG_CPUIO" }
+
+# https://www.ex-parrot.com/pdw/iftop/
+{ "name": "iftop", "type": "BG_CPUIO" }
+
+# https://01.org/powertop/
+{ "name": "powertop", "type": "BG_CPUIO" }
+
+# http://nmon.sourceforge.net/
+{ "name": "nmon", "type": "BG_CPUIO" } 

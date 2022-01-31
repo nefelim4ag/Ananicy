@@ -1,0 +1,1 @@
+{ "name": "gitstatusd-linux-x86_64", "type": "Service", "nice": -18 }

@@ -1,0 +1,5 @@
+# https://www.tabnine.com
+{ "name": "TabNine", "type": "Heavy_CPU" }
+{ "name": "WD-TabNine", "type": "Heavy_CPU" }
+{ "name": "TabNine-deep-local", "type": "Heavy_CPU" }
+{ "name": "TabNine-deep-cloud", "type": "Heavy_CPU" }

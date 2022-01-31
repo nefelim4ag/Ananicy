@@ -1,2 +1,4 @@
 # ffmpeg - audio and video converter: https://www.ffmpeg.org/
-{ "name": "ffmpeg", "type": "LowLatency_RT" }
+{ "name": "ffmpeg", "type": "Heavy_CPU" }
+# https://github.com/dirkvdb/ffmpegthumbnailer
+{ "name": "ffmpegthumbnailer", "type": "BG_CPUIO" }

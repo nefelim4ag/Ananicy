@@ -1,0 +1,126 @@
+# https://salsa.debian.org/debian/debhelper
+{ "name": "dh", "type": "BG_CPUIO" }
+{ "name": "dh_assistant", "type": "BG_CPUIO" }
+{ "name": "dh_auto_build", "type": "BG_CPUIO" }
+{ "name": "dh_auto_clean", "type": "BG_CPUIO" }
+{ "name": "dh_auto_configure", "type": "BG_CPUIO" }
+{ "name": "dh_auto_install", "type": "BG_CPUIO" }
+{ "name": "dh_auto_test", "type": "BG_CPUIO" }
+{ "name": "dh_bugfiles", "type": "BG_CPUIO" }
+{ "name": "dh_builddeb", "type": "BG_CPUIO" }
+{ "name": "dh_clean", "type": "BG_CPUIO" }
+{ "name": "dh_compress", "type": "BG_CPUIO" }
+{ "name": "dh_dwz", "type": "BG_CPUIO" }
+{ "name": "dh_fixperms", "type": "BG_CPUIO" }
+{ "name": "dh_gconf", "type": "BG_CPUIO" }
+{ "name": "dh_gencontrol", "type": "BG_CPUIO" }
+{ "name": "dh_icons", "type": "BG_CPUIO" }
+{ "name": "dh_install", "type": "BG_CPUIO" }
+{ "name": "dh_installalternatives", "type": "BG_CPUIO" }
+{ "name": "dh_installcatalogs", "type": "BG_CPUIO" }
+{ "name": "dh_installchangelogs", "type": "BG_CPUIO" }
+{ "name": "dh_installcron", "type": "BG_CPUIO" }
+{ "name": "dh_installdeb", "type": "BG_CPUIO" }
+{ "name": "dh_installdebconf", "type": "BG_CPUIO" }
+{ "name": "dh_installdirs", "type": "BG_CPUIO" }
+{ "name": "dh_installdocs", "type": "BG_CPUIO" }
+{ "name": "dh_installemacsen", "type": "BG_CPUIO" }
+{ "name": "dh_installexamples", "type": "BG_CPUIO" }
+{ "name": "dh_installgsettings", "type": "BG_CPUIO" }
+{ "name": "dh_installifupdown", "type": "BG_CPUIO" }
+{ "name": "dh_installinfo", "type": "BG_CPUIO" }
+{ "name": "dh_installinit", "type": "BG_CPUIO" }
+{ "name": "dh_installinitramfs", "type": "BG_CPUIO" }
+{ "name": "dh_installlogcheck", "type": "BG_CPUIO" }
+{ "name": "dh_installlogrotate", "type": "BG_CPUIO" }
+{ "name": "dh_installman", "type": "BG_CPUIO" }
+{ "name": "dh_installmanpages", "type": "BG_CPUIO" }
+{ "name": "dh_installmenu", "type": "BG_CPUIO" }
+{ "name": "dh_installmime", "type": "BG_CPUIO" }
+{ "name": "dh_installmodules", "type": "BG_CPUIO" }
+{ "name": "dh_installpam", "type": "BG_CPUIO" }
+{ "name": "dh_installppp", "type": "BG_CPUIO" }
+{ "name": "dh_installsystemd", "type": "BG_CPUIO" }
+{ "name": "dh_installsystemduser", "type": "BG_CPUIO" }
+{ "name": "dh_installsysusers", "type": "BG_CPUIO" }
+{ "name": "dh_installtmpfiles", "type": "BG_CPUIO" }
+{ "name": "dh_installudev", "type": "BG_CPUIO" }
+{ "name": "dh_installwm", "type": "BG_CPUIO" }
+{ "name": "dh_installxfonts", "type": "BG_CPUIO" }
+{ "name": "dh_link", "type": "BG_CPUIO" }
+{ "name": "dh_lintian", "type": "BG_CPUIO" }
+{ "name": "dh_listpackages", "type": "BG_CPUIO" }
+{ "name": "dh_makeshlibs", "type": "BG_CPUIO" }
+{ "name": "dh_md5sums", "type": "BG_CPUIO" }
+{ "name": "dh_missing", "type": "BG_CPUIO" }
+{ "name": "dh_movefiles", "type": "BG_CPUIO" }
+{ "name": "dh_perl", "type": "BG_CPUIO" }
+{ "name": "dh_prep", "type": "BG_CPUIO" }
+{ "name": "dh_shlibdeps", "type": "BG_CPUIO" }
+{ "name": "dh_strip", "type": "BG_CPUIO" }
+{ "name": "dh_systemd_enable", "type": "BG_CPUIO" }
+{ "name": "dh_systemd_start", "type": "BG_CPUIO" }
+{ "name": "dh_testdir", "type": "BG_CPUIO" }
+{ "name": "dh_testroot", "type": "BG_CPUIO" }
+{ "name": "dh_ucf", "type": "BG_CPUIO" }
+{ "name": "dh_update_autotools_config", "type": "BG_CPUIO" }
+{ "name": "dh_usrlocal", "type": "BG_CPUIO" }
+
+# https://salsa.debian.org/python-team/tools/dh-python
+{ "name": "dh_pypy", "type": "BG_CPUIO" }
+{ "name": "dh_python2", "type": "BG_CPUIO" }
+{ "name": "dh_python3", "type": "BG_CPUIO" }
+{ "name": "dh_pybuild", "type": "BG_CPUIO" }
+
+# https://github.com/spotify/dh-virtualenv
+{ "name": "dh_virtualenv", "type": "BG_CPUIO" }
+
+# https://github.com/algernon/dh-exec
+{ "name": "dh-exec", "type": "BG_CPUIO" }
+
+# https://salsa.debian.org/go-team/packages/dh-golang
+{ "name": "dh_golang", "type": "BG_CPUIO" }
+{ "name": "dh_golang_autopkgtest", "type": "BG_CPUIO" }
+
+# https://salsa.debian.org/go-team/packages/dh-make-golang
+{ "name": "dh-make-golang", "type": "BG_CPUIO" }
+
+# https://salsa.debian.org/debian/dh-linktree
+{ "name": "dh_linktree", "type": "BG_CPUIO" }
+
+# https://salsa.debian.org/reproducible-builds/strip-nondeterminism
+{ "name: "dh_strip_nondeterminism", "type": "BG_CPUIO" }
+
+# https://salsa.debian.org/debian/dh-make
+{ "name": "dh_make", "type": "BG_CPUIO" }
+{ "name": "dh_makefont", "type": "BG_CPUIO" }
+
+# https://gitlab.kitware.com/debian/dh-cmake
+{ "name": "dh_cmake_install", "type": "BG_CPUIO" }
+{ "name": "dh_cpack_generate", "type": "BG_CPUIO" }
+{ "name": "dh_cpack_install", "type": "BG_CPUIO" }
+{ "name": "dh_cpack_substvars", "type": "BG_CPUIO" }
+{ "name": "dh_ctest_build", "type": "BG_CPUIO" }
+{ "name": "dh_ctest_clean", "type": "BG_CPUIO" }
+{ "name": "dh_ctest_configure", "type": "BG_CPUIO" }
+{ "name": "dh_ctest_start", "type": "BG_CPUIO" }
+{ "name": "dh_ctest_submit", "type": "BG_CPUIO" }
+{ "name": "dh_ctest_test", "type": "BG_CPUIO" }
+{ "name": "dh_ctest_update", "type": "BG_CPUIO" }
+
+# https://salsa.debian.org/debian/dh-autoreconf
+{ "name": "dh_autoreconf", "type": "BG_CPUIO" }
+{ "name": "dh_autoreconf_clean", "type": "BG_CPUIO" }
+
+# https://salsa.debian.org/ocaml-team/dh-ocaml
+{ "name": "dh_ocaml", "type": "BG_CPUIO" }
+{ "name": "dh_ocamlclean", "type": "BG_CPUIO" }
+{ "name": "dh_ocamldoc", "type": "BG_CPUIO" }
+{ "name": "dh_ocamlinit", "type": "BG_CPUIO" }
+{ "name": "dom-mrconfig", "type": "BG_CPUIO" }
+{ "name": "dom-new-git-repo", "type": "BG_CPUIO" }
+{ "name": "ocaml-lintian", "type": "BG_CPUIO" }
+{ "name": "ocaml-md5sums", "type": "BG_CPUIO" }
+
+{ "name": "dh_apparmor", "type": "BG_CPUIO" }
+{ "name": "dh_consoledata", "type": "BG_CPUIO" }"

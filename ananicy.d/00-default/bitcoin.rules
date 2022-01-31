@@ -1,0 +1,3 @@
+# https://bitcoin.org
+{ "name": "bitcoind", "type": "BG_CPUIO" }
+{ "name": "bitcoin-qt", "type": "BG_CPUIO" }

@@ -1,0 +1,11 @@
+{"name": "clang", "type": "Heavy_CPU"}
+{"name": "clang++", "type": "Heavy_CPU"}
+{ "name": "clang-cpp", "type": "BG_CPUIO" }
+{ "name": "c-index-test", "type": "BG_CPUIO" }
+{ "name": "clang-apply-replacements", "type": "BG_CPUIO" }
+{ "name": "clang-check", "type": "BG_CPUIO" }
+{ "name": "clang-query", "type": "BG_CPUIO" }
+{ "name": "sancov", "type": "BG_CPUIO" }
+{ "name": "scan-build", "type": "BG_CPUIO" }
+{ "name": "scan-view", "type": "BG_CPUIO" }
+{ "name": "clang-tidy", "type": "BG_CPUIO" }
