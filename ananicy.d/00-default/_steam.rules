@@ -1,20 +1,20 @@
 ################################################################################
-# Rules for Steam and Steam Apps: http://store.steampowered.com
+# Rules for Steam and Steam Apps: https://store.steampowered.com
 #{ "name": "steam", "type": "BG_CPUIO" }
 # Steam integrated web browser
 { "name": "steamwebhelper", "type": "BG_CPUIO" }
 
 # https://store.steampowered.com/app/730
 { "name": "csgo_linux64", "type": "Game"}
- # http://store.steampowered.com/app/355180
+# https://store.steampowered.com/app/355180
 { "name": "cure_linux", "type": "Game"}
-# http://store.steampowered.com/app/570
+# https://store.steampowered.com/app/570
 { "name": "dota2", "type": "Game"}
 # https://store.steampowered.com/app/70
 { "name": "hl_linux", "type": "Game"}
-# http://store.steampowered.com/app/440
+# https://store.steampowered.com/app/440
 { "name": "hl2_linux", "type": "Game"}
-# http://store.steampowered.com/app/4920
+# https://store.steampowered.com/app/4920
 { "name": "ns2_linux", "type": "Game"}
 # https://store.steampowered.com/app/620
 { "name": "portal2_linux", "type": "Game"}
@@ -31,31 +31,31 @@
 # https://store.steampowered.com/app/643880
 { "name": "runner", "type": "Game"}
 
-# http://store.steampowered.com/app/233250
+# https://store.steampowered.com/app/233250
 { "name": "PA", "type": "Game"}
 # PA UI
 { "name": "CoherentUI_Host", "type": "Game"}
 
-# http://store.steampowered.com/app/41070
+# https://store.steampowered.com/app/41070
 { "name": "Sam3", "type": "Game"}
-# http://store.steampowered.com/app/212070
+# https://store.steampowered.com/app/212070
 { "name": "StarConflict", "type": "Game"}
-# http://store.steampowered.com/app/236390
+# https://store.steampowered.com/app/236390
 { "name": "aces", "type": "Game"}
-# http://store.steampowered.com/app/252950
+# https://store.steampowered.com/app/252950
 { "name": "RocketLeague", "type": "Game"}
-# http://store.steampowered.com/app/233720
+# https://store.steampowered.com/app/233720
 { "name": "ss2013.bin", "type": "Game"}
-# http://store.steampowered.com/app/206420
+# https://store.steampowered.com/app/206420
 { "name": "SaintsRow4.i386", "type": "Game"}
-# http://store.steampowered.com/app/203160
+# https://store.steampowered.com/app/203160
 { "name": "TombRaider", "type": "Game"}
 # https://store.steampowered.com/app/750920/
 { "name": "ShadowOfTheTombRaider", "type": "Game"}
-# http://store.steampowered.com/app/301520
+# https://store.steampowered.com/app/301520
 { "name": "Robocraft.x86_64", "type": "Game"}
 
-# http://store.steampowered.com/app/233130
+# https://store.steampowered.com/app/233130
 { "name": "ShadowWarrior.bin.x86", "type": "Game"}
 
 # https://store.steampowered.com/app/394360
