@@ -1,0 +1,3 @@
+# mount.ntfs in userspace 
+{ "name": "ntfs-3g", "type": "BG_CPUIO" }
+{ "name": "mount.ntfs", "type": "BG_CPUIO" }

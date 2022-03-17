@@ -1,0 +1,3 @@
+# SDDM is a modern display manager for X11 and Wayland
+{ "name" : "sddm", "ioclass" : "realtime", "ionice" : 1}
+{ "name" : "sddm-helper", "ioclass" : "realtime", "ionice" : 1}

@@ -1,2 +1,3 @@
 # https://www.freedesktop.org/wiki/Software/systemd/
 { "name": "systemd-timesyncd", "type": "BG_CPUIO" }
+{ "name": "systemd-resolved",   "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 5 }
