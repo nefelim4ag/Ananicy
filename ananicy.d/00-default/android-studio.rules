@@ -1,0 +1,5 @@
+{ "name": "android-studio", "type": "Heavy_CPU" }
+{ "name": "avd", "type": "Heavy_CPU" }
+{ "name": "java", "type": "Heavy_CPU" }
+{ "name": "qemu-system-x86_64", "type": "Heavy_CPU" }
+{ "name": "qemu-system-x86", "type": "Heavy_CPU" }
