@@ -17,3 +17,5 @@
 { "name": "librewolf-bin", "type":"Doc-View" } 
 { "name": "librewolf-nightly", "type":"Doc-View" } 
 
+# Waterfox (https://www.waterfox.net/)
+{ "name": "waterfox-g4", "type":"Doc-View" }
