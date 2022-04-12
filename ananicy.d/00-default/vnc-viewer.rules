@@ -1,2 +1,3 @@
-# https://tigervnc.org/ test
-{ "name": "vncviewer", "type": "LowLatency_RT" }
+# https://tigervnc.org/
+# is Doc-View appropriate?
+{ "name": "vncviewer", "type": "Doc-View" }
