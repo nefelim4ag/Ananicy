@@ -1,2 +1,2 @@
-# https://tigervnc.org/
+# https://tigervnc.org/ test
 { "name": "vncviewer", "type": "LowLatency_RT" }
