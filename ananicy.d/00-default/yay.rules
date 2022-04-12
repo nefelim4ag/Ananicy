@@ -1,3 +1,2 @@
-# yay - Yet another Yogurt 
-
-{ "name": "yay", "type": "BG_CPUIO" }
+# yay - Yet another Yogurt
+{ "name": "yay", "type": "Heavy_CPU" }
