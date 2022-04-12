@@ -1,7 +1,13 @@
 # Ananicy
 
 ## What's new?
-Support for cmdline added. More rules added.
+More, updated and better organised rules.
+
+Support for cmdline in rules added. This is particularly useful for applications that share the same name (looking at you Java). You can see the `freenet` rule as an example:
+```
+{ "name": "java", "cmdlines": ["freenet.node.NodeStarter"], "type": "BG_CPUIO" }
+```
+What this translates to is: apply the rule to any process named `java`, that received `freenet.node.NodeStarter` as a command line argument. You can add more than one "cmdline" in case you want to fine tune your rules.
 
 ## Installation
 
