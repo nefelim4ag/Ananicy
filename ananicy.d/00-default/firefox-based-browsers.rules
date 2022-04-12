@@ -7,6 +7,10 @@
 { "name": "librewolf-bin", "type":"Doc-View" } 
 { "name": "librewolf-nightly", "type":"Doc-View" } 
 
+# FireDragon (https://gitlab.com/dr460nf1r3/settings)
+{ "name": "firedragon", "type":"Doc-View" }
+{ "name": "firedragon-bin", "type":"Doc-View" }
+
 # Firefox (https://www.mozilla.org/firefox/)
 { "name": "firefox", "type":"Doc-View" }
 { "name": "firefox-bin", "type":"Doc-View" }
