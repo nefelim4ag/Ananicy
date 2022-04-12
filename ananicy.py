@@ -618,6 +618,7 @@ class Ananicy:
             cgroup = None
 
         self.rules[name] = {
+            "cmdlines": line.get("cmdlines"),
             "nice": self.__check_nice(line.get("nice")),
             "ioclass": line.get("ioclass"),
             "ionice": self.__check_ionice(line.get("ionice")),
@@ -695,11 +696,19 @@ class Ananicy:
         return new_tpids
 
     def get_tpid_rule(self, tpid: TPID):
+        rule_cmdline = tpid.cmdline
         rule_name = tpid.cmd
         rule = self.rules.get(rule_name)
         if not rule:
             rule_name = tpid.stat_name
             rule = self.rules.get(rule_name)
+        if rule:
+            cmdlines = rule["cmdlines"]
+            if cmdlines:
+                for cmdline in cmdlines:
+                    if cmdline not in rule_cmdline:
+                        rule = None
+                        break
         return rule
 
     def process_tpid(self, tpid):
