@@ -1,8 +1,13 @@
 # Ananicy
 
 ## What's new?
-Support for cmdline added.
-More rules added.
+Support for cmdline added. More rules added.
+
+## Installation
+
+* ![logo](http://www.monitorix.org/imgs/archlinux.png "arch logo") Arch: [AUR/minq-ananicy-git](https://aur.archlinux.org/packages/minq-ananicy-git).
+
+# Old description
 
 ## Description
 Ananicy (ANother Auto NICe daemon) — is a shell daemon created to manage processes' [IO](http://linux.die.net/man/1/ionice) and [CPU](http://linux.die.net/man/1/nice) priorities, with community-driven set of rules for popular applications (anyone may add their own rule via github's [pull request](https://help.github.com/articles/using-pull-requests/) mechanism). It's mainly for desktop usage.
