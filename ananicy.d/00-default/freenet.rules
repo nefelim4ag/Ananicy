@@ -1,0 +1,1 @@
+{ "name": "java", "cmdlines": {"freenet.node.NodeStarter"}, "type": "BG_CPUIO" }
