@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 # TODO
-# automatically check for duplicate in rules
+# deal with duplicate rules (use cmdlines)
+# fix the cgroups error at startup
 
 import os
 import re
@@ -620,8 +621,14 @@ class Ananicy:
         if not self.cgroups.get(cgroup):
             cgroup = None
 
+        if name in self.rules:
+            raise Failure(f'Duplicate name "{name}": ')
+
+        if (cmdlines := line.get("cmdlines")):
+            cmdlines = set(cmdlines)
+
         self.rules[name] = {
-            "cmdlines": line.get("cmdlines"),
+            "cmdlines": cmdlines,
             "nice": self.__check_nice(line.get("nice")),
             "ioclass": line.get("ioclass"),
             "ionice": self.__check_ionice(line.get("ionice")),
