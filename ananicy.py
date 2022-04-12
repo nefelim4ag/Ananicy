@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# TODO
+# automatically check for duplicate in rules
+
 import os
 import re
 import sys
