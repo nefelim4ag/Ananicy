@@ -6,7 +6,7 @@
 
 # https://store.steampowered.com/app/730
 { "name": "csgo_linux64", "type": "Game"}
- # http://store.steampowered.com/app/355180
+# http://store.steampowered.com/app/355180
 { "name": "cure_linux", "type": "Game"}
 # http://store.steampowered.com/app/570
 { "name": "dota2", "type": "Game"}
