@@ -2,7 +2,7 @@
 
 # TODO
 # deal with duplicate rules (use cmdlines)
-# fix the cgroups error at startup
+# fix the cgroups error at startup (it might be better to leave them as is)
 
 import os
 import re
