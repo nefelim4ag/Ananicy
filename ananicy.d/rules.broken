@@ -18,9 +18,3 @@ NAME=cc1 TYPE=HEAVY_CPU
 
 # Firefox?
 NAME="Web Content" TYPE=DOC_VIEW
-
-
-# Broken rules (in general)
-
-# any java application
-NAME='java'
