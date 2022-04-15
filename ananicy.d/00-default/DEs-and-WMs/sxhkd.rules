@@ -1,3 +1,2 @@
 # keyboard shortcut manager
-# disabled as new processes inherit type
-#{ "name": "sxhkd", "type": "DEWM" }
+{ "name": "sxhkd", "type": "DEWM" }
