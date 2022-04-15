@@ -13,15 +13,15 @@
 
 { "type": "Game", "nice": -20, "ioclass": "best-effort", "ionice": 0 }
 
-{ "type": "Player-Audio", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
-{ "type": "Player-Video", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Player-Audio", "nice": -6, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Player-Video", "nice": -6, "ioclass": "best-effort", "ionice": 3 }
 
-{ "type": "Image-View", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
-{ "type": "Doc-View",   "nice": -2, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Image-View", "nice": -6, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Doc-View",   "nice": -6, "ioclass": "best-effort", "ionice": 3 }
 
 { "type": "Terminal", "nice": -10, "ioclass": "realtime", "ionice": 2 }
 
-# all browsers used to be losted under Doc-View
+# all browsers used to be listed under Doc-View
 { "type": "Web-Browser", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
 
 # Low Latency Realtime Apps
