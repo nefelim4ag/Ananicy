@@ -1,2 +1,3 @@
 # keyboard shortcut manager
-{ "name": "sxhkd", "type": "DEWM" }
+# disabled as it causes all spawned processes to inherih type
+# { "name": "sxhkd", "type": "DEWM" }
