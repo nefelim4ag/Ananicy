@@ -1,6 +1,6 @@
 ################################################################################
 # Rules for Steam and Steam Apps: http://store.steampowered.com
-#{ "name": "steam", "type": "BG_CPUIO" }
+# { "name": "steam", "type": "BG_CPUIO" }
 # Steam integrated web browser
 { "name": "steamwebhelper", "type": "BG_CPUIO" }
 

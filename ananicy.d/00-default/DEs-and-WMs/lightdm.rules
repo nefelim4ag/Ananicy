@@ -1,3 +1,2 @@
 # Rule for lightdm display manager, starts the Xorg server
-# disable due to new processes inheriting type
-#{ "name" : "lightdm", "type" : "LowLatency_RT" }
+{ "name": "lightdm", "type": "DEWM" }
