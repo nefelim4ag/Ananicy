@@ -1,0 +1,2 @@
+# disable due to fuck th old mantainer
+#{ "name": "pulseaudio", "type": "LowLatency_RT", "nice": -11, "sched": "rr" }
