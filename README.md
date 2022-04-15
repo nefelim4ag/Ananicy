@@ -19,6 +19,8 @@ List of issues that need to be fixed ASAP:
 
 Creating multiple processes with the same `name` causes only 1 of them to be active.
 
+Ananicy's default rules are ass and are causing my PC to lag (fucking lol'd that's the opposite of what ananicy is supposed to do). I am actively trying to unfuck the settings.
+
 # Old description
 
 ## Description
