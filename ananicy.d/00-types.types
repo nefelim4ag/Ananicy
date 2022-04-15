@@ -21,7 +21,7 @@
 
 { "type": "Terminal", "nice": -10, "ioclass": "realtime", "ionice": 2 }
 
-# fuck man all browsers are listed Doc-View this is fucking stupid
+# all browsers used to be losted under Doc-View
 { "type": "Web-Browser", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
 
 # Low Latency Realtime Apps

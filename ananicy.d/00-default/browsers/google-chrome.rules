@@ -1,6 +1,6 @@
 # https://www.google.com
-{ "name": "chrome", "type": "Doc-View" }
-{ "name": "nacl_helper", "type": "Doc-View" }
-{ "name": "chrome-sandbox", "type": "Doc-View" }
-{ "name": "google-chrome-dev", "type": "Doc-View" }
-{ "name": "google-chrome-unstable", "type": "Doc-View" }
+{ "name": "chrome", "type": "Web-Browser" }
+{ "name": "nacl_helper", "type": "Web-Browser" }
+{ "name": "chrome-sandbox", "type": "Web-Browser" }
+{ "name": "google-chrome-dev", "type": "Web-Browser" }
+{ "name": "google-chrome-unstable", "type": "Web-Browser" }

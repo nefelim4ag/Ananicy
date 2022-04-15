@@ -1,4 +1,4 @@
 # Brave Web Browser: https://brave.com/
-{ "name": "brave", "type": "Doc-View" }
-{ "name": "brave-browser", "type": "Doc-View" }
-{ "name": "brave-sandbox", "type": "Doc-View" }
+{ "name": "brave", "type": "Web-Browser" }
+{ "name": "brave-browser", "type": "Web-Browser" }
+{ "name": "brave-sandbox", "type": "Web-Browser" }

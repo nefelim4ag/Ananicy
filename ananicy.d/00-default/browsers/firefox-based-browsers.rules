@@ -1,29 +1,29 @@
 
 # Icecat
-{ "name": "icecat", "type":"Doc-View" }
+{ "name": "icecat", "type":"Web-Browser" }
 
 # LibreWolf (https://librewolf-community.gitlab.io/)
-{ "name": "librewolf", "type":"Doc-View" } 
-{ "name": "librewolf-bin", "type":"Doc-View" } 
-{ "name": "librewolf-nightly", "type":"Doc-View" } 
+{ "name": "librewolf", "type":"Web-Browser" } 
+{ "name": "librewolf-bin", "type":"Web-Browser" } 
+{ "name": "librewolf-nightly", "type":"Web-Browser" } 
 
 # FireDragon (https://gitlab.com/dr460nf1r3/settings)
-{ "name": "firedragon", "type":"Doc-View" }
-{ "name": "firedragon-bin", "type":"Doc-View" }
+{ "name": "firedragon", "type":"Web-Browser" }
+{ "name": "firedragon-bin", "type":"Web-Browser" }
 
 # Firefox (https://www.mozilla.org/firefox/)
-{ "name": "firefox", "type":"Doc-View" }
-{ "name": "firefox-bin", "type":"Doc-View" }
-{ "name": "firefox-esr", "type":"Doc-View" }
+{ "name": "firefox", "type":"Web-Browser" }
+{ "name": "firefox-bin", "type":"Web-Browser" }
+{ "name": "firefox-esr", "type":"Web-Browser" }
 
 # Firefox Developer Edition (https://www.mozilla.org/en-US/firefox/developer/)
-{ "name": "firefox-developer-edition", "type":"Doc-View" } 
+{ "name": "firefox-developer-edition", "type":"Web-Browser" } 
 
 # Firefox Nightly (https://wiki.mozilla.org/Nightly)
-{ "name": "firefox-nightly", "type":"Doc-View" }
+{ "name": "firefox-nightly", "type":"Web-Browser" }
 
 # Tor browser
-{ "name": "firefox.real", "type":"Doc-View" }
+{ "name": "firefox.real", "type":"Web-Browser" }
 
 # Waterfox (https://www.waterfox.net/)
-{ "name": "waterfox-g4", "type":"Doc-View" }
+{ "name": "waterfox-g4", "type":"Web-Browser" }
