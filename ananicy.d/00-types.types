@@ -19,6 +19,8 @@
 { "type": "Image-View", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
 { "type": "Doc-View",   "nice": -2, "ioclass": "best-effort", "ionice": 3 }
 
+{ "type": "Terminal", "nice": -10, "ioclass": "realtime", "ionice": 2 }
+
 # fuck man all browsers are listed Doc-View this is fucking stupid
 { "type": "Web-Browser", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
 
