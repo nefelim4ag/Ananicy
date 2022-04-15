@@ -31,7 +31,7 @@
 # In general case not so heavy, but must not lag
 # if you set any of your rules as realtime you really are playing with fire
 # please be carefull not to give realtime ioclass to anything that might spawn more processes
-{ "type": "LowLatency_RT", "nice": -2, "ioclass": "realtime", "ionice": 3 }
+{ "type": "LowLatency_RT", "nice": -5, "ioclass": "realtime", "ionice": 3 }
 
 # BackGround CPU/IO Load
 # It's needed, but it must be as silent as possible
