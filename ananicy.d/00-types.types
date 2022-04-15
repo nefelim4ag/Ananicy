@@ -13,20 +13,24 @@
 
 { "type": "Game", "nice": -20, "ioclass": "best-effort", "ionice": 0 }
 
-{ "type": "Player-Audio", "nice": -6, "ioclass": "best-effort", "ionice": 3 }
-{ "type": "Player-Video", "nice": -6, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Player-Audio", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Player-Video", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
 
-{ "type": "Image-View", "nice": -6, "ioclass": "best-effort", "ionice": 3 }
-{ "type": "Doc-View",   "nice": -6, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Image-View", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Doc-View",   "nice": -2, "ioclass": "best-effort", "ionice": 3 }
 
-{ "type": "Terminal", "nice": -10, "ioclass": "realtime", "ionice": 2 }
+{ "type": "Terminal", "nice": -3, "ionice": 2 }
 
 # all browsers used to be listed under Doc-View
-{ "type": "Web-Browser", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Web-Browser", "nice": -1, "ioclass": "best-effort", "ionice": 3 }
+
+# Desktop Environment or Window Manager
+{ "type": "DEWM", "nice": -4, "ionice": 3 }
 
 # Low Latency Realtime Apps
 # In general case not so heavy, but must not lag
 # if you set any of your rules as realtime you really are playing with fire
+# please be carefull not to give realtime ioclass to anything that might spawn more processes
 { "type": "LowLatency_RT", "nice": -2, "ioclass": "realtime", "ionice": 3 }
 
 # BackGround CPU/IO Load
