@@ -1,0 +1,3 @@
+# Rule for Xorg server, runs the graphical desktop.
+# disabled as spawned processes inherit type
+#{ "name" : "Xorg", "type" : "LowLatency_RT", "ionice" : 1}
