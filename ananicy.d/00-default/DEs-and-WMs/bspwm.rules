@@ -1,3 +1,2 @@
 # https://github.com/baskerville/bspwm
-# disabled as new processes inherit type
-#{ "name": "bspwm", "type": "DEWM" }
+{ "name": "bspwm", "type": "DEWM" }
