@@ -1,1 +1,1 @@
-{ "name": "gcc", "type": "BG_CPUIO" }
+{ "name": "gcc", "type": "Heavy_CPU" }
