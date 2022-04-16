@@ -5,6 +5,7 @@
 # default is 0
 
 # ioclass and ionice
+# avoid changing this as it may cause crashes or hangs
 # determines which process gets more IO
 # realtime - highest priority, very much possible to starve other processes; can be further adjusted with ionice - ranges from 0 (highest priority) to 7 (lowest priority)
 # best-effort - medium priority; can be further adjusted with ionice - ranges from 0 (highest priority) to 7 (lowest priority)
@@ -18,7 +19,7 @@
 # Please be carefull not to give realtime ioclass to anything that might spawn more processes
 { "type": "LowLatency_RT", "nice": -5 }
 
-# Desktop Environment or Window Manager
+# desktop environment, window manager or any integral part of a desktop
 { "type": "DEWM", "nice": -4 }
 
 { "type": "Terminal", "nice": -3 }
@@ -29,10 +30,20 @@
 { "type": "Image-View", "nice": -2 }
 { "type": "Doc-View",   "nice": -2 }
 
-# All browsers used to be listed under Doc-View. If you find a browser 
+# All browsers used to be listed under Doc-View. If you find a browser, please change the type to Web-Browser.
 { "type": "Web-Browser", "nice": -1 }
 
-{"type": "Chat", "nice": 5 }
+{ "type": "Chat", "nice": 5 }
+
+{ "type": "Compiler", "nice": 19 }
+{ "type": "Package-Manager", "nice": 19 }
+{ "type": "Server", "nice": 19 }
+{ "type": "Torrent", "nice": 19 }
+{ "type": "VM", "nice": 19 }
+
+#########################
+### Old rules, depricated
+#########################
 
 # Heavy CPU Load
 # It must work fast enough but must not create so much noise

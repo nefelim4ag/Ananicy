@@ -1,2 +1,2 @@
 # yay - Yet another Yogurt
-{ "name": "yay", "type": "Heavy_CPU" }
+{ "name": "yay", "type": "Package-Manager" }

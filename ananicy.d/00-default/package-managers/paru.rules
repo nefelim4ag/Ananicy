@@ -1,2 +1,2 @@
 # paru - Feature packed AUR helper
-{ "name": "paru", "type": "Heavy_CPU" }
+{ "name": "paru", "type": "Package-Manager" }

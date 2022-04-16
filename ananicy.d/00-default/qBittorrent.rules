@@ -1,3 +1,0 @@
-# QT bittorrent client
-{ "name": "qbittorrent", "type": "BG_CPUIO" }
-{ "name": "qbittorrent-nox", "type": "BG_CPUIO" }
