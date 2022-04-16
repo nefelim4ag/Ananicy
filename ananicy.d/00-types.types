@@ -14,15 +14,14 @@
 { "type": "Game", "nice": -20, "ioclass": "best-effort", "ionice": 0 }
 
 # Desktop Environment or Window Manager
-{ "type": "DEWM", "nice": -5, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "DEWM", "nice": -5, "ioclass": "best-effort", "ionice": 2 }
 
 # Low Latency Realtime App
 # In general case not so heavy, but must not lag
 # Please be carefull not to give realtime ioclass to anything that might spawn more processes
-# Eat Cum and Smile
 { "type": "LowLatency_RT", "nice": -4, "ioclass": "realtime", "ionice": 3 }
 
-{ "type": "Terminal", "nice": -3, "ioclass": "best-effort", "ionice": 2 }
+{ "type": "Terminal", "nice": -3, "ioclass": "best-effort", "ionice": 3 }
 
 { "type": "Player-Audio", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
 { "type": "Player-Video", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
@@ -30,7 +29,7 @@
 { "type": "Image-View", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
 { "type": "Doc-View",   "nice": -2, "ioclass": "best-effort", "ionice": 3 }
 
-# all browsers used to be listed under Doc-View
+# All browsers used to be listed under Doc-View. If you find a browser 
 { "type": "Web-Browser", "nice": -1, "ioclass": "best-effort", "ionice": 3 }
 
 {"type": "Chat", "nice": 5, "ioclass": "best-effort", "ionice": 5 }
