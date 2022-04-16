@@ -13,13 +13,13 @@
 
 { "type": "Game", "nice": -20, "ioclass": "best-effort", "ionice": 0 }
 
-# Desktop Environment or Window Manager
-{ "type": "DEWM", "nice": -5, "ioclass": "best-effort", "ionice": 2 }
-
 # Low Latency Realtime App
 # In general case not so heavy, but must not lag
 # Please be carefull not to give realtime ioclass to anything that might spawn more processes
-{ "type": "LowLatency_RT", "nice": -4, "ioclass": "realtime", "ionice": 3 }
+{ "type": "LowLatency_RT", "nice": -5, "ioclass": "realtime", "ionice": 3 }
+
+# Desktop Environment or Window Manager
+{ "type": "DEWM", "nice": -4, "ioclass": "best-effort", "ionice": 2 }
 
 { "type": "Terminal", "nice": -3, "ioclass": "best-effort", "ionice": 3 }
 
