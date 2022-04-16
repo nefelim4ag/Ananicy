@@ -1,5 +1,11 @@
+
 # Chromium Web Browser: https://www.chromium.org
-{ "name": "nacl_helper", "type": "Web-Browser" }
-{ "name": "chrome-sandbox", "type": "Web-Browser" }
 { "name": "chromium-snapshot", "type": "Web-Browser" }
 { "name": "chromium-snapshot-bin", "type": "Web-Browser" }
+
+# https://www.google.com
+{ "name": "chrome", "type": "Web-Browser" }
+{ "name": "nacl_helper", "type": "Web-Browser" }
+{ "name": "chrome-sandbox", "type": "Web-Browser" }
+{ "name": "google-chrome-dev", "type": "Web-Browser" }
+{ "name": "google-chrome-unstable", "type": "Web-Browser" }
