@@ -12,17 +12,33 @@
 # idle - lowest priority
 # default ioclass is best-effort; default ionice is 4
 
-{ "type": "Game", "nice": -20 }
 
-# Low Latency Realtime App
-# In general case not so heavy, but must not lag
-# Please be carefull not to give realtime ioclass to anything that might spawn more processes
-{ "type": "LowLatency_RT", "nice": -5 }
+{ "type": "Chat", "nice": 5 }
+
+{ "type": "Compiler", "nice": 19 }
 
 # desktop environment, window manager or any integral part of a desktop
 { "type": "DEWM", "nice": -4 }
 
+{ "type": "Game", "nice": -20 }
+
+{ "type": "Package-Manager", "nice": 19 }
+
+{ "type": "Server", "nice": 19 }
+
+{ "type": "Torrent", "nice": 19, "ionice": 7 }
+
 { "type": "Terminal", "nice": -3 }
+
+{ "type": "VM", "nice": 19 }
+
+# All browsers used to be listed under Doc-View. If you find a browser, please change the type to Web-Browser.
+{ "type": "Web-Browser", "nice": -1 }
+
+
+#########################
+### Old types, depricated
+#########################
 
 { "type": "Player-Audio", "nice": -2 }
 { "type": "Player-Video", "nice": -2 }
@@ -30,20 +46,10 @@
 { "type": "Image-View", "nice": -2 }
 { "type": "Doc-View",   "nice": -2 }
 
-# All browsers used to be listed under Doc-View. If you find a browser, please change the type to Web-Browser.
-{ "type": "Web-Browser", "nice": -1 }
-
-{ "type": "Chat", "nice": 5 }
-
-{ "type": "Compiler", "nice": 19 }
-{ "type": "Package-Manager", "nice": 19 }
-{ "type": "Server", "nice": 19 }
-{ "type": "Torrent", "nice": 19 }
-{ "type": "VM", "nice": 19 }
-
-#########################
-### Old rules, depricated
-#########################
+# Low Latency Realtime App
+# In general case not so heavy, but must not lag
+# Please be carefull not to give realtime ioclass to anything that might spawn more processes
+{ "type": "LowLatency_RT", "nice": -5 }
 
 # Heavy CPU Load
 # It must work fast enough but must not create so much noise
