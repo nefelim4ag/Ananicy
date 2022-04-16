@@ -7,4 +7,6 @@
 { "name": "kwin_x11",     "type": "DEWM" }
 { "name": "plasmashell",  "nice": -1 }
 
-{ "name": "kdeconnectd",  "type": "BG_CPUIO" }
+# Sharing information between devices: https://kdeconnect.kde.org/
+{ "name": "kdeconnectd", "type": "BG_CPUIO" }
+{ "name": "kdeconnect-indicator", "type": "BG_CPUIO" }
