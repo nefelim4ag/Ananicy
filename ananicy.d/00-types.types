@@ -11,7 +11,7 @@
 # idle - lowest priority
 # default ioclass is best-effort; default ionice is 4
 
-{ "type": "Game", "nice": -20, "ioclass": "best-effort", "ionice": 0 }
+{ "type": "Game", "nice": -20 }
 
 # Low Latency Realtime App
 # In general case not so heavy, but must not lag
