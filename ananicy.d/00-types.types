@@ -16,23 +16,23 @@
 # Low Latency Realtime App
 # In general case not so heavy, but must not lag
 # Please be carefull not to give realtime ioclass to anything that might spawn more processes
-{ "type": "LowLatency_RT", "nice": -5, "ioclass": "realtime", "ionice": 3 }
+{ "type": "LowLatency_RT", "nice": -5 }
 
 # Desktop Environment or Window Manager
-{ "type": "DEWM", "nice": -4, "ioclass": "best-effort", "ionice": 2 }
+{ "type": "DEWM", "nice": -4 }
 
-{ "type": "Terminal", "nice": -3, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Terminal", "nice": -3 }
 
-{ "type": "Player-Audio", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
-{ "type": "Player-Video", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Player-Audio", "nice": -2 }
+{ "type": "Player-Video", "nice": -2 }
 
-{ "type": "Image-View", "nice": -2, "ioclass": "best-effort", "ionice": 3 }
-{ "type": "Doc-View",   "nice": -2, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Image-View", "nice": -2 }
+{ "type": "Doc-View",   "nice": -2 }
 
 # All browsers used to be listed under Doc-View. If you find a browser 
-{ "type": "Web-Browser", "nice": -1, "ioclass": "best-effort", "ionice": 3 }
+{ "type": "Web-Browser", "nice": -1 }
 
-{"type": "Chat", "nice": 5, "ioclass": "best-effort", "ionice": 5 }
+{"type": "Chat", "nice": 5 }
 
 # Heavy CPU Load
 # It must work fast enough but must not create so much noise
