@@ -40,7 +40,7 @@
 
 { "type": "Screenshotter", "nice": 19 }
 
-{ "type": "Torrent", "nice": 19, "ionice": 7 }
+{ "type": "torrent", "nice": 19, "ionice": 7 }
 
 { "type": "terminal", "nice": -3 }
 
