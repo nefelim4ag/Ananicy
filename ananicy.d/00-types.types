@@ -38,7 +38,7 @@
 
 { "type": "Service", "nice": 19 }
 
-{ "type": "Screenshotter", "nice": 19 }
+{ "type": "screenshotter", "nice": 19 }
 
 { "type": "torrent", "nice": 19, "ionice": 7 }
 
