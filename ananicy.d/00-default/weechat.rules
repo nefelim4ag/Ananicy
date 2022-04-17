@@ -1,2 +1,2 @@
 # weechat: https://weechat.org/
-{ "name": "weechat", "type": "Chat" }
+{ "name": "weechat", "type": "chat" }

@@ -1,2 +1,2 @@
 # http://vk.com/messenger
-{ "name": "vk", "type":"Chat" }
+{ "name": "vk", "type":"chat" }

@@ -1,3 +1,3 @@
 # Rocket.Chat - https://www.guilded.gg/
-{ "name": "rocketchat-desktop", "type": "Chat" }
-{ "name": "rocketchat-desk", "type": "Chat" }
+{ "name": "rocketchat-desktop", "type": "chat" }
+{ "name": "rocketchat-desk", "type": "chat" }

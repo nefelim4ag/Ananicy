@@ -1,2 +1,2 @@
-{ "name": "kotatogram-desktop", "type": "Chat" }
-{ "name": "kotatogram-desktop.bin", "type": "Chat" }
+{ "name": "kotatogram-desktop", "type": "chat" }
+{ "name": "kotatogram-desktop.bin", "type": "chat" }

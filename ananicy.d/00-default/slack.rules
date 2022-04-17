@@ -1,2 +1,2 @@
 # https://slack.com
-{ "name": "slack", "type":"Chat" }
+{ "name": "slack", "type":"chat" }

@@ -13,7 +13,7 @@
 # default ioclass is best-effort; default ionice is 4
 
 
-{ "type": "Chat", "nice": 5 }
+{ "type": "chat", "nice": 5 }
 
 { "type": "compiler", "nice": 19 }
 
