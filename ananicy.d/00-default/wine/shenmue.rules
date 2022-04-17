@@ -1,7 +1,7 @@
 # https://store.steampowered.com/app/758330/Shenmue_I__II/
-{ "name": "Shenmue.exe", "type": "Game"}
-{ "name": "Shenmue2.exe", "type": "Game"}
+{ "name": "Shenmue.exe", "type": "game"}
+{ "name": "Shenmue2.exe", "type": "game"}
 
 # https://store.steampowered.com/app/878670/Shenmue_III/
-{ "name": "Shenmue3.exe", "type": "Game"}
-{ "name": "Shenmue3-Win64-Shipping.exe", "type": "Game"}
+{ "name": "Shenmue3.exe", "type": "game"}
+{ "name": "Shenmue3-Win64-Shipping.exe", "type": "game"}

@@ -1,2 +1,2 @@
 # http://www.minetest.net/
-{ "name": "minetest", "type": "Game" }
+{ "name": "minetest", "type": "game" }

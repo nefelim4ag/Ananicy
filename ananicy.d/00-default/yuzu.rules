@@ -1,2 +1,2 @@
 #Yuzu Emulator for Switch games https://yuzu-emu.org/
-{ "name": "yuzu", "type": "Game"}  
+{ "name": "yuzu", "type": "game"}  

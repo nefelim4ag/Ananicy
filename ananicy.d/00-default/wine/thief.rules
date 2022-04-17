@@ -1,17 +1,17 @@
 # https://store.steampowered.com/app/211600
 # https://www.ttlg.com/forums/showthread.php?t=134733
-{ "name": "THIEF.EXE", "type": "Game"}
-{ "name": "THIEF_no_ddfix.EXE", "type": "Game"}
+{ "name": "THIEF.EXE", "type": "game"}
+{ "name": "THIEF_no_ddfix.EXE", "type": "game"}
 
 # https://store.steampowered.com/app/239160
-{ "name": "Shipping-ThiefGame.exe", "type": "Game"}
+{ "name": "Shipping-ThiefGame.exe", "type": "game"}
 
 # https://store.steampowered.com/app/211740
 # https://www.ttlg.com/forums/showthread.php?t=146448/
-{ "name": "thief2.exe", "type": "Game"}
-{ "name": "thief2_no_ddfix.exe", "type": "Game"}
-{ "name": "Thief2.exe", "type": "Game"}
+{ "name": "thief2.exe", "type": "game"}
+{ "name": "thief2_no_ddfix.exe", "type": "game"}
+{ "name": "Thief2.exe", "type": "game"}
 
 # https://store.steampowered.com/app/6980
-{ "name": "t3.exe", "type": "Game"}
-{ "name": "T3Main.exe", "type": "Game"}
+{ "name": "t3.exe", "type": "game"}
+{ "name": "T3Main.exe", "type": "game"}

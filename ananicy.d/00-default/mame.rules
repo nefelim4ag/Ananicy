@@ -1,3 +1,3 @@
 # https://www.mamedev.org/
-{ "name": "mame", "type": "Game"}
-{ "name": "sdlmame", "type": "Game"}
+{ "name": "mame", "type": "game"}
+{ "name": "sdlmame", "type": "game"}

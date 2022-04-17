@@ -1,2 +1,2 @@
 # Star Citizen - https://robertsspaceindustries.com
-{ "name": "StarCitizen.exe", "type": "Game" }
+{ "name": "StarCitizen.exe", "type": "game" }

@@ -1,21 +1,21 @@
 # https://store.steampowered.com/app/38400
-{ "name": "falloutw.exe", "type": "Game"}
+{ "name": "falloutw.exe", "type": "game"}
 
 # https://store.steampowered.com/app/38410
-{ "name": "FALLOUT2.exe", "type": "Game"}
-{ "name": "fallout2.exe", "type": "Game"}
-{ "name": "fallout2HR.exe", "type": "Game"}
-{ "name": "FalloutClient.exe", "type": "Game"}
+{ "name": "FALLOUT2.exe", "type": "game"}
+{ "name": "fallout2.exe", "type": "game"}
+{ "name": "fallout2HR.exe", "type": "game"}
+{ "name": "FalloutClient.exe", "type": "game"}
 
 # https://store.steampowered.com/app/22370
-{ "name": "Fallout3.exe", "type": "Game"}
-{ "name": "Fallout3 - Garden of Eden Creation Kit.exe", "type": "Game"}
+{ "name": "Fallout3.exe", "type": "game"}
+{ "name": "Fallout3 - Garden of Eden Creation Kit.exe", "type": "game"}
 
 # https://store.steampowered.com/app/22380
-{ "name": "FalloutNV.exe", "type": "Game"}
+{ "name": "FalloutNV.exe", "type": "game"}
 
 # https://store.steampowered.com/app/377160
-{ "name": "Fallout4.exe", "type": "Game"}
+{ "name": "Fallout4.exe", "type": "game"}
 
 # https://store.steampowered.com/app/1151340
-{ "name": "Fallout76.exe", "type": "Game"}
+{ "name": "Fallout76.exe", "type": "game"}

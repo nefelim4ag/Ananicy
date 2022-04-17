@@ -1,5 +1,5 @@
 # https://store.steampowered.com/app/1076550/SAMURAI_SHODOWN_V_SPECIAL
-{ "name": "SSVS.exe", "type": "Game"}
+{ "name": "SSVS.exe", "type": "game"}
 
 # https://store.steampowered.com/app/999660/SAMURAI_SHODOWN_NEOGEO_COLLECTION
-{ "name": "Samurai Shodown Collection.exe", "type": "Game"}
+{ "name": "Samurai Shodown Collection.exe", "type": "game"}

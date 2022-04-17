@@ -1,3 +1,3 @@
 # https://store.steampowered.com/app/617290
-{ "name": "Remnant-Win64-Shipping.exe", "type": "Game"}
-{ "name": "Remnant.exe", "type": "Game"}
+{ "name": "Remnant-Win64-Shipping.exe", "type": "game"}
+{ "name": "Remnant.exe", "type": "game"}

@@ -20,7 +20,7 @@
 # desktop environment, window manager or any integral part of a desktop
 { "type": "DEWM", "nice": -4 }
 
-{ "type": "Game", "nice": -20 }
+{ "type": "game", "nice": -20 }
 
 { "type": "game-launcher", "nice": 4 }
 

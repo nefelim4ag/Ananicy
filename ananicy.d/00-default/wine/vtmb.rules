@@ -1,5 +1,5 @@
 # https://store.steampowered.com/app/2600/Vampire_The_Masquerade__Bloodlines/
-{ "name": "vampire.exe", "type": "Game"}
+{ "name": "vampire.exe", "type": "game"}
 
 # https://www.moddb.com/mods/vtmb-unofficial-patch
-{ "name": "Vampire.exe", "type": "Game"}
+{ "name": "Vampire.exe", "type": "game"}

@@ -1,5 +1,5 @@
 # https://store.steampowered.com/app/7020
-{ "name": "RogueTrooper.exe", "type": "Game"}
+{ "name": "RogueTrooper.exe", "type": "game"}
 
 # https://store.steampowered.com/app/529490
-{ "name": "RTR_x64.exe", "type": "Game"}
+{ "name": "RTR_x64.exe", "type": "game"}

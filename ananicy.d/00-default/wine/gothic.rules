@@ -1,11 +1,11 @@
 # https://store.steampowered.com/app/65540
 # https://github.com/GothicFixTeam/GothicFix
-{ "name": "GOTHIC.EXE", "type": "Game"}
-{ "name": "GothicMod.exe", "type": "Game"}
+{ "name": "GOTHIC.EXE", "type": "game"}
+{ "name": "GothicMod.exe", "type": "game"}
 
 # https://store.steampowered.com/app/39510
 # https://www.worldofgothic.de/dl/download_folder18.htm#18
-{ "name": "Gothic2.exe", "type": "Game"}
+{ "name": "Gothic2.exe", "type": "game"}
 
 # https://store.steampowered.com/app/39500
-{ "name": "Gothic3.exe", "type": "Game"}
+{ "name": "Gothic3.exe", "type": "game"}
