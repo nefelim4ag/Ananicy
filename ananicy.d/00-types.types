@@ -46,8 +46,7 @@
 
 { "type": "VM", "nice": 19 }
 
-# All browsers used to be listed under Doc-View. If you find a browser, please change the type to Web-Browser.
-{ "type": "Web-Browser", "nice": -1 }
+{ "type": "web-browser", "nice": -1 }
 
 
 #########################
