@@ -40,6 +40,8 @@
 
 { "type": "terminal", "nice": -3 }
 
+{ "type": "video-player", "nice": -2 }
+
 { "type": "VM", "nice": 19 }
 
 # All browsers used to be listed under Doc-View. If you find a browser, please change the type to Web-Browser.
@@ -52,7 +54,6 @@
 
 { "type": "Doc-View",   "nice": -2 }
 { "type": "Player-Audio", "nice": -2 }
-{ "type": "Player-Video", "nice": -2 }
 
 # Low Latency Realtime App
 # In general case not so heavy, but must not lag

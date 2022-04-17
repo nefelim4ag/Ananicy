@@ -1,2 +1,2 @@
 # https://github.com/celluloid-player/celluloid
-{ "name": "celluloid", "type": "Player-Video" }
+{ "name": "celluloid", "type": "video-player" }
