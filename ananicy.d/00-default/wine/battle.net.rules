@@ -1,5 +1,5 @@
 # Battle.net - https://eu.shop.battle.net/en-us
-{ "name": "Battle.net.exe", "type": "Game-Launcher" }
+{ "name": "Battle.net.exe", "type": "game-launcher" }
 
 # Heroes of The Storm - https://eu.shop.battle.net/en-us/family/heroes-of-the-storm
 { "name": "HeroesOfTheStor", "type": "Game" }

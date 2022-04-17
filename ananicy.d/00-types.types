@@ -22,7 +22,7 @@
 
 { "type": "Game", "nice": -20 }
 
-{ "type": "Game-Launcher", "nice": 4 }
+{ "type": "game-launcher", "nice": 4 }
 
 { "type": "image-viewer", "nice": 4 }
 
