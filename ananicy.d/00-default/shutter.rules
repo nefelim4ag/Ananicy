@@ -1,2 +1,2 @@
 # http://shutter-project.org
-{ "name": "shutter", "type": "Image-View" }
+{ "name": "shutter", "type": "Screenshotter" }

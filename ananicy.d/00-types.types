@@ -28,13 +28,17 @@
 
 { "type": "Game-Launcher", "nice": 4 }
 
+{ "type": "Image-Viewer", "nice": 4 }
+
 { "type": "Package-Manager", "nice": 8 }
 
-{ "type": "Player-Audio", "nice": -2 }
-
-{ "type": "Player-Video", "nice": -2 }
+{ "type": "Remote-Desktop", "nice": -2 }
 
 { "type": "Server", "nice": 19 }
+
+{ "type": "Service", "nice": 19 }
+
+{ "type": "Screenshotter", "nice": 19 }
 
 { "type": "Torrent", "nice": 19, "ionice": 7 }
 
@@ -52,6 +56,8 @@
 
 { "type": "Doc-View",   "nice": -2 }
 { "type": "Image-View", "nice": -2 }
+{ "type": "Player-Audio", "nice": -2 }
+{ "type": "Player-Video", "nice": -2 }
 
 # Low Latency Realtime App
 # In general case not so heavy, but must not lag
