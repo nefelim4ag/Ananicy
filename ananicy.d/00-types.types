@@ -28,7 +28,7 @@
 
 { "type": "Game-Launcher", "nice": 4 }
 
-{ "type": "Image-Viewer", "nice": 4 }
+{ "type": "image-viewer", "nice": 4 }
 
 { "type": "Package-Manager", "nice": 8 }
 
@@ -55,7 +55,6 @@
 #########################
 
 { "type": "Doc-View",   "nice": -2 }
-{ "type": "Image-View", "nice": -2 }
 { "type": "Player-Audio", "nice": -2 }
 { "type": "Player-Video", "nice": -2 }
 
