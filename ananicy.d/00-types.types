@@ -34,7 +34,7 @@
 
 { "type": "Remote-Desktop", "nice": -2 }
 
-{ "type": "Server", "nice": 19 }
+{ "type": "server", "nice": 19 }
 
 { "type": "service", "nice": 19 }
 
