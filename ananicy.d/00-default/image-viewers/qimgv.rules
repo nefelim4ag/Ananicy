@@ -1,2 +1,2 @@
 # Image viewer: https://github.com/easymodo/qimgv/
-{ "name": "qimgv", "type": "Image-View" }
+{ "name": "qimgv", "type": "image-viewer" }

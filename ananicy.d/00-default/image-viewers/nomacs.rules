@@ -1,2 +1,2 @@
 # Nomacs - https://nomacs.org/
-{ "name": "nomacs", "type": "Image-View" }
+{ "name": "nomacs", "type": "image-viewer" }
