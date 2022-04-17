@@ -13,10 +13,6 @@
 # default ioclass is best-effort; default ionice is 4
 
 
-# BackGround CPU/IO Load
-# It's needed, but it must be as silent as possible
-{ "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
-
 { "type": "Chat", "nice": 5 }
 
 { "type": "Compiler", "nice": 19 }
@@ -30,13 +26,13 @@
 
 { "type": "image-viewer", "nice": 4 }
 
-{ "type": "Package-Manager", "nice": 8 }
+{ "type": "package-manager", "nice": 8 }
 
-{ "type": "Remote-Desktop", "nice": -2 }
+{ "type": "remote-desktop", "nice": -2 }
 
 { "type": "server", "nice": 19 }
 
-{ "type": "service", "nice": 19 }
+{ "type": "service", "nice": 19, "ionice": 7 }
 
 { "type": "screenshotter", "nice": 19 }
 
@@ -66,6 +62,10 @@
 # Heavy CPU Load
 # It must work fast enough but must not create so much noise
 { "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
+
+# BackGround CPU/IO Load
+# It's needed, but it must be as silent as possible
+{ "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
 
 # Type: Adj OOM Score
 { "type": "OOM_KILL", "oom_score_adj": 1000 }

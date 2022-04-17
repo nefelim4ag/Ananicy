@@ -1,2 +1,2 @@
 # https://tigervnc.org/
-{ "name": "vncviewer", "type": "Remote-Desktop" }
+{ "name": "vncviewer", "type": "remote-desktop" }

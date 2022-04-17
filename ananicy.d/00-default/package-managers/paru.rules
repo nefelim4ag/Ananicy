@@ -1,2 +1,2 @@
 # paru - Feature packed AUR helper
-{ "name": "paru", "type": "Package-Manager" }
+{ "name": "paru", "type": "package-manager" }
