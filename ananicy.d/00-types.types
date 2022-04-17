@@ -24,7 +24,7 @@
 
 { "type": "game-launcher", "nice": 4 }
 
-{ "type": "image-viewer", "nice": 4 }
+{ "type": "image-viewer", "nice": -2 }
 
 { "type": "music-player", "nice": -2 }
 
@@ -36,7 +36,7 @@
 
 { "type": "service", "nice": 19, "ionice": 7 }
 
-{ "type": "screenshotter", "nice": 19 }
+{ "type": "screenshotter", "nice": -2 }
 
 { "type": "torrent", "nice": 19, "ionice": 7 }
 
