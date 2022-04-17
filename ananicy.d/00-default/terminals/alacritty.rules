@@ -1,2 +1,2 @@
 # alacritty terminal (https://github.com/alacritty/alacritty)
-{ "name": "alacritty", "type": "Terminal" }
+{ "name": "alacritty", "type": "terminal" }

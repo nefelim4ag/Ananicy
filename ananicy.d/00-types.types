@@ -42,7 +42,7 @@
 
 { "type": "Torrent", "nice": 19, "ionice": 7 }
 
-{ "type": "Terminal", "nice": -3 }
+{ "type": "terminal", "nice": -3 }
 
 { "type": "VM", "nice": 19 }
 
