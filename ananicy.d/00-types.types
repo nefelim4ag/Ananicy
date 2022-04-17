@@ -13,6 +13,10 @@
 # default ioclass is best-effort; default ionice is 4
 
 
+# BackGround CPU/IO Load
+# It's needed, but it must be as silent as possible
+{ "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
+
 { "type": "Chat", "nice": 5 }
 
 { "type": "Compiler", "nice": 19 }
@@ -22,7 +26,13 @@
 
 { "type": "Game", "nice": -20 }
 
-{ "type": "Package-Manager", "nice": 19 }
+{ "type": "Game-Launcher", "nice": 4 }
+
+{ "type": "Package-Manager", "nice": 8 }
+
+{ "type": "Player-Audio", "nice": -2 }
+
+{ "type": "Player-Video", "nice": -2 }
 
 { "type": "Server", "nice": 19 }
 
@@ -40,11 +50,8 @@
 ### Old types, depricated
 #########################
 
-{ "type": "Player-Audio", "nice": -2 }
-{ "type": "Player-Video", "nice": -2 }
-
-{ "type": "Image-View", "nice": -2 }
 { "type": "Doc-View",   "nice": -2 }
+{ "type": "Image-View", "nice": -2 }
 
 # Low Latency Realtime App
 # In general case not so heavy, but must not lag
@@ -54,10 +61,6 @@
 # Heavy CPU Load
 # It must work fast enough but must not create so much noise
 { "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
-
-# BackGround CPU/IO Load
-# It's needed, but it must be as silent as possible
-{ "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
 
 # Type: Adj OOM Score
 { "type": "OOM_KILL", "oom_score_adj": 1000 }
