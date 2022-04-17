@@ -26,6 +26,8 @@
 
 { "type": "image-viewer", "nice": 4 }
 
+{ "type": "music-player", "nice": -2 }
+
 { "type": "package-manager", "nice": 8 }
 
 { "type": "remote-desktop", "nice": -2 }
@@ -53,7 +55,6 @@
 #########################
 
 { "type": "Doc-View",   "nice": -2 }
-{ "type": "Player-Audio", "nice": -2 }
 
 # Low Latency Realtime App
 # In general case not so heavy, but must not lag

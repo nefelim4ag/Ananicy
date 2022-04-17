@@ -1,2 +1,2 @@
 # Music player: http://deadbeef.sourceforge.net/
-{ "name": "deadbeef-gtkui", "type": "Player-Audio" }
+{ "name": "deadbeef-gtkui", "type": "music-player" }

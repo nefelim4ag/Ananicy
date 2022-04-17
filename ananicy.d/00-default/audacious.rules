@@ -1,2 +1,2 @@
 # Music player: http://audacious-media-player.org/
-{ "name": "audacious", "type": "Player-Audio" }
+{ "name": "audacious", "type": "music-player" }
