@@ -36,7 +36,7 @@
 
 { "type": "Server", "nice": 19 }
 
-{ "type": "Service", "nice": 19 }
+{ "type": "service", "nice": 19 }
 
 { "type": "screenshotter", "nice": 19 }
 
