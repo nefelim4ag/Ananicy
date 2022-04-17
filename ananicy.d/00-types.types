@@ -15,7 +15,7 @@
 
 { "type": "Chat", "nice": 5 }
 
-{ "type": "Compiler", "nice": 19 }
+{ "type": "compiler", "nice": 19 }
 
 # desktop environment, window manager or any integral part of a desktop
 { "type": "DEWM", "nice": -4 }

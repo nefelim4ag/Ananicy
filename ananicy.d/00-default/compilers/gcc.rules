@@ -1,1 +1,1 @@
-{ "name": "gcc", "type": "Compiler" }
+{ "name": "gcc", "type": "compiler" }
