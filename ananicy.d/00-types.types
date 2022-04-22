@@ -13,40 +13,42 @@
 # default ioclass is best-effort; default ionice is 4
 
 
-{ "type": "chat", "nice": 5 }
+{ "type": "archiver" }
 
-{ "type": "compiler", "nice": 19 }
+{ "type": "chat" }
+
+{ "type": "compiler" }
 
 # desktop environment, window manager or any integral part of a desktop
-{ "type": "DEWM", "nice": -4 }
+{ "type": "DEWM" }
 
-{ "type": "game", "nice": -20 }
+{ "type": "game", "nice": -10 }
 
-{ "type": "game-launcher", "nice": 4 }
+{ "type": "game-launcher" }
 
-{ "type": "image-viewer", "nice": -2 }
+{ "type": "image-viewer" }
 
-{ "type": "music-player", "nice": -2 }
+{ "type": "music-player" }
 
-{ "type": "package-manager", "nice": 8 }
+{ "type": "package-manager" }
 
-{ "type": "remote-desktop", "nice": -2 }
+{ "type": "remote-desktop" }
 
 { "type": "server", "nice": 19 }
 
 { "type": "service", "nice": 19, "ionice": 7 }
 
-{ "type": "screenshotter", "nice": -2 }
+{ "type": "screenshotter" }
 
 { "type": "torrent", "nice": 19, "ionice": 7 }
 
-{ "type": "terminal", "nice": -3 }
+{ "type": "terminal" }
 
-{ "type": "video-player", "nice": -2 }
+{ "type": "video-player" }
 
-{ "type": "VM", "nice": 19 }
+{ "type": "VM" }
 
-{ "type": "web-browser", "nice": -1 }
+{ "type": "web-browser"}
 
 
 #########################
@@ -58,7 +60,7 @@
 # Low Latency Realtime App
 # In general case not so heavy, but must not lag
 # Please be carefull not to give realtime ioclass to anything that might spawn more processes
-{ "type": "LowLatency_RT", "nice": -5 }
+#{ "type": "LowLatency_RT", "nice": -5 }
 
 # Heavy CPU Load
 # It must work fast enough but must not create so much noise
@@ -69,5 +71,6 @@
 { "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
 
 # Type: Adj OOM Score
-{ "type": "OOM_KILL", "oom_score_adj": 1000 }
-{ "type": "OOM_NO_KILL", "oom_score_adj": -1000 }
+#{ "type": "OOM_KILL", "oom_score_adj": 1000 }
+#{ "type": "OOM_NO_KILL", "oom_score_adj": -1000 }
+

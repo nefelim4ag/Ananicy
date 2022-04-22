@@ -1,0 +1,7 @@
+{ "name": "bzip2", "type": "archiver" }
+{ "name": "gzip",  "type": "archiver" }
+{ "name": "lz4",   "type": "archiver" }
+{ "name": "lzma",  "type": "archiver" }
+{ "name": "lzop",  "type": "archiver" }
+{ "name": "xz",    "type": "archiver" }
+{ "name": "zstd",  "type": "archiver" }

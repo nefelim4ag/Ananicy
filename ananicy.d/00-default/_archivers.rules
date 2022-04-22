@@ -1,7 +1,0 @@
-{ "name": "bzip2",  "type": "BG_CPUIO" }
-{ "name": "gzip",   "type": "BG_CPUIO" }
-{ "name": "lz4",    "type": "BG_CPUIO" }
-{ "name": "lzma",   "type": "BG_CPUIO" }
-{ "name": "lzop",   "type": "BG_CPUIO" }
-{ "name": "xz",     "type": "BG_CPUIO" }
-{ "name": "zstd",   "type": "BG_CPUIO" }
