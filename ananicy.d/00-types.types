@@ -19,6 +19,8 @@
 
 { "type": "compiler" }
 
+{ "type": "database" }
+
 # desktop environment, window manager or any integral part of a desktop
 { "type": "DEWM" }
 
