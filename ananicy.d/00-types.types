@@ -24,7 +24,7 @@
 # desktop environment, window manager or any integral part of a desktop
 { "type": "DEWM" }
 
-{ "type": "game", "nice": -10 }
+{ "type": "game" }
 
 { "type": "game-launcher" }
 
