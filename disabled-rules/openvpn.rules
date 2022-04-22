@@ -1,3 +1,0 @@
-## Openvpn https://openvpn.net/
-
-{ "name" : "openvpn", "type" : "LowLatency_RT", "ionice" : 1}

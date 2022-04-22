@@ -48,31 +48,26 @@
 
 { "type": "video-player" }
 
+{ "type": "vpn" }
+
 { "type": "VM" }
 
 { "type": "web-browser"}
 
 
-#########################
-### Old types, depricated
-#########################
+########################
+### Depricated types ###
+########################
 
-{ "type": "Doc-View",   "nice": -2 }
+{ "type": "Doc-View" }
 
-# Low Latency Realtime App
-# In general case not so heavy, but must not lag
-# Please be carefull not to give realtime ioclass to anything that might spawn more processes
-#{ "type": "LowLatency_RT", "nice": -5 }
-
-# Heavy CPU Load
-# It must work fast enough but must not create so much noise
-{ "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
+#{ "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
+{ "type": "Heavy_CPU" }
 
 # BackGround CPU/IO Load
 # It's needed, but it must be as silent as possible
-{ "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
+#{ "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
+{ "type": "BG_CPUIO" }
 
-# Type: Adj OOM Score
-#{ "type": "OOM_KILL", "oom_score_adj": 1000 }
-#{ "type": "OOM_NO_KILL", "oom_score_adj": -1000 }
+#{ "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
 
