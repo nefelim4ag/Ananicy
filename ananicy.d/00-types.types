@@ -57,7 +57,7 @@
 
 ### Specific Types
 
-{"type":"ionice=3"}
+{"type":"ionice=3", "ionice":3}
 
 ########################
 ### Depricated types ###
