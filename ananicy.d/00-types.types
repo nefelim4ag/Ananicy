@@ -12,48 +12,52 @@
 # idle - lowest priority
 # default ioclass is best-effort; default ionice is 4
 
+### Generic Types
 
-{ "type": "archiver" }
+{"type":"archiver"}
 
-{ "type": "chat" }
+{"type":"chat"}
 
-{ "type": "compiler" }
+{"type":"compiler"}
 
-{ "type": "database" }
+{"type":"database"}
 
 # desktop environment, window manager or any integral part of a desktop
-{ "type": "DEWM" }
+{"type":"DEWM"}
 
-{ "type": "game" }
+{"type":"game"}
 
-{ "type": "game-launcher" }
+{"type":"game-launcher"}
 
-{ "type": "image-viewer" }
+{"type":"image-viewer"}
 
-{ "type": "music-player" }
+{"type":"music-player"}
 
-{ "type": "package-manager" }
+{"type":"package-manager"}
 
-{ "type": "remote-desktop" }
+{"type":"remote-desktop"}
 
-{ "type": "server", "nice": 19 }
+{"type":"server", "nice":19}
 
-{ "type": "service", "nice": 19, "ionice": 7 }
+{"type":"service", "nice":19, "ionice":7}
 
-{ "type": "screenshotter" }
+{"type":"screenshotter"}
 
-{ "type": "torrent", "nice": 19, "ionice": 7 }
+{"type":"torrent", "nice":19, "ionice":7}
 
-{ "type": "terminal" }
+{"type":"terminal"}
 
-{ "type": "video-player" }
+{"type":"video-player"}
 
-{ "type": "vpn" }
+{"type":"vpn"}
 
-{ "type": "VM" }
+{"type":"VM"}
 
-{ "type": "web-browser"}
+{"type":"web-browser"}
 
+### Specific Types
+
+{"type":"ionice=3"}
 
 ########################
 ### Depricated types ###
@@ -62,12 +66,12 @@
 { "type": "Doc-View" }
 
 #{ "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
-{ "type": "Heavy_CPU" }
+{"type":"Heavy_CPU"}
 
 # BackGround CPU/IO Load
 # It's needed, but it must be as silent as possible
 #{ "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
-{ "type": "BG_CPUIO" }
+{"type":"BG_CPUIO"}
 
 #{ "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
 
