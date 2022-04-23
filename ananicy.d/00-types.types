@@ -39,11 +39,11 @@
 
 {"type":"server", "nice":19}
 
-{"type":"service", "nice":19, "ionice":7}
+{"type":"service", "nice":19, "ioclass":"idle"}
 
 {"type":"screenshotter"}
 
-{"type":"torrent", "nice":19, "ionice":7}
+{"type":"torrent", "nice":19, "ioclass":"idle"}
 
 {"type":"terminal"}
 
@@ -70,7 +70,7 @@
 
 # BackGround CPU/IO Load
 # It's needed, but it must be as silent as possible
-#{ "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
+#{"type":"BG_CPUIO", "nice":19, "ioclass":"idle", "sched":"idle", "cgroup":"cpu80" }
 {"type":"BG_CPUIO"}
 
 #{ "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
