@@ -43,7 +43,7 @@
 
 {"type":"screenshotter"}
 
-{"type":"torrent", "nice":19, "ioclass":"idle"}
+{"type":"torrent", "sched":"idle", "ioclass":"idle"}
 
 {"type":"terminal"}
 
