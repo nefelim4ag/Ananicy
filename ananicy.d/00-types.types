@@ -18,7 +18,7 @@
 
 {"type":"chat"}
 
-{"type":"compiler"}
+{"type":"compiler", "nice":1}
 
 {"type":"database"}
 
@@ -43,7 +43,7 @@
 
 {"type":"screenshotter"}
 
-{"type":"torrent", "sched":"idle", "ioclass":"idle"}
+{"type":"torrent", "nice": 19, "ioclass":"idle"}
 
 {"type":"terminal"}
 
