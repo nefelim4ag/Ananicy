@@ -39,11 +39,11 @@
 
 {"type":"server", "nice":19}
 
-{"type":"service", "nice":19, "ioclass":"idle"}
+{"type":"service", "nice":19, "ionice":7}
 
 {"type":"screenshotter"}
 
-{"type":"torrent", "nice": 19, "ioclass":"idle"}
+{"type":"torrent", "sched":"idle", "ioclass":"idle"}
 
 {"type":"terminal"}
 
