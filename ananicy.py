@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#! /usr/bin/env python3
 
 # TODO
 # deal with duplicate rules (use cmdlines)
@@ -11,6 +11,7 @@ import time
 import subprocess
 import json
 import _thread
+import pprint
 
 from enum import Enum, unique, Flag, auto
 from time import sleep
@@ -777,7 +778,7 @@ class Ananicy:
             except FileNotFoundError:
                 continue
 
-        print(json.dumps(proc_dict, indent=4), flush=True)
+        pprint.pprint(proc_dict)
 
     def dump_autogroup(self):
         self.proc_map_update()
