@@ -2,12 +2,12 @@
 
 ## Installation
 
-* ![logo](http://www.monitorix.org/imgs/archlinux.png "arch logo") Arch: [AUR/minq-ananicy-git](https://aur.archlinux.org/packages/minq-ananicy-git). `paru -S minq-ananicy-git` or `yay -S minq-ananicy-git` should do the trick.
+* ![logo](http://www.monitorix.org/imgs/archlinux.png "arch logo") Arch: [AUR/minq-ananicy-git](https://aur.archlinux.org/packages/minq-ananicy-git). `paru -S minq-ananicy-git` or `yay -S minq-ananicy-git` should do the trick. Don't forget to start and enable the service by running `sudo systemctl start ananicy.service` and `sudo systemctl enable ananicy.service`.
 
 ## What's new?
 More, updated and better organised rules.
 
-Support for cmdline in rules added. This is particularly useful for applications that share the same name (looking at you Java). You can see the `freenet` rule as an example:
+Support for cmdline in rules added. This is particularly useful for applications that share the same name (looking at you Java). See the `freenet` rule as an example:
 ```
 { "name": "java", "cmdlines": ["freenet.node.NodeStarter"], "type": "BG_CPUIO" }
 ```
@@ -15,11 +15,11 @@ What this translates to is: apply the rule to any process named `java`, that rec
 
 ## What's bad?
 
-List of issues that need to be fixed ASAP:
+List of issues that need to be fixed:
 
 Creating multiple processes with the same `name` causes only 1 of them to be active.
 
-Ananicy's default rules are ass and are causing my PC to lag (fucking lol'd that's the opposite of what ananicy is supposed to do). I am actively trying to unfuck the settings.
+Ananicy's default rules are ass and are causing my PC to lag (lol that's the opposite of what ananicy is supposed to do). I am actively trying to fix the settings.
 
 # Old description
 
