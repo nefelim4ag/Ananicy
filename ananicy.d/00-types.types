@@ -44,6 +44,7 @@
 {"type":"screenshotter"}
 
 {"type":"torrent", "sched":"idle", "ioclass":"idle"}
+{"type":"torrent-compliant"}
 
 {"type":"terminal"}
 
