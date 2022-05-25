@@ -1,4 +1,3 @@
-
 # Icecat
 { "name": "icecat", "type":"web-browser" }
 
@@ -22,7 +21,7 @@
 # Firefox Nightly (https://wiki.mozilla.org/Nightly)
 { "name": "firefox-nightly", "type":"web-browser" }
 
-# Tor browser
+# Tor Browser
 { "name": "firefox.real", "type":"web-browser" }
 
 # Waterfox (https://www.waterfox.net/)

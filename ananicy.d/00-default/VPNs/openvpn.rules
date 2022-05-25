@@ -1,3 +1,2 @@
-## Openvpn https://openvpn.net/
+# Openvpn https://openvpn.net/
 { "name" : "openvpn", "type" : "vpn" }
-
