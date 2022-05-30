@@ -1,2 +1,2 @@
 # tailscale daemon: https://tailscale.com/
-{ "name" : "tailscaled", "type" : "vpn" }
+{ "name" : "tailscaled", "type" : "VPN" }

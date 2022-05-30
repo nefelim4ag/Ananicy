@@ -1,2 +1,2 @@
 # Mullvad daemon: https://mullvad.net/
-{ "name" : "mullvad-daemon", "type" : "vpn" }
+{ "name" : "mullvad-daemon", "type" : "VPN" }
