@@ -1,2 +1,2 @@
 # Kate: https://kate-editor.org/
-{ "name": "kate", "type": "Doc-View" }
+{ "name": "kate", "type": "text-editor" }

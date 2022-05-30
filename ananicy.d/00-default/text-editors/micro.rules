@@ -1,2 +1,2 @@
 # https://micro-editor.github.io/
-{ "name": "micro", "type": "Doc-View" }
+{ "name": "micro", "type": "text-editor" }

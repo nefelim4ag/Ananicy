@@ -1,2 +1,2 @@
 # https://cudatext.github.io/
-{ "name": "cudatext", "type": "Doc-View" }
+{ "name": "cudatext", "type": "text-editor" }

@@ -1,4 +1,4 @@
 # vim: https://www.vim.org/
 # nvim: https://neovim.io/
-{ "name": "vim", "type": "Doc-View" }
-{ "name": "nvim", "type": "Doc-View" }
+{ "name": "vim", "type": "text-editor" }
+{ "name": "nvim", "type": "text-editor" }
