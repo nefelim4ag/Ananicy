@@ -312,3 +312,13 @@
 
 # https://store.steampowered.com/app/404100
 { "name": "SteelStrider.x86", "type": "game"}
+
+# https://store.steampowered.com/app/976730
+{ "name": "mcclauncher.exe", "type": "game"}
+{ "name": "MCC-Win64-Shipping.exe", "type": "game"}
+
+https://store.steampowered.com/app/548430
+{ "name": "FSD-Win64-Shipping.exe", "type": "game"}
+
+https://store.steampowered.com/app/555150
+{ "name": "TheFirstTree.x86_64", "type": "game"}

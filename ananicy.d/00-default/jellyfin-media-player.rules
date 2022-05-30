@@ -1,0 +1,2 @@
+# Jellyfin Media Player: https://github.com/jellyfin/jellyfin-media-player
+{ "name": "jellyfinmediaplayer", "type": "video-player" }
