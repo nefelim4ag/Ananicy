@@ -26,6 +26,7 @@
 {"type":"DEWM"}
 
 {"type":"game"}
+{"type":"game,nice=-19", "nice":-19}
 
 {"type":"game-launcher"}
 
@@ -63,8 +64,6 @@
 ### Specific Types
 
 {"type":"ionice=3", "ionice":3}
-
-{"type":"nice=-19", "nice":-19}
 
 ########################
 ### Depricated types ###
