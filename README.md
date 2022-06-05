@@ -4,7 +4,10 @@
 
 * ![logo](http://www.monitorix.org/imgs/archlinux.png "arch logo") Arch: [AUR/minq-ananicy-git](https://aur.archlinux.org/packages/minq-ananicy-git). `paru -S minq-ananicy-git` or `yay -S minq-ananicy-git` should do the trick. Don't forget to start and enable the service by running `sudo systemctl start ananicy.service` and `sudo systemctl enable ananicy.service`.
 
+For more information [click here](https://github.com/kuche1/minq-ananicy#installation-1)
+
 ## What's new?
+
 More, updated and better organised rules.
 
 Support for cmdline in rules added. This is particularly useful for applications that share the same name (looking at you Java). See the `freenet` rule as an example:
@@ -14,8 +17,6 @@ Support for cmdline in rules added. This is particularly useful for applications
 Which this translates to is: apply the rule to any process named `java`, that received `freenet.node.NodeStarter` as a command line argument. You can add more than one "cmdlines" in case you want to fine tune your rules.
 
 ## What's bad?
-
-List of issues that need to be fixed:
 
 Creating multiple processes with the same `name` causes only 1 of them to be active.
 

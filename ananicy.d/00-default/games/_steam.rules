@@ -54,7 +54,7 @@
 { "name": "ShadowWarrior.bin.x86", "type": "game"}
 
 # https://store.steampowered.com/app/394360
-{ "name": "hoi4", "type": "game,nice=-19" }
+{ "name": "hoi4", "type": "game,nice=-20" }
 
 # https://store.steampowered.com/app/225840
 { "name": "svencoop_linux", "type": "game"}
