@@ -49,8 +49,9 @@
 
 {"type":"text-editor"}
 
-{"type":"torrent", "sched":"idle", "ioclass":"idle"}
-{"type":"torrent-compliant"}
+{"type":"torrent"}
+{"type":"torrent,nice=1,ionice=1", "nice":1, "ionice":1}
+{"type":"torrent,sched=idle,ioclass=idle", "sched":"idle", "ioclass":"idle"}
 
 {"type":"terminal"}
 
@@ -61,10 +62,6 @@
 {"type":"VM"}
 
 {"type":"web-browser"}
-
-### Specific Types
-
-{"type":"ionice=3", "ionice":3}
 
 ########################
 ### Depricated types ###
@@ -81,4 +78,3 @@
 {"type":"BG_CPUIO"}
 
 #{ "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
-

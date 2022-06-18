@@ -1,7 +1,7 @@
 # Torrent client: https://www.transmissionbt.com
-{ "name": "transgui",            "type": "torrent-compliant" }
-{ "name": "transmission-cli",    "type": "torrent-compliant" }
-{ "name": "transmission-daemon", "type": "torrent-compliant" }
-{ "name": "transmission-gtk",    "type": "torrent-compliant" }
-{ "name": "transmission-qt",     "type": "torrent-compliant" }
-{ "name": "transmission-remote", "type": "torrent-compliant" }
+{ "name": "transgui",            "type": "torrent,nice=1,ionice=1" }
+{ "name": "transmission-cli",    "type": "torrent,nice=1,ionice=1" }
+{ "name": "transmission-daemon", "type": "torrent,nice=1,ionice=1" }
+{ "name": "transmission-gtk",    "type": "torrent,nice=1,ionice=1" }
+{ "name": "transmission-qt",     "type": "torrent,nice=1,ionice=1" }
+{ "name": "transmission-remote", "type": "torrent,nice=1,ionice=1" }
