@@ -14,7 +14,7 @@
 
 ### Generic Types
 
-{"type":"archiver", "nice":1, "ionice":1}
+{"type":"archiver", "nice":19, "ionice":7}
 
 {"type":"chat"}
 
