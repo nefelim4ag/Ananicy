@@ -28,6 +28,7 @@
 # Increasing some games' niceness value may cause a crash
 {"type":"game"}
 {"type":"game,nice=-20", "nice":-20}
+{"type":"game,nice=-20,ionice=0", "nice":-20, "ionice":0}
 
 {"type":"game-launcher"}
 

@@ -13,7 +13,7 @@
 # https://store.steampowered.com/app/70
 { "name": "hl_linux", "type": "game"}
 # http://store.steampowered.com/app/440 - Team Fortress 2
-{"name": "hl2_linux", "type": "game,nice=-20"}
+{"name": "hl2_linux", "type": "game,nice=-20,ionice=0"}
 # http://store.steampowered.com/app/4920
 { "name": "ns2_linux", "type": "game"}
 # https://store.steampowered.com/app/620
