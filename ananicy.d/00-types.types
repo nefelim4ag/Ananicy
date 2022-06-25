@@ -16,6 +16,8 @@
 
 {"type":"archiver", "nice":19, "ionice":7}
 
+{"type":"audio-server", "nice":-11, "ioclass":"realtime"}
+
 {"type":"chat"}
 
 {"type":"compiler", "nice":1}
