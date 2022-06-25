@@ -1,0 +1,5 @@
+# https://www.sublimetext.com
+{ "name": "subl", "type": "document-editor" }
+{ "name": "subl3", "type": "document-editor" }
+{ "name": "sublime_text", "type": "document-editor" }
+{ "name": "plugin_host", "type": "document-editor" }

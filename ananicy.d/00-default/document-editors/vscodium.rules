@@ -1,0 +1,2 @@
+# https://github.com/VSCodium/vscodium
+{ "name": "codium", "type": "document-editor" }

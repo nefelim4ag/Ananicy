@@ -27,6 +27,8 @@
 # desktop environment, window manager or any integral part of a desktop
 {"type":"DEWM"}
 
+{"type":"document-editor"}
+
 {"type":"document-viewer"}
 
 {"type":"email-client"}
@@ -54,8 +56,6 @@
 {"type":"service,nice=19,ionice=7", "nice":19, "ionice":7}
 
 {"type":"screenshotter"}
-
-{"type":"text-editor"}
 
 {"type":"torrent", "nice":1, "ionice":1}
 
