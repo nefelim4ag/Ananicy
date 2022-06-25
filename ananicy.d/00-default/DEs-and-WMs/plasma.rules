@@ -1,0 +1,4 @@
+{"name": "plasmashell",  "type": "DEWM"}
+{"name": "kwin_x11", "type": "DEWM"}
+{"name": "kwin_wayland", "type": "DEWM"}
+{"name": "kwin_wayland_wrapper", "type": "DEWM"}

@@ -1,2 +1,4 @@
 # http://github.com/FeralInteractive/gamemode
 { "name": "gamemoded", "type": "service" }
+
+# TODO might be best to create a new type for this

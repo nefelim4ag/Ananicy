@@ -14,7 +14,7 @@
 
 ### Generic Types
 
-{"type":"archiver"}
+{"type":"archiver", "nice":19, "ionice":7}
 
 {"type":"chat"}
 
@@ -25,8 +25,10 @@
 # desktop environment, window manager or any integral part of a desktop
 {"type":"DEWM"}
 
+# Increasing some games' niceness value may cause a crash
 {"type":"game"}
 {"type":"game,nice=-20", "nice":-20}
+{"type":"game,nice=-20,ionice=0", "nice":-20, "ionice":0}
 
 {"type":"game-launcher"}
 
@@ -40,16 +42,16 @@
 
 {"type":"remote-desktop"}
 
-{"type":"server", "nice":19}
+{"type":"server", "nice":1, "ionice":1}
 
-{"type":"service", "nice":19, "ionice":7}
+{"type":"service"}
+{"type":"service,nice=19,ionice=7", "nice":19, "ionice":7}
 
 {"type":"screenshotter"}
 
 {"type":"text-editor"}
 
-{"type":"torrent", "sched":"idle", "ioclass":"idle"}
-{"type":"torrent-compliant"}
+{"type":"torrent", "nice":1, "ionice":1}
 
 {"type":"terminal"}
 
@@ -60,10 +62,6 @@
 {"type":"VM"}
 
 {"type":"web-browser"}
-
-### Specific Types
-
-{"type":"ionice=3", "ionice":3}
 
 ########################
 ### Depricated types ###
@@ -80,4 +78,3 @@
 {"type":"BG_CPUIO"}
 
 #{ "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
-
