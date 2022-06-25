@@ -1,0 +1,2 @@
+# Thunar is an xfce file manager: https://gitlab.xfce.org/xfce/thunar
+{ "name": "Thunar", "type": "file-manager" }
