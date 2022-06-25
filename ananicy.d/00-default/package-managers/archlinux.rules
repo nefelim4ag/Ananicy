@@ -2,3 +2,4 @@
 { "name": "mkinitcpio", "type": "service" }
 { "name": "makepkg", "type": "package-manager" }
 { "name": "pacman", "type": "package-manager" }
+{ "name": "pamac", "type": "package-manager" }
