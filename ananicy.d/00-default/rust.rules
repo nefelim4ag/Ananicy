@@ -1,3 +1,0 @@
-{ "name": "cargo", "type": "BG_CPUIO" }
-{ "name": "rustc", "type": "BG_CPUIO" }
-{ "name": "rust-analyzer", "type": "BG_CPUIO" }
