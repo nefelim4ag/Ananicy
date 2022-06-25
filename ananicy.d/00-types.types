@@ -50,6 +50,8 @@
 
 {"type":"music-player"}
 
+{"type":"p2p-client", "nice":1, "ionice":1}
+
 {"type":"package-manager"}
 
 {"type":"remote-desktop"}
@@ -60,8 +62,6 @@
 {"type":"service,nice=19,ionice=7", "nice":19, "ionice":7}
 
 {"type":"screenshotter"}
-
-{"type":"torrent", "nice":1, "ionice":1}
 
 {"type":"terminal"}
 

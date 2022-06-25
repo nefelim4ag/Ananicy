@@ -1,2 +1,2 @@
 # Torrent client: https://www.kde.org/applications/internet/ktorrent/
-{ "name": "ktorrent", "type": "torrent" }
+{ "name": "ktorrent", "type": "p2p-client" }

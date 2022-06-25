@@ -1,0 +1,3 @@
+# QT bittorrent client
+{ "name": "qbittorrent",     "type": "p2p-client" }
+{ "name": "qbittorrent-nox", "type": "p2p-client" }
