@@ -27,6 +27,8 @@
 # desktop environment, window manager or any integral part of a desktop
 {"type":"DEWM"}
 
+{"type":"document-viewer"}
+
 # Increasing some games' niceness value may cause a crash
 {"type":"game"}
 {"type":"game,nice=-20", "nice":-20}
@@ -69,8 +71,6 @@
 ### Depricated types ###
 ########################
 
-{ "type": "Doc-View" }
-
 #{ "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
 {"type":"Heavy_CPU"}
 
@@ -80,3 +80,9 @@
 {"type":"BG_CPUIO"}
 
 #{ "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
+
+########################
+### TODO marker type ###
+########################
+
+{"type":"TODO"}

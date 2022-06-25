@@ -1,2 +1,2 @@
 # https://www.foxitsoftware.com/ru/products/pdf-reader/
-{ "name": "FoxitReader", "type": "Doc-View" }
+{ "name": "FoxitReader", "type": "document-viewer" }
