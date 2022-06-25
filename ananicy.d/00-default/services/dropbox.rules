@@ -1,2 +1,2 @@
 # Dropbox client: https://www.dropbox.com
-{ "name": "dropbox", "type": "server" }
+{ "name": "dropbox", "type": "service" }
