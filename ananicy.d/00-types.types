@@ -16,6 +16,8 @@
 
 {"type":"archiver", "nice":19, "ionice":7}
 
+{"type":"audio-server", "nice":-11, "ioclass":"realtime"}
+
 {"type":"chat"}
 
 {"type":"compiler", "nice":1}
@@ -24,6 +26,16 @@
 
 # desktop environment, window manager or any integral part of a desktop
 {"type":"DEWM"}
+
+{"type":"document-editor"}
+
+{"type":"document-viewer"}
+
+{"type":"email-client"}
+
+{"type":"file-manager"}
+
+{"type":"file-sync"}
 
 # Increasing some games' niceness value may cause a crash
 {"type":"game"}
@@ -38,6 +50,8 @@
 
 {"type":"music-player"}
 
+{"type":"p2p-client", "nice":1, "ionice":1}
+
 {"type":"package-manager"}
 
 {"type":"remote-desktop"}
@@ -48,10 +62,6 @@
 {"type":"service,nice=19,ionice=7", "nice":19, "ionice":7}
 
 {"type":"screenshotter"}
-
-{"type":"text-editor"}
-
-{"type":"torrent", "nice":1, "ionice":1}
 
 {"type":"terminal"}
 
@@ -67,8 +77,6 @@
 ### Depricated types ###
 ########################
 
-{ "type": "Doc-View" }
-
 #{ "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
 {"type":"Heavy_CPU"}
 
@@ -78,3 +86,9 @@
 {"type":"BG_CPUIO"}
 
 #{ "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
+
+########################
+### TODO marker type ###
+########################
+
+{"type":"TODO"}

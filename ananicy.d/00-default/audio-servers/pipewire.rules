@@ -1,0 +1,2 @@
+{"name": "pipewire", "type": "audio-server"}
+{"name": "pipewire-pulse", "type": "audio-server"}

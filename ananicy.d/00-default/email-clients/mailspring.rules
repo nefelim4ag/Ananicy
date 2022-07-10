@@ -1,0 +1,4 @@
+# https://getmailspring.com
+{ "name": "mailspring", "type": "email-client" }
+{ "name": "mailsync", "type": "service" }
+{ "name": "mailsync.bin", "type": "service" }

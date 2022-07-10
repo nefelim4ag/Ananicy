@@ -1,4 +1,0 @@
-# Some rules for Arch Linux specific tools
-{ "name": "mkinitcpio", "type": "service" }
-{ "name": "makepkg", "type": "package-manager" }
-{ "name": "pacman", "type": "package-manager" }

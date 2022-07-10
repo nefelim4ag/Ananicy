@@ -1,0 +1,2 @@
+# Krusader is a twin panel file manager for KDE Plasma: https://krusader.org/
+{ "name": "krusader", "type": "file-manager" }

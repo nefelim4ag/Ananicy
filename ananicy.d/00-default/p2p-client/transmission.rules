@@ -1,0 +1,7 @@
+# Torrent client: https://www.transmissionbt.com
+{ "name": "transgui",            "type": "p2p-client" }
+{ "name": "transmission-cli",    "type": "p2p-client" }
+{ "name": "transmission-daemon", "type": "p2p-client" }
+{ "name": "transmission-gtk",    "type": "p2p-client" }
+{ "name": "transmission-qt",     "type": "p2p-client" }
+{ "name": "transmission-remote", "type": "p2p-client" }

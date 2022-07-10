@@ -1,4 +1,0 @@
-# https://getmailspring.com
-{ "name": "mailspring", "type": "chat" }
-{ "name": "mailsync", "type": "BG_CPUIO" }
-{ "name": "mailsync.bin", "type": "BG_CPUIO" }

@@ -83,6 +83,9 @@
 # https://store.steampowered.com/app/373420/
 { "name": "EoCApp", "type": "game"}
 
+# Enter the Gungeon
+{ "name": "EtG.x86_64", "type": "game" }
+
 # https://store.steampowered.com/app/383930 (AND OTHER DOORWAYS GAMES)
 { "name": "Doorways.x86", "type": "game"}
 
