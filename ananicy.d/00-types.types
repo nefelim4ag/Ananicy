@@ -1,13 +1,11 @@
 
-# nice
-# determines which process gets more CPU cycles
+# nice - determines which process gets more CPU cycles
 # ranges from -20 (highest priority) to 19 (lowest priority)
 # default is 0
 
-# ioclass and ionice
+# ioclass and ionice - determines which process gets more IO
 # avoid changing this as it may cause crashes or hangs
-# determines which process gets more IO
-# realtime - highest priority, very much possible to starve other processes; can be further adjusted with ionice - ranges from 0 (highest priority) to 7 (lowest priority)
+# realtime - be VERY CAREFUL when giving realtime iocalss to a process; highest priority, very much possible to starve other processes; can be further adjusted with ionice - ranges from 0 (highest priority) to 7 (lowest priority)
 # best-effort - medium priority; can be further adjusted with ionice - ranges from 0 (highest priority) to 7 (lowest priority)
 # idle - lowest priority
 # default ioclass is best-effort; default ionice is 4
@@ -24,7 +22,7 @@
 
 {"type":"database"}
 
-# desktop environment, window manager or any integral part of a desktop
+# desktop environment, window manager or any integral part of a desktop (note: audio-server already has it's own category)
 {"type":"DEWM"}
 
 {"type":"document-editor"}
@@ -37,7 +35,7 @@
 
 {"type":"file-sync"}
 
-# Increasing some games' niceness value may cause a crash
+# increasing some games' niceness value may cause a crash
 {"type":"game"}
 {"type":"game,nice=-20", "nice":-20}
 {"type":"game,nice=-20,ionice=0", "nice":-20, "ionice":0}
@@ -58,6 +56,7 @@
 
 {"type":"server", "nice":1, "ionice":1}
 
+# some services might require more or less resources than others
 {"type":"service"}
 {"type":"service,nice=19,ionice=7", "nice":19, "ionice":7}
 
