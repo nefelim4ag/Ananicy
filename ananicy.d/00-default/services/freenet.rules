@@ -1,2 +1,2 @@
 # https://github.com/freenet/fred
-{ "name": "java", "cmdlines": ["freenet.node.NodeStarter"], "type": "service" }
+{ "name": "java", "cmdlines": ["freenet.node.NodeStarter"], "type": "service,CPU_L,IO_L" }

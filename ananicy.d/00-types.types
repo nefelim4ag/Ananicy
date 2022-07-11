@@ -35,10 +35,10 @@
 
 {"type":"file-sync"}
 
-# increasing some games' niceness value may cause a crash
+# increasing a games' priority may cause a crash
 {"type":"game"}
-{"type":"game,nice=-20", "nice":-20}
-{"type":"game,nice=-20,ionice=0", "nice":-20, "ionice":0}
+{"type":"game,CPU_H", "nice":-20}
+{"type":"game,CPU_H,IO_H", "nice":-20, "ionice":0}
 
 {"type":"game-launcher"}
 
@@ -56,9 +56,9 @@
 
 {"type":"server", "nice":1, "ionice":1}
 
-# some services might require more or less resources than others
-{"type":"service"}
-{"type":"service,nice=19,ionice=7", "nice":19, "ionice":7}
+# some services might require less resources than others
+{"type":"service", "nice":1}
+{"type":"service,CPU_L,IO_L", "nice":19, "ionice":7}
 
 {"type":"screenshotter"}
 
