@@ -58,7 +58,7 @@
 
 # some services might require less resources than others
 {"type":"service", "nice":1}
-{"type":"service,CPU_18,IO_6", "nice":18, "ionice":6}
+{"type":"service,IO_L", "ionice":7}
 {"type":"service,CPU_L,IO_L", "nice":19, "ionice":7}
 
 {"type":"screenshotter"}
