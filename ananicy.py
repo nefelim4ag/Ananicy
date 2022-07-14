@@ -622,8 +622,8 @@ class Ananicy:
         if not self.cgroups.get(cgroup):
             cgroup = None
 
-        if name in self.rules:
-            raise Failure(f'Duplicate name "{name}": ')
+        #if name in self.rules:
+        #    raise Failure(f'Duplicate name "{name}": ')
 
         if (cmdlines := line.get("cmdlines")):
             cmdlines = list(cmdlines)
