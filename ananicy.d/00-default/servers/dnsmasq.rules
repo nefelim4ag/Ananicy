@@ -1,2 +1,2 @@
 # dnsmasq DNS cache system
-{ "name": "dnsmasq", "type": "server" }
+{ "name": "dnsmasq",   "type": "LowLatency_RT", "nice": -8, "ioclass" : "realtime", "ionice" : 5 }

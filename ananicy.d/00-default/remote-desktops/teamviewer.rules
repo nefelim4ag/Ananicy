@@ -1,0 +1,3 @@
+# https://www.teamviewer.com
+{ "name": "TeamViewer", "type": "LowLatency_RT" }
+{ "name": "teamviewerd",   "type": "BG_CPUIO" }

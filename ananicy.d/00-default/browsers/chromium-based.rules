@@ -9,3 +9,7 @@
 { "name": "chrome-sandbox", "type": "web-browser" }
 { "name": "google-chrome-dev", "type": "web-browser" }
 { "name": "google-chrome-unstable", "type": "web-browser" }
+
+# Thorium: https://github.com/Alex313031/Thorium
+{ "name": "chrome_crashpad_handler", "type": "web-browser" }
+{ "name": "thorium", "type": "web-browser" }

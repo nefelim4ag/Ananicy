@@ -1,0 +1,2 @@
+# https://github.com/0xERR0R/blocky
+{ "name": "blocky",   "type": "LowLatency_RT", "nice": -8, "ioclass" : "realtime", "ionice" : 5 }
