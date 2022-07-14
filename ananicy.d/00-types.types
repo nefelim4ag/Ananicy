@@ -74,21 +74,19 @@
 {"type":"web-browser"}
 
 ########################
-### Depricated types ###
-########################
-
-#{ "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
-{"type":"Heavy_CPU"}
-
-# BackGround CPU/IO Load
-# It's needed, but it must be as silent as possible
-#{"type":"BG_CPUIO", "nice":19, "ioclass":"idle", "sched":"idle", "cgroup":"cpu80" }
-{"type":"BG_CPUIO"}
-
-#{ "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
-
-########################
 ### TODO marker type ###
 ########################
 
 {"type":"TODO"}
+
+########################
+### Depricated types ###
+########################
+
+#{"type":"Heavy_CPU", "nice":19, "ioclass":"best-effort", "ionice":7, "cgroup":"cpu90"}
+
+# BackGround CPU/IO Load
+# It's needed, but it must be as silent as possible
+#{"type":"BG_CPUIO", "nice":19, "ioclass":"idle", "sched":"idle", "cgroup":"cpu80" }
+
+#{"type":"LowLatency_RT", "nice":-10, "ioclass":"realtime"}
