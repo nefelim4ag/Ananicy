@@ -18,7 +18,7 @@
 
 {"type":"chat"}
 
-{"type":"compiler", "nice":1}
+{"type":"compiler", "nice":5}
 
 {"type":"database"}
 
@@ -46,18 +46,18 @@
 
 {"type":"music-player"}
 
-{"type":"p2p-client", "nice":1, "ionice":1}
+{"type":"p2p-client", "nice":1, "ionice":5}
 
 {"type":"package-manager"}
 
 {"type":"remote-desktop"}
 
-{"type":"server", "nice":1, "ionice":1}
+{"type":"server", "nice":1}
 
 # some services might require less resources than others
 {"type":"service", "nice":1}
-{"type":"service,IO_L", "ionice":7}
 {"type":"service,CPU_L,IO_L", "nice":19, "ionice":7}
+{"type":"service,IO_L", "ionice":7}
 
 {"type":"screenshotter"}
 
