@@ -35,10 +35,8 @@
 
 {"type":"file-sync"}
 
-# increasing a games' priority may cause a crash
-{"type":"game"}
-{"type":"game,CPU_H", "nice":-20}
-{"type":"game,CPU_H,IO_H", "nice":-20, "ionice":0}
+# note: increasing some games' priority might cause a crash
+{"type":"game", "nice":-20, "ionice":0}
 
 {"type":"game-launcher"}
 
