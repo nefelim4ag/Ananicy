@@ -16,10 +16,11 @@
 #             can be further adjusted with ionice
 #         best-effort
 #             this is the default ioclass
-#             medium priority
+#             medium IO priority
 #             can be further adjusted with ionice
 #         idle
-#             lowest priority
+#             lowest IO priority
+#             uses IO only if no other process needs IO
 #             this ioclass can be given to processes that are known for starving the system
 #             CANNOT be further adjusted with ionice
 
