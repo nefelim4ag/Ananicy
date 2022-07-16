@@ -626,7 +626,7 @@ class Ananicy:
         #    raise Failure(f'Duplicate name "{name}": ')
 
         if (cmdlines := line.get("cmdlines")):
-            cmdlines = list(cmdlines)
+            cmdlines = set(cmdlines)
 
         self.rules[name] = {
             "cmdlines": cmdlines,

@@ -68,8 +68,8 @@
 {"type":"server", "nice":1}
 
 # some services might require less resources than others
-{"type":"service",      "nice":1}
-{"type":"service,IO_I", "nice":1, "ioclass":"idle"}
+{"type":"service",            "nice":1}
+{"type":"service,CPU_U,IO_I",           "ioclass":"idle"}
 
 {"type":"screenshotter"}
 

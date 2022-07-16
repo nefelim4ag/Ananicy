@@ -1,4 +1,4 @@
 # https://github.com/freenet/fred
-{ "name": "java", "cmdlines": ["freenet.node.NodeStarter"], "type": "service,IO_I" }
+{ "name": "java", "cmdlines": ["freenet.node.NodeStarter"], "type": "service,CPU_U,IO_I" }
 
 # NOTE: freenet is not supposed to be reniced
