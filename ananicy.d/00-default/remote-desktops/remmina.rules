@@ -1,2 +1,2 @@
 # https://remmina.org
-{ "name": "remmina", "type": "LowLatency_RT" }
+{ "name": "remmina", "type": "remote-desktop" }
