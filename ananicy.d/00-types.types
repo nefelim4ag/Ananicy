@@ -39,6 +39,7 @@
 # desktop environment, window manager or any integral part of a desktop (note: audio-server already has it's own category)
 {"type":"DEWM"}
 
+# TODO split into `text editor`, `document editor` and `IDE`?
 {"type":"document-editor"}
 
 {"type":"document-viewer"}
