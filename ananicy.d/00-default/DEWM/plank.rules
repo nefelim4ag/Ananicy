@@ -1,0 +1,3 @@
+# Plank dock: https://launchpad.net/plank
+# dock should work fast as part of realiable desktop
+{ "name": "plank", "type": "DEWM" }

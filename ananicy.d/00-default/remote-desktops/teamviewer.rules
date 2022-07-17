@@ -1,0 +1,3 @@
+# https://www.teamviewer.com
+{ "name": "TeamViewer",  "type": "remote-desktop" }
+{ "name": "teamviewerd", "type": "remote-desktop" }

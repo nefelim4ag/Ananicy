@@ -1,0 +1,3 @@
+# display manager
+{ "name" : "lxdm-binary", "type": "DEWM"}
+{ "name" : "lxdm-session", "type": "DEWM"}

@@ -1,0 +1,2 @@
+# document viewer: https://pwmt.org/projects/zathura
+{ "name": "zathura", "type": "document-viewer" }

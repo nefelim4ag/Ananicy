@@ -1,0 +1,3 @@
+# https://en.wikipedia.org/wiki/Unbound_(DNS_server)
+{ "name": "unbound",           "type": "server" }
+{ "name": "unbound-checkconf", "type": "server" }

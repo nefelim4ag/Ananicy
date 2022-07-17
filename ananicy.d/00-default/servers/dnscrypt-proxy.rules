@@ -1,0 +1,2 @@
+# https://github.com/DNSCrypt/dnscrypt-proxy
+{ "name": "dnscrypt-proxy",   "type": "server" }
