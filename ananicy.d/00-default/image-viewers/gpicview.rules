@@ -1,2 +1,2 @@
 # good old image viewer 
-{ "name": "gpicview", "type": "Image-View" }
+{ "name": "gpicview", "type": "image-viewer" }
