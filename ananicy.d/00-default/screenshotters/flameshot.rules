@@ -1,2 +1,2 @@
 # Screenshot utility
-{ "name": "flameshot", "type":"Doc-View"  }
+{ "name": "flameshot", "type":"screenshotter"  }
