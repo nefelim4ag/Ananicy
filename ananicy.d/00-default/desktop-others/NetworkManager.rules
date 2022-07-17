@@ -1,3 +1,0 @@
-# NetworkManager
-{ "name": "NetworkManager", "type": "BG_CPUIO" }
-{ "name": "nm-applet", "type": "BG_CPUIO" }
