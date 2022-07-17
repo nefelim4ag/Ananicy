@@ -1,2 +1,2 @@
 # text editor
-{ "name": "nano", "type": "Doc-View" }
+{ "name": "nano", "type": "document-editor" }
