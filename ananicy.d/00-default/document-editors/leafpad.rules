@@ -1,2 +1,2 @@
 # leafpad text editor 
-{ "name": "leafpad", "type": "Doc-View" }
+{ "name": "leafpad", "type": "document-editor" }
