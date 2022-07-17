@@ -61,7 +61,7 @@
 
 {"type":"music-player"}
 
-{"type":"p2p-client", "nice":1, "ionice":5}
+{"type":"p2p-client"}
 
 {"type":"package-manager"}
 
@@ -71,11 +71,13 @@
 
 # some services might require less resources than others
 {"type":"service",            "nice":1}
-{"type":"service,CPU_U,IO_I",           "ioclass":"idle"}
+{"type":"service,CPU_U,IO_I", "ioclass":"idle"}
 
 {"type":"screenshotter"}
 
 {"type":"terminal"}
+
+{"type":"torrent", "nice":1, "ionice":7}
 
 {"type":"video-player"}
 

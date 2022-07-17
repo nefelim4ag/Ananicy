@@ -1,3 +1,0 @@
-# http://deluge-torrent.org
-{ "name": "deluged", "type": "p2p-client" }
-{ "name": "deluge",  "type": "p2p-client" }

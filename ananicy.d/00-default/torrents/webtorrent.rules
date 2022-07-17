@@ -1,2 +1,2 @@
 # WebTorrent Desktop: https://webtorrent.io/desktop/
-{ "name": "WebTorrent", "type": "p2p-client" }
+{ "name": "WebTorrent", "type": "torrent" }
