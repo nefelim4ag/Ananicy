@@ -1,6 +1,9 @@
 # Icecat
 { "name": "icecat", "type":"web-browser" }
 
+# Iceweasel
+{ "name": "ice-weasel", "type":"web-browser" }
+
 # LibreWolf (https://librewolf-community.gitlab.io/)
 { "name": "librewolf", "type":"web-browser" } 
 { "name": "librewolf-bin", "type":"web-browser" } 
