@@ -1,0 +1,4 @@
+# simple terminal (https://st.suckless.org/)
+{ "name": "urxvt", "type": "terminal" }
+{ "name": "urxvtd", "type": "terminal" }
+{ "name": "urxvtc", "type": "terminal" }
