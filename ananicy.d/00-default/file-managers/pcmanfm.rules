@@ -1,0 +1,2 @@
+# https://github.com/lxde/pcmanfm
+{ "name": "pcmanfm", "type": "file-manager" }
