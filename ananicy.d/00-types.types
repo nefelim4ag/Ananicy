@@ -28,7 +28,7 @@
 
 {"type":"archiver", "nice":19, "ionice":7}
 
-{"type":"audio-server"} # "nice":-11, "ioclass":"realtime"
+{"type":"audio-server"}
 
 {"type":"chat"}
 
@@ -70,14 +70,14 @@
 {"type":"server", "nice":1}
 
 # some services might require less resources than others
-{"type":"service",            "nice":1}
-{"type":"service,CPU_U,IO_I", "ioclass":"idle"}
+{"type":"service",       "nice":1, "ionice":5}
+{"type":"service,CPU_U",           "ionice":5}
 
 {"type":"screenshotter"}
 
 {"type":"terminal"}
 
-{"type":"torrent", "nice":1, "ionice":7}
+{"type":"torrent", "nice":1, "ionice":5}
 
 {"type":"video-player"}
 
