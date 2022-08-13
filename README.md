@@ -16,12 +16,6 @@ Support for cmdline in rules added. This is particularly useful for applications
 ```
 This translates to: apply the rule to any process named `java`, that received `freenet.node.NodeStarter` as a command line argument. You can add more than one "cmdlines" in case you want to fine tune your rules.
 
-## What's bad?
-
-Creating multiple processes with the same `name` causes only 1 of them to be active.
-
-Ananicy's default rules and settings are bad and are causing my PC to lag (lol that's the opposite of what ananicy is supposed to do). I am actively trying to fix the settings.
-
 # Old description
 
 ## Description

@@ -5,4 +5,4 @@
 { "name":"xfce4-appfinder", "type":"DEWM"}
 { "name":"xfce4-notifyd",   "type":"DEWM"}
 { "name":"xfce4-panel",     "type":"DEWM"}
-{ "name":"xfdesktop",       "type":"DEWN"}
+{ "name":"xfdesktop",       "type":"DEWM"}

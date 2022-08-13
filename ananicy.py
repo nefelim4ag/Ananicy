@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 # TODO
-# deal with duplicate rules (use cmdlines)
+# fix startup errors
 # fix the cgroups errors at startup (it might be better to leave them as is)
 
 import os
@@ -622,14 +622,17 @@ class Ananicy:
         if not self.cgroups.get(cgroup):
             cgroup = None
 
+        # might be best not to do this so that rules can be overwritten by the user
         #if name in self.rules:
         #    raise Failure(f'Duplicate name "{name}": ')
 
-        if (cmdlines := line.get("cmdlines")):
-            cmdlines = set(cmdlines)
+        cmdlines = line.get("cmdlines")
+        if cmdlines:
+            cmdlines = frozenset(cmdlines)
 
-        self.rules[name] = {
-            "cmdlines": cmdlines,
+        key = (name, cmdlines)
+
+        self.rules[key] = {
             "nice": self.__check_nice(line.get("nice")),
             "ioclass": line.get("ioclass"),
             "ionice": self.__check_ionice(line.get("ionice")),
@@ -707,20 +710,19 @@ class Ananicy:
         return new_tpids
 
     def get_tpid_rule(self, tpid: TPID):
-        rule_cmdline = tpid.cmdline
-        rule_name = tpid.cmd
-        rule = self.rules.get(rule_name)
-        if not rule:
-            rule_name = tpid.stat_name
-            rule = self.rules.get(rule_name)
-        if rule:
-            cmdlines = rule["cmdlines"]
-            if cmdlines:
-                for cmdline in cmdlines:
-                    if cmdline not in rule_cmdline:
-                        rule = None
-                        break
-        return rule
+        rule_cmdlines = tpid.cmdline
+        for rule_name in [tpid.cmd, tpid.stat_name]:
+            for key in self.rules:
+                name,cmdlines = key
+                if name == rule_name:
+                    if cmdlines:
+                        for cl in cmdlines:
+                            if cl not in rule_cmdlines:
+                                break
+                        else:
+                            return self.rules[key]
+                    else:
+                        return self.rules[key]
 
     def process_tpid(self, tpid):
         if not tpid.exists():
@@ -752,7 +754,7 @@ class Ananicy:
         print(json.dumps(cgroups_dict, indent=4), flush=True)
 
     def dump_rules(self):
-        print(json.dumps(self.rules, indent=4), flush=True)
+        pprint.pp(self.rules)
 
     def dump_proc(self):
         self.proc_map_update()
