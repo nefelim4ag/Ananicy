@@ -3,6 +3,7 @@
 # TODO
 # fix startup errors
 # fix the cgroups errors at startup (it might be better to leave them as is)
+# rename service to minq-ananicy, rename rule folder to minq-ananicy, rename this file to minq_ananicy
 
 import os
 import re

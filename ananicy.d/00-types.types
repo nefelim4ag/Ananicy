@@ -37,6 +37,8 @@
 
 {"type":"chat"}
 
+{"type":"common-utility"}
+
 {"type":"compiler", "nice":1}
 
 {"type":"database"}
@@ -53,7 +55,7 @@
 
 {"type":"file-manager"}
 
-{"type":"file-sync"}
+{"type":"file-sync", "nice":19, "ionice":7}
 
 # note: increasing some games' priority might cause a crash
 {"type":"game", "nice":-20, "ionice":0}
@@ -75,8 +77,8 @@
 {"type":"server", "nice":1}
 
 # some services might require less resources than others
-{"type":"service",       "nice":1, "ionice":5}
-{"type":"service,CPU_U",           "ionice":5}
+{"type":"service",       "nice":1,  "ionice":5}
+{"type":"service,CPU_U",            "ionice":5}
 
 {"type":"screenshotter"}
 
