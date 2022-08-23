@@ -1,0 +1,7 @@
+# Project Zomboid - https://store.steampowered.com/app/108600/Project_Zomboid/
+{ "name": "projectzomboid.sh", "type": "game" }
+{ "name": "ProjectZomboid64", "type": "game" }
+{ "name": "ProjectZomboid32", "type": "game" }
+# Proton / Wine
+{ "name": "ProjectZomboid64.exe", "type": "game" }
+{ "name": "ProjectZomboid32.exe", "type": "game" }
