@@ -1,0 +1,4 @@
+# http://xmonad.org
+# http://projects.haskell.org/xmobar/
+{ "name": "xmobar", "type": "DEWM" }
+{ "name": "xmonad-x86_64-linux", "type": "DEWM" }

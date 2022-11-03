@@ -1,0 +1,3 @@
+# Thunar is an xfce file manager: https://gitlab.xfce.org/xfce/thunar
+{ "name": "Thunar", "type": "file-manager" } # TODO might be best to delete this one
+{ "name": "thunar", "type": "file-manager" }

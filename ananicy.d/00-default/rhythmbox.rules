@@ -1,2 +1,0 @@
-# Music player: https://wiki.gnome.org/Apps/Rhythmbox
-{ "name": "rhythmbox", "type": "Player-Audio" }

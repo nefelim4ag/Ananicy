@@ -1,18 +1,18 @@
 # https://store.steampowered.com/app/6910
-{ "name": "DeusEx.exe", "type": "Game"}
+{ "name": "DeusEx.exe", "type": "game"}
 
 # https://www.kentie.net/article/dxguide/
-{ "name": "deusex.exe", "type": "Game"}
+{ "name": "deusex.exe", "type": "game"}
 
 # https://store.steampowered.com/app/397550
-{ "name": "Revision.exe", "type": "Game"}
+{ "name": "Revision.exe", "type": "game"}
 
 # https://store.steampowered.com/app/337000
-{ "name": "DXMD.exe", "type": "Game"}
+{ "name": "DXMD.exe", "type": "game"}
 
 # https://store.steampowered.com/app/238010
-{ "name": "DXHRDC.exe", "type": "Game"}
+{ "name": "DXHRDC.exe", "type": "game"}
 
 # https://store.steampowered.com/app/6920
-{ "name": "DX2Main.exe", "type": "Game"}
-{ "name": "dx2.exe", "type": "Game"}
+{ "name": "DX2Main.exe", "type": "game"}
+{ "name": "dx2.exe", "type": "game"}

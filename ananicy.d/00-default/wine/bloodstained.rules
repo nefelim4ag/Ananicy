@@ -1,6 +1,6 @@
 # https://store.steampowered.com/app/692850
-{ "name": "BloodstainedRotN.exe", "type": "Game"}
-{ "name": "BloodstainedRotN-Win64-Shipping.exe", "type": "Game"}
+{ "name": "BloodstainedRotN.exe", "type": "game"}
+{ "name": "BloodstainedRotN-Win64-Shipping.exe", "type": "game"}
 
 # https://store.steampowered.com/app/838310
-{ "name": "COTM.exe", "type": "Game"}
+{ "name": "COTM.exe", "type": "game"}

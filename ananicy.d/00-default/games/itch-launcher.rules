@@ -1,0 +1,3 @@
+# itch.io game launcher: https://itch.io/app
+{ "name": "itch", "type": "game-launcher" }
+{ "name": "butler", "type": "game-launcher" }

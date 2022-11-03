@@ -1,0 +1,12 @@
+# tyrquake: https://disenchant.net/tyrquake/
+{ "name": "tyr-quake", "type": "game"}
+{ "name": "tyr-glquake", "type": "game"}
+{ "name": "tyr-qwcl", "type": "game"}
+{ "name": "tyr-glqwcl", "type": "game"}
+
+# vkquake: https://github.com/Novum/vkQuake
+{ "name": "vkquake", "type": "game"}
+
+# quakespasm: http://quakespasm.sourceforge.net/
+{ "name": "quakespasm", "type": "game"}
+{ "name": "quakespasm-svn", "type": "game"}

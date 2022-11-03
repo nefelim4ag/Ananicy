@@ -1,2 +1,0 @@
-# family of tools designed to build, test and package software: https://cmake.org/
-{ "name": "cmake", "type": "Heavy_CPU" }

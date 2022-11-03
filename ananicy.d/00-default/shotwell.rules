@@ -1,2 +1,0 @@
-# A photo manager for GNOME 3: https://wiki.gnome.org/Apps/Shotwell
-{ "name": "shotwell", "type": "Image-View" }

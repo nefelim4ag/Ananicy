@@ -1,0 +1,11 @@
+# https://www.sublimetext.com
+{ "name": "subl", "type": "document-editor" }
+{ "name": "subl3", "type": "document-editor" }
+{ "name": "sublime_text", "type": "document-editor" }
+
+
+# This intended to work in bg
+# https://stackoverflow.com/questions/66203541/what-is-the-purpose-of-plugin-host-service-in-sublime-text-3
+{ "name": "plugin_host-3.8", "type": "document-editor" }
+{ "name": "plugin_host-3.3", "type": "document-editor" }
+{ "name": "plugin_host", "type": "document-editor" }

@@ -1,8 +1,8 @@
 # https://store.steampowered.com/app/239250/Castlevania_Lords_of_Shadow_2/
-{ "name": "CLOS2.exe", "type": "Game"}
+{ "name": "CLOS2.exe", "type": "game"}
 
 # https://store.steampowered.com/app/234080/Castlevania_Lords_of_Shadow__Ultimate_Edition/
-{ "name": "CastlevaniaLoSUE.exe", "type": "Game"}
+{ "name": "CastlevaniaLoSUE.exe", "type": "game"}
 
 # https://store.steampowered.com/app/282530/Castlevania_Lords_of_Shadow__Mirror_of_Fate_HD/
-{ "name": "CMOF.exe", "type": "Game"}
+{ "name": "CMOF.exe", "type": "game"}

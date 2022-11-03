@@ -1,11 +1,11 @@
 # https://store.steampowered.com/app/208650/Batman_Arkham_Knight/
-{ "name": "BatmanAK.exe", "type": "Game"}
+{ "name": "BatmanAK.exe", "type": "game"}
 
 # https://store.steampowered.com/app/209000/Batman_Arkham_Origins/
-{ "name": "BatmanOriginsOnline.exe", "type": "Game"}
+{ "name": "BatmanOriginsOnline.exe", "type": "game"}
 
 # https://store.steampowered.com/app/200260/Batman_Arkham_City__Game_of_the_Year_Edition/
-{ "name": "BatmanAC.exe", "type": "Game"}
+{ "name": "BatmanAC.exe", "type": "game"}
 
 # https://store.steampowered.com/app/35140/Batman_Arkham_Asylum_Game_of_the_Year_Edition/
-{ "name": "ShippingPC-BmGame.exe", "type": "Game"}
+{ "name": "ShippingPC-BmGame.exe", "type": "game"}

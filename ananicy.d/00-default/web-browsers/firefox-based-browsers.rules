@@ -1,0 +1,31 @@
+# Icecat
+{ "name": "icecat", "type":"web-browser" }
+
+# Iceweasel
+{ "name": "ice-weasel", "type":"web-browser" }
+
+# LibreWolf (https://librewolf-community.gitlab.io/)
+{ "name": "librewolf", "type":"web-browser" } 
+{ "name": "librewolf-bin", "type":"web-browser" } 
+{ "name": "librewolf-nightly", "type":"web-browser" } 
+
+# FireDragon (https://gitlab.com/dr460nf1r3/settings)
+{ "name": "firedragon", "type":"web-browser" }
+{ "name": "firedragon-bin", "type":"web-browser" }
+
+# Firefox (https://www.mozilla.org/firefox/)
+{ "name": "firefox", "type":"web-browser" }
+{ "name": "firefox-bin", "type":"web-browser" }
+{ "name": "firefox-esr", "type":"web-browser" }
+
+# Firefox Developer Edition (https://www.mozilla.org/en-US/firefox/developer/)
+{ "name": "firefox-developer-edition", "type":"web-browser" } 
+
+# Firefox Nightly (https://wiki.mozilla.org/Nightly)
+{ "name": "firefox-nightly", "type":"web-browser" }
+
+# Tor Browser
+{ "name": "firefox.real", "type":"web-browser" }
+
+# Waterfox (https://www.waterfox.net/)
+{ "name": "waterfox-g4", "type":"web-browser" }

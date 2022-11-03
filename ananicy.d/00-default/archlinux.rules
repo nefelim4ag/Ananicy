@@ -1,5 +1,0 @@
-# Some rules for Arch Linux specific tools
-
-{ "name": "mkinitcpio", "type": "BG_CPUIO" }
-{ "name": "makepkg", "type": "BG_CPUIO" }
-{ "name": "pacman", "type": "BG_CPUIO" }

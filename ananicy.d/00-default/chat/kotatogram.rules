@@ -1,0 +1,3 @@
+# Kotatogram: https://github.com/kotatogram/kotatogram-desktop
+{ "name": "kotatogram-desktop", "type": "chat" }
+{ "name": "kotatogram-desktop.bin", "type": "chat" }

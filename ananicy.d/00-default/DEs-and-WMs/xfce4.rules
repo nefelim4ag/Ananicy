@@ -1,0 +1,8 @@
+{ "name":"xfwm4",           "type":"DEWM"}
+{ "name":"xfsettingsd",     "type":"DEWM"}
+{ "name":"xfce4-session",   "type":"DEWM"}
+{ "name":"xfconfd",         "type":"DEWM"}
+{ "name":"xfce4-appfinder", "type":"DEWM"}
+{ "name":"xfce4-notifyd",   "type":"DEWM"}
+{ "name":"xfce4-panel",     "type":"DEWM"}
+{ "name":"xfdesktop",       "type":"DEWM"}

@@ -1,6 +1,0 @@
-# yamagi-quake2: https://www.yamagi.org/quake2/
-# vkquake2: https://github.com/kondrak/vkQuake2
-{ "name": "quake2", "type": "Game"}
-{ "name": "yamagi-quake2", "type": "Game"}
-{ "name": "yamagi-quake2-git", "type": "Game"}
-{ "name": "vkquake2", "type": "Game"}

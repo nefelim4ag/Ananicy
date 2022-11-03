@@ -1,3 +1,0 @@
-# http://deluge-torrent.org
-{ "name": "deluged", "type": "BG_CPUIO" }
-{ "name": "deluge",  "type": "BG_CPUIO" }

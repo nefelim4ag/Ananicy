@@ -1,0 +1,2 @@
+# WezTerm terminal (https://wezfurlong.org/wezterm/)
+{ "name": "wezterm-gui", "type": "terminal" }

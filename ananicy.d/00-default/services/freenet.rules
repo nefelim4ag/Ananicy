@@ -1,0 +1,5 @@
+# https://github.com/freenet/fred
+
+{"name":"java", "cmdlines":["freenet.node.NodeStarter"], "type":"service,CPU_U,IO_L"}
+
+# NOTE: freenet is not supposed to be reniced

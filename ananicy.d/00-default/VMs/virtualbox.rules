@@ -1,0 +1,2 @@
+# VirtualBox: https://www.virtualbox.org
+{ "name": "VirtualBoxVM", "type": "VM" }

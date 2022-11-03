@@ -1,0 +1,4 @@
+# http://acestream.org
+{ "name": "acestreamengine",    "type": "video-player" }
+{ "name": "acestream-launcher", "type": "video-player" }
+{ "name": "acestream-player",   "type": "video-player" }

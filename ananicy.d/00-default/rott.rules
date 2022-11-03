@@ -1,7 +1,0 @@
-# rottexptr: https://github.com/LTCHIPS/rottexpr
-{ "name": "rott", "type": "Game"}
-{ "name": "rottexpr", "type": "Game"}
-
-# rott: http://icculus.org/rott/
-{ "name": "rott-registered", "type": "Game"}
-{ "name": "rott-shareware", "type": "Game"}

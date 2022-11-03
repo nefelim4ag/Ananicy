@@ -1,0 +1,2 @@
+# VLC media player: https://www.videolan.org/vlc
+{ "name": "vlc", "type": "video-player" }

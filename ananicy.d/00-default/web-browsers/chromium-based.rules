@@ -1,0 +1,15 @@
+# Chromium Web Browser: https://www.chromium.org
+{ "name": "chromium", "type": "web-browser" }
+{ "name": "chromium-snapshot", "type": "web-browser" }
+{ "name": "chromium-snapshot-bin", "type": "web-browser" }
+
+# Google Chrome: https://chrome.google.com
+{ "name": "chrome", "type": "web-browser" }
+{ "name": "nacl_helper", "type": "web-browser" }
+{ "name": "chrome-sandbox", "type": "web-browser" }
+{ "name": "google-chrome-dev", "type": "web-browser" }
+{ "name": "google-chrome-unstable", "type": "web-browser" }
+
+# Thorium: https://github.com/Alex313031/Thorium
+{ "name": "chrome_crashpad_handler", "type": "web-browser" }
+{ "name": "thorium", "type": "web-browser" }

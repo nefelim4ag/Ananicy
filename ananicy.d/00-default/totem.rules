@@ -1,2 +1,0 @@
-# Video player: https://wiki.gnome.org/action/show/Apps/Videos
-{ "name": "totem", "type": "Player-Video" }

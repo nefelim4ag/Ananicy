@@ -1,0 +1,3 @@
+# SDDM is a modern display manager for X11 and Wayland
+{ "name" : "sddm", "type": "DEWM"}
+{ "name" : "sddm-helper", "type": "DEWM"}

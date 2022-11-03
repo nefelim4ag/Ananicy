@@ -1,0 +1,5 @@
+# Discord: https://discordapp.com/
+{ "name": "Discord", "type": "chat" }
+{ "name": "DiscordPTB", "type": "chat" }
+{ "name": "DiscordCanary", "type": "chat" }
+{ "name": "DiscordDevelopment", "type": "chat" }

@@ -1,0 +1,7 @@
+# Evil Genius - https://store.steampowered.com/app/3720/Evil_Genius/
+{ "name": "EvilGeniusLauncher.exe", "type": "game-launcher" }
+{ "name": "EvilGeniusExecStub-Release.exe", "type": "game" }
+# Evil Genius 2 - https://store.steampowered.com/app/700600/Evil_Genius_2_World_Domination/
+{ "name": "eg2.exe", "type": "game-launcher" }
+{ "name": "evilgenius_dx12.exe", "type": "game" }
+{ "name": "evilgenius_vulkan.exe", "type": "game" }

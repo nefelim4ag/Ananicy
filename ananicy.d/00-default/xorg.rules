@@ -1,3 +1,0 @@
-## Rule for Xorg server, runs the graphical desktop.
-
-{ "name" : "Xorg", "type" : "LowLatency_RT", "ionice" : 1}

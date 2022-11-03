@@ -1,2 +1,0 @@
-# Torrent client: https://www.kde.org/applications/internet/ktorrent/
-{ "name": "ktorrent", "type": "BG_CPUIO" }

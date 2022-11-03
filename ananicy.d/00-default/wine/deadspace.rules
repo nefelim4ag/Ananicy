@@ -1,8 +1,8 @@
 # https://store.steampowered.com/app/17470
-{ "name": "Dead Space.exe", "type": "Game"}
+{ "name": "Dead Space.exe", "type": "game"}
 
 # https://store.steampowered.com/app/47780
-{ "name": "deadspace2.exe", "type": "Game"}
+{ "name": "deadspace2.exe", "type": "game"}
 
 # https://store.steampowered.com/app/1238060
-{ "name": "deadspace3.exe", "type": "Game"}
+{ "name": "deadspace3.exe", "type": "game"}

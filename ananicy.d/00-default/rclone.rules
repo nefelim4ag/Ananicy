@@ -1,2 +1,0 @@
-#Rclone - rsync for cloud storage
-{ "name": "rclone", "type": "BG_CPUIO" }

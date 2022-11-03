@@ -1,7 +1,0 @@
-# www.oldunreal.com
-# unreal 98
-{ "name": "UnrealLinux.bin", "type": "Game"}
-
-# unreal tournament 99: game of the year - ut99 - utgoty - ut469
-{ "name": "ut-bin", "type": "Game"}
-{ "name": "ut-bin-x86", "type": "Game"}

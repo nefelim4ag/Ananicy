@@ -1,6 +1,0 @@
-{ "name": "xfwm4",           "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }
-{ "name": "xfsettingsd",     "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }
-{ "name": "xfce4-session",   "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }
-{ "name": "xfconfd",         "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }
-{ "name": "xfce4-appfinder", "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }
-{ "name": "xfce4-notifyd",   "type": "LowLatency_RT", "ioclass" : "realtime", "ionice" : 4 }

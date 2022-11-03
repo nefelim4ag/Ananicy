@@ -1,0 +1,4 @@
+# https://github.com/chjj/compton
+# https://github.com/yshui/picom
+{ "name": "compton", "type": "DEWM" }
+{ "name": "picom", "type": "DEWM" }

@@ -1,33 +1,113 @@
-# Type: Game
-# Use more CPU time if possible
-# Games do not always need more IO, but in most cases can be hungry for CPU
-{ "type": "Game", "nice": -5, "ioclass": "best-effort" }
 
-# Type: Player Audio/Video
-# Try to add more CPU power to decrease latency/lags
-# Try to add real time io for avoiding lags
-{ "type": "Player-Audio", "nice": -3, "ioclass": "realtime" }
-{ "type": "Player-Video", "nice": -3, "ioclass": "realtime" }
+# CPU
+#     nice - determines which process gets more CPU cycles
+#         ranges from -20 (highest priority) to 19 (lowest priority)
+#         default is 0
+#     sched - don't touch unless you know what you're doing
+#
+# IO
+#     ionice - determines which process gets more IO
+#         ranges from 0 (highest priority) to 7 (lowest priority)
+#         default is 4
+#     ioclass
+#         realtime
+#             avoid using
+#             highest IO priority, possible to starve other processes
+#             can be further adjusted with ionice
+#         best-effort
+#             this is the default ioclass
+#             medium IO priority
+#             can be further adjusted with ionice
+#         idle
+#             lowest IO priority
+#             uses IO only if no other process needs IO
+#             this ioclass can be given to processes that are known for starving the system
+#             CANNOT be further adjusted with ionice
 
-# Must have more CPU/IO time, but not so much as other apps
-{ "type": "Image-View", "nice": -3 }
-{ "type": "Doc-View",   "nice": -3 }
+# The `U` in `CPU_U` stands for `untouched`     -> some applications might not like messing with their niceness
+# The `H` in `CPU_H` stands for `high priority` -> some applications might require higher priority that the base type
+# The `L` in `CPU_L` stands for `low priority`  -> some applications might be less relevant / stress the system when given the priority of the base class
+# Same goes for `IO_U`, `IO_H` and `IO_L`
 
-# Type: Low Latency Realtime Apps
-# In general case not so heavy, but must not lag
-{ "type": "LowLatency_RT", "nice": -10, "ioclass": "realtime" }
+### Generic Types
 
-# Type: BackGround CPU/IO Load
-# Background CPU/IO it's needed, but it must be as silent as possible
-{ "type": "BG_CPUIO", "nice": 19, "ioclass": "idle", "sched": "idle", "cgroup": "cpu80" }
+{"type":"archiver", "nice":1, "ionice":5}
 
-# Type: Heavy CPU Load
-# It must work fast enough but must not create so much noise
-{ "type": "Heavy_CPU", "nice": 19, "ioclass": "best-effort", "ionice": 7, "cgroup": "cpu90" }
+{"type":"audio-server"}
 
-# Type: Chat
-{"type": "Chat", "nice": -1, "ioclass": "best-effort", "ionice": 7 }
+{"type":"chat"}
 
-# Type: Adj OOM Score
-{ "type": "OOM_KILL", "oom_score_adj": 1000 }
-{ "type": "OOM_NO_KILL", "oom_score_adj": -1000 }
+{"type":"common-utility"}
+
+{"type":"compiler", "nice":1}
+
+{"type":"database"}
+
+# desktop environment, window manager or any integral part of a desktop (note: audio-server already has it's own category)
+{"type":"DEWM"}
+
+# TODO split into `text editor`, `document editor` and `IDE`?
+{"type":"document-editor"}
+
+{"type":"document-viewer"}
+
+{"type":"email-client"}
+
+{"type":"file-manager"}
+
+{"type":"file-sync", "nice":19, "ionice":7}
+
+# note: increasing some games' priority might cause a crash
+{"type":"game", "nice":-20, "ionice":0}
+
+{"type":"game-launcher"}
+
+{"type":"image-editor"}
+
+{"type":"image-viewer"}
+
+{"type":"music-player"}
+
+{"type":"p2p-client"}
+
+{"type":"package-manager"}
+
+{"type":"remote-desktop"}
+
+{"type":"server", "nice":1}
+
+# some services might require less resources than others
+{"type":"service",            "nice":1, "ionice":5}
+{"type":"service,CPU_U,IO_L",           "ionice":7}
+
+{"type":"screenshotter"}
+
+{"type":"terminal"}
+
+{"type":"torrent", "nice":1, "ionice":5}
+
+{"type":"video-player"}
+
+{"type":"VPN"}
+
+{"type":"VM"}
+
+{"type":"web-browser"}
+
+########################
+### TODO marker type ###
+########################
+
+{"type":"TODO"}
+
+########################
+### Depricated types ###
+########################
+
+#{"type":"Heavy_CPU", "nice":19, "ioclass":"best-effort", "ionice":7, "cgroup":"cpu90"}
+
+# BackGround CPU/IO Load
+# It's needed, but it must be as silent as possible
+#{"type":"BG_CPUIO", "nice":19, "ioclass":"idle", "sched":"idle", "cgroup":"cpu80" }
+
+#{"type":"LowLatency_RT", "nice":-10, "ioclass":"realtime"}

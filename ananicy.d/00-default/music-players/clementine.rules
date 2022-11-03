@@ -1,0 +1,3 @@
+# Music player: https://www.clementine-player.org
+{ "name": "clementine", "type": "music-player" }
+{ "name": "clementine-tagreader", "type": "music-player" }

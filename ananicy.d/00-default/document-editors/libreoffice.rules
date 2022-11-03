@@ -1,0 +1,3 @@
+# https://www.documentfoundation.org
+{ "name": "oosplash", "type": "document-editor" }
+{ "name": "soffice.bin", "type": "document-editor" }

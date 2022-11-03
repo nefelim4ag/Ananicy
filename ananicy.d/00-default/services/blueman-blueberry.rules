@@ -1,0 +1,3 @@
+# Bluetooth tools: https://github.com/blueman-project/blueman
+{ "name": "blueman-applet", "type": "service" }
+{ "name": "blueberry-tray", "type": "service" }

@@ -1,0 +1,3 @@
+# https://yacy.net/ - web crawler
+{"name":"yacy",                               "type":"service"}
+{"name":"java", "cmdlines":["net.yacy.yacy"], "type":"service"}

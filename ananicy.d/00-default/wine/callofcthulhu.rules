@@ -1,8 +1,8 @@
 # https://store.steampowered.com/app/22340
-{ "name": "CoCMainWin32.exe", "type": "Game"}
+{ "name": "CoCMainWin32.exe", "type": "game"}
 
 # https://store.steampowered.com/app/399810
-{ "name": "CallOfCthulhu.exe", "type": "Game"}
+{ "name": "CallOfCthulhu.exe", "type": "game"}
 
 # https://store.steampowered.com/app/251390
-{ "name": "Cthulhu.exe", "type": "Game"}
+{ "name": "Cthulhu.exe", "type": "game"}

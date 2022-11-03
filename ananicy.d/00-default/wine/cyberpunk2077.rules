@@ -1,0 +1,6 @@
+# Cyberpunk 2077 - https://www.cyberpunk.net
+# https://store.steampowered.com/app/1091500/Cyberpunk_2077
+# https://www.gog.com/game/cyberpunk_2077
+# https://www.epicgames.com/store/product/cyberpunk-2077
+{ "name": "Redprelauncher", "type": "game-launcher"}
+{ "name": "Cyberpunk2077.exe", "type": "game"}

@@ -1,6 +1,6 @@
 ## Rules for Steam on Wine
 # Steam client
-{ "name": "Steam.exe", "type": "BG_CPUIO" }
+{ "name": "Steam.exe", "type": "game-launcher" }
 
 # Steam integrated web browser
 { "name": "steamwebhelper.exe", "type": "BG_CPUIO" }

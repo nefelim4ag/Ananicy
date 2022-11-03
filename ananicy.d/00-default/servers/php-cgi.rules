@@ -1,0 +1,4 @@
+{ "name": "php-cgi7.0", "type": "server" }
+{ "name": "php-cgi7.1", "type": "server" }
+{ "name": "php-cgi7.2", "type": "server" }
+{ "name": "php-cgi7.3", "type": "server" }

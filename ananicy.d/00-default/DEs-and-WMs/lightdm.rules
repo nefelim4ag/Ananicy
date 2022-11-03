@@ -1,0 +1,2 @@
+# Rule for lightdm display manager, starts the Xorg server
+{ "name": "lightdm", "type": "DEWM" }
