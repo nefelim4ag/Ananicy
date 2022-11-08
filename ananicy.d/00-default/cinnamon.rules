@@ -1,0 +1,45 @@
+# The cinnamon window manager, designed for Linux Mint
+# Arch wiki page: https://wiki.archlinux.org/index.php/Cinnamon
+#
+# List of processes on the "developer guide":
+# https://linuxmint-developer-guide.readthedocs.io/en/latest/cinnamon.html#processes 
+
+# cinnamon: "the visual part of the cinnamon desktop"
+# This includes the internal window manager "muffin"
+#
+# Within the Cinnamon desktop environment, the Window
+# Manager isn’t running in a separate process.
+# The main cinnamon process implements the libmuffin 
+# library and therefore runs both the visible components
+# (panel, applets..etc) and the window manager.
+{ "name": "cinnamon",          "type": "LowLatency_RT" }
+
+# Among other things, the session manager launches the 
+# core components required by the session (such as the 
+# desktop itself and its components), as well as 
+# applications which are configured to start automatically.
+{ "name": "cinnamon-session",  "type": "LowLatency_RT" }
+
+
+# ************************ #
+# cinnamon-settings-daemon #
+# ************************ #
+#
+* cinnamon-settings-daemon is a collection of processes 
+# which run in the background during your
+# Cinnamon session.
+#
+# NOTE: This is intentionally incomplete.
+# Not every cinnamon setting daemon needs higher priority.
+
+# Handles mice and touch devices
+{ "name": "csd-mouse", "type:" "LowLatency_RT"}
+# Handles battery and power management
+{ "name": "csd-power", "nice": -6,  "type:" "LowLatency_RT"}
+
+# Manages the additional copy-paste buffer available via Ctrl+C/Ctrl+V
+#
+# We also increase the OOM score. If the clipboard buffer
+# runs out of memory (presumably from copying too much),
+# we want to kill it first
+{ "name": "csd-clipboard", "nice": -5, "type:" "LowLatency_RT, "oom_score_adj": 1000 }
