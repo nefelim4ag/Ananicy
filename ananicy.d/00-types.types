@@ -35,6 +35,8 @@
 
 {"type":"audio-server"}
 
+{"type":"audio-effect", "nice":-10, "cgroup":"cpu30"}
+
 {"type":"chat"}
 
 {"type":"common-utility"}
