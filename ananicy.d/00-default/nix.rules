@@ -1,0 +1,4 @@
+# https://nixos.org/
+
+{ "name": "nix-shell", "type": "BG_CPUIO" }
+{ "name": "nix-daemon", "type": "BG_CPUIO" }
