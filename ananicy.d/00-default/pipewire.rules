@@ -1,0 +1,1 @@
+{ "name": "pipewire", "type": "LowLatency_RT", "nice": -11, "sched": "rr" }
