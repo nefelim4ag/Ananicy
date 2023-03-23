@@ -5,3 +5,7 @@
 # only difference is - meaning of N% is all CPUs, not one core.
 { "cgroup": "cpu90", "CPUQuota": 90 }
 { "cgroup": "cpu80", "CPUQuota": 80 }
+
+# group for high priority processes with fairly low cpu usage.
+# This limits their cpu usage to avoid hungups, if they crash
+{ "cgroup": "cpu30", "CPUQuota": 30 }
