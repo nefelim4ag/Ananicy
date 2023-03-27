@@ -1,0 +1,3 @@
+# https://www.gnome.org/ 
+# An easy and elegant way to use your computer, GNOME 3 is designed to put you in control and get things done.
+{ "name": "gnome-shell",      "type": "LowLatency_RT" }
