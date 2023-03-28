@@ -1,0 +1,5 @@
+# Evolution https://wiki.gnome.org/Apps/Evolution
+{ "name": "evolution-alarm-notify", "type": "BG_CPUIO" }
+{ "name": "evolution-source-registry", "type": "BG_CPUIO" }
+{ "name": "evolution-calendar-factory", "type": "BG_CPUIO" }
+{ "name": "evolution-addressbook-factory", "type": "BG_CPUIO" }
