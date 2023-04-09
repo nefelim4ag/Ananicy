@@ -1,0 +1,2 @@
+# Time synchronisation daemon: https://docs.ntpsec.org/latest/ntpd.html
+{ "name": "ntpd", "type": "BG_CPUIO" }
