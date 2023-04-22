@@ -10,12 +10,16 @@ debian_package(){
     VERSION=$(git tag --sort version:refname | tail -n 1)
     [ -z "$VERSION" ] && ERRO "Can't get git tag, VERSION are empty!"
     DEB_NAME="ananicy-${VERSION}_any"
-    
+
     # cleanup after previous installation
     rm "./${DEB_NAME}.deb" && rm -rf "${DEB_NAME}"
-    
+
     mkdir -p "${DEB_NAME}"
-    make install PREFIX="${DEB_NAME}"
+    make install \
+        PREFIX="${DEB_NAME}" \
+        SYSCONFDIR="${DEB_NAME}/etc" \
+        SYSTEMDUNITDIR=/lib/systemd/system
+
     mkdir -p "${DEB_NAME}/DEBIAN/"
     {
         echo "Package: ananicy"

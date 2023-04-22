@@ -1,30 +1,34 @@
-PREFIX ?= /
+PREFIX ?= /usr
+SYSTEMDUNITDIR ?= $(PREFIX)/lib/systemd/system
+BINDIR ?= $(PREFIX)/bin
+LIBDIR ?= $(PREFIX)/lib
+SYSCONFDIR ?= /etc
 
 SRC_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
 ANANICY_D_R := $(shell find $(SRC_DIR)/ananicy.d -type f -name "*.rules")
-ANANICY_D_R_I := $(patsubst $(SRC_DIR)/%.rules, $(PREFIX)/etc/%.rules, $(ANANICY_D_R))
+ANANICY_D_R_I := $(patsubst $(SRC_DIR)/%.rules, $(SYSCONFDIR)/%.rules, $(ANANICY_D_R))
 
 ANANICY_D_T := $(shell find $(SRC_DIR)/ananicy.d -type f -name "*.types")
-ANANICY_D_T_I := $(patsubst $(SRC_DIR)/%.types, $(PREFIX)/etc/%.types, $(ANANICY_D_T))
+ANANICY_D_T_I := $(patsubst $(SRC_DIR)/%.types, $(SYSCONFDIR)/%.types, $(ANANICY_D_T))
 
 ANANICY_D_G := $(shell find $(SRC_DIR)/ananicy.d -type f -name "*.cgroups")
-ANANICY_D_G_I := $(patsubst $(SRC_DIR)/%.cgroups, $(PREFIX)/etc/%.cgroups, $(ANANICY_D_G))
+ANANICY_D_G_I := $(patsubst $(SRC_DIR)/%.cgroups, $(SYSCONFDIR)/%.cgroups, $(ANANICY_D_G))
 
-A_SERVICE := $(PREFIX)/lib/systemd/system/ananicy.service
-A_CONF := $(PREFIX)/etc/ananicy.d/ananicy.conf
-A_BIN := $(PREFIX)/usr/bin/ananicy
+A_SERVICE := $(LIBDIR)/systemd/system/ananicy.service
+A_CONF := $(SYSCONFDIR)/ananicy.d/ananicy.conf
+A_BIN := $(BINDIR)/ananicy
 
 
 default:  help
 
-$(PREFIX)/etc/%.cgroups: $(SRC_DIR)/%.cgroups
+$(SYSCONFDIR)/%.cgroups: $(SRC_DIR)/%.cgroups
 	install -Dm644 $< $@
 
-$(PREFIX)/etc/%.types: $(SRC_DIR)/%.types
+$(SYSCONFDIR)/%.types: $(SRC_DIR)/%.types
 	install -Dm644 $< $@
 
-$(PREFIX)/etc/%.rules: $(SRC_DIR)/%.rules
+$(SYSCONFDIR)/%.rules: $(SRC_DIR)/%.rules
 	install -Dm644 $< $@
 
 $(A_CONF): $(SRC_DIR)/ananicy.d/ananicy.conf
