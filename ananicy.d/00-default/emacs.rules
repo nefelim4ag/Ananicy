@@ -1,0 +1,3 @@
+{ "name": "emacs", "type": "Doc-View" }
+{ "name": "emacs-lucid", "type": "Doc-View" }
+{ "name": "emacsclient", "type": "Doc-View" }
