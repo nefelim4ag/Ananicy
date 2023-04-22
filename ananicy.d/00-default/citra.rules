@@ -1,0 +1,3 @@
+# A Nintendo 3DS Emulator https://citra-emu.org/
+{ "name": "citra", "type": "Game" }
+{ "name": "citra-qt", "type": "Game" }
