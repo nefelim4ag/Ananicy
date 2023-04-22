@@ -1,0 +1,3 @@
+# Evolution is a personal information management application that provides integrated mail, calendaring and address book functionality.
+# https://wiki.gnome.org/Apps/Evolution/
+{ "name": "evolution", "type": "Chat" }

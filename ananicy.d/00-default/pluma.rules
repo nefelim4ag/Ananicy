@@ -1,0 +1,3 @@
+# Pluma is the official text editor of the MATE desktop environment
+# https://wiki.mate-desktop.org/mate-desktop/applications/pluma/
+{ "name": "pluma", "type":"Doc-View" }
