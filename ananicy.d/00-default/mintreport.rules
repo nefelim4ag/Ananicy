@@ -1,0 +1,2 @@
+# Troubleshooting tool to analyse crash reports for Linux Mint: https://github.com/linuxmint/mintreport
+{ "name": "mintreport-tray", "type": "BG_CPUIO" }
