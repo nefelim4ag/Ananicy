@@ -1,0 +1,2 @@
+{ "name": "leftwm", "type": "LowLatency_RT" }
+{ "name": "leftwm-worker", "type": "LowLatency_RT" }
